@@ -1,5 +1,25 @@
 # Changelog
 
+## Phase 2, revised: photographic light switch (17 Oct 2026)
+
+The owner found the first version too artificial and pointed to the previous Zohraé site, where the switch crossfades **matched photographs**: the same shot with the lamp off and on.
+
+### Changed
+
+- **The switch now crossfades photo pairs.** Every lamp has a transparent cut-out pair (cards) and four have a dark "stage" scene pair (hero, product page). The lit photo fades in on the filament curve: a quick rise, a tiny flicker, a slow settle, staggered outward from the switch. The **dimmer** blends between the two photos and **warmth** shifts the lit photo's colour. Nothing is painted on in code any more.
+- **Imagery imported from the previous site** (`scripts/import-legacy-assets.mjs`): pairs for all five lamps plus three more designs, which replace the invented placeholders. Lys and Fiore are gone. **Rosalie** (twisted shade, blush base), **Colonna** (pleated column, olive base) and **Coquille** (pearl pleated mushroom) are in. Room scenes are kept for the Phase 4 hover.
+- **Home hero** is now a full-width dark showroom with Nuvola on her plinth, dark in both modes so the switch is the whole show (as on the previous site).
+- **Removed:** the procedural glow, silhouette masks and alignment code, dust motes, cursor light, the vignette, and the four Canva stand-in images (superseded by the real pairs).
+- `/dev/lights` is now a **pair checker**: every lamp's cut-out and stage pairs side by side; flip the switch and any pair that shifts is obvious.
+- WhatsApp concierge uses the number from the previous site (`copy/en.ts`, overridable with `NEXT_PUBLIC_WHATSAPP_NUMBER`).
+- `docs/ai-image-prompts.md` now explains how to make a pair for a new lamp (the "on" image is always made _from_ the "off" image).
+
+### Verified
+
+- Build, typecheck and lint clean. 1440×900 and 390×844: home hero and collection, off and on; no console errors; no horizontal overflow.
+
+---
+
 ## Phase 2 — The Lumière light switch (17 Oct 2026)
 
 ### Built

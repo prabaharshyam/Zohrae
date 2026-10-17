@@ -1,5 +1,5 @@
 import { ProductCard } from "@/components/product/ProductCard";
-import { ProductImage } from "@/components/product/ProductImage";
+import { ProductStage } from "@/components/product/ProductImage";
 import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
 import { getProduct, getProducts } from "@/lib/commerce";
@@ -11,43 +11,50 @@ import { getProduct, getProducts } from "@/lib/commerce";
  */
 export default async function HomePage() {
   const [hero, lamps, vessels] = await Promise.all([
-    getProduct("aurelia"),
+    getProduct("nuvola"),
     getProducts({ collection: "lumiere", limit: 4 }),
     getProducts({ collection: "vases-vessels", limit: 4 }),
   ]);
 
   return (
     <>
-      <section className="gutter relative mx-auto grid min-h-[100svh] max-w-[1600px] items-end gap-10 pb-12 pt-[calc(var(--header-h)+4vh)] md:grid-cols-[1.25fr_1fr] md:items-center md:pb-16">
-        <div className="relative z-10 order-2 md:order-1">
-          <p className="label text-fg-muted">{copy.home.heroEyebrow}</p>
-          <h1 className="font-display mt-6 text-[length:var(--fs-hero)]">
-            <span className="block italic">{copy.home.heroLines[0]}</span>
-            <span className="block">{copy.home.heroLines[1]}</span>
-          </h1>
-          <p className="font-display mt-6 text-[length:var(--fs-h3)] italic text-accent-text">
-            {copy.home.heroTagline}
-          </p>
-          <p className="mt-6 max-w-md text-fg-muted">{copy.home.heroSub}</p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/collections/lumiere" arrow>
-              {copy.home.heroPrimaryCta}
-            </ButtonLink>
-            <ButtonLink href="/light-finder" variant="ghost">
-              {copy.home.heroGhostCta}
-            </ButtonLink>
+      {/* Showroom hero: always dark, so the light switch is the whole show. */}
+      <section className="relative mt-[var(--header-h)] bg-night text-moon">
+        <div className="relative h-[62svh] md:h-[calc(100svh-var(--header-h))] md:min-h-[560px]">
+          {hero && (
+            <div className="absolute inset-0">
+              <ProductStage
+                product={hero}
+                priority
+                sizes="100vw"
+                className="size-full [&_img]:object-[92%_50%] md:[&_img]:object-center"
+              />
+            </div>
+          )}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[linear-gradient(to_top,var(--night)_0%,transparent_45%)] md:bg-[linear-gradient(to_right,var(--night)_0%,rgb(14_11_9/0.75)_28%,transparent_58%)]"
+          />
+        </div>
+        <div className="gutter relative mx-auto -mt-24 max-w-[1600px] pb-14 md:absolute md:inset-0 md:mt-0 md:flex md:items-center md:pb-0">
+          <div className="max-w-xl">
+            <p className="label text-moon/70">{copy.home.heroEyebrow}</p>
+            <h1 className="font-display mt-6 text-[length:var(--fs-hero)]">
+              <span className="block italic">{copy.home.heroLines[0]}</span>
+              <span className="block">{copy.home.heroLines[1]}</span>
+            </h1>
+            <p className="font-display mt-6 text-[length:var(--fs-h3)] italic text-glow">{copy.home.heroTagline}</p>
+            <p className="mt-6 max-w-md text-moon/75">{copy.home.heroSub}</p>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href="/collections/lumiere" arrow>
+                {copy.home.heroPrimaryCta}
+              </ButtonLink>
+              <ButtonLink href="/light-finder" variant="ghost">
+                {copy.home.heroGhostCta}
+              </ButtonLink>
+            </div>
           </div>
         </div>
-
-        {hero && (
-          <ProductImage
-            product={hero}
-            bare
-            priority
-            sizes="(min-width: 768px) 40vw, 90vw"
-            className="order-1 mx-auto w-full max-w-[260px] md:order-2 md:max-w-[480px]"
-          />
-        )}
       </section>
 
       <ProductRail

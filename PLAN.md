@@ -278,3 +278,9 @@ The owner rejected both earlier sublines and asked for a researched recommendati
 - **Cutouts replaced by "dark room" frames:** at night each product frame is a darkened, warm version of the photo whose edges feather into the page. It keeps real shadows and is safe for white or clear shades. `scripts/analyze-products.mjs` still writes silhouette masks, which the procedural glow uses.
 - **Glow rendering:** layered CSS (opacity-only animation) instead of a WebGL shader; WebGL stays for the 3D scenes in Phase 3.
 - **Alignment:** the AI lit shot is placed so its lamp lands on the studio shot's lamp, using measured subject boxes (`data/mock/image-meta.json`). In Shopify this becomes part of the image metafields, or the script runs at build time.
+
+---
+
+## 13. Light switch v2: photographic pairs (17 Oct 2026)
+
+Supersedes §5, §10 and §12. The owner wants the light switch to look like the previous Zohraé site: a crossfade between **matched off/on photographs** of the same shot. The glow is photographed, not drawn. The previous site's pairs (cut-outs, stages, rooms) were imported for all five lamps plus three more. New lamps follow `docs/ai-image-prompts.md`: generate the off image, then make the on image _from_ it. The page itself still moves from ivory to night when the lights go on; the hero is a dark showroom in both modes.

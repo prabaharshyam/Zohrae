@@ -24,7 +24,7 @@ export async function Footer() {
           <div className="max-w-xs">
             <Logo variant="full" title={copy.brand.name} className="w-52" />
             <p className="mt-6 text-sm text-fg-muted">{copy.brand.origin}.</p>
-            {process.env.NEXT_PUBLIC_WHATSAPP_NUMBER && (
+            {(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || copy.contact.whatsapp) && (
               <a
                 href={whatsappHref(copy.footer.conciergeMessage)}
                 target="_blank"

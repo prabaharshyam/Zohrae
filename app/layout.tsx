@@ -3,7 +3,6 @@ import { Bodoni_Moda, Jost } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { LightSwitch } from "@/components/light/LightSwitch";
-import { NightAmbience } from "@/components/light/NightAmbience";
 import { copy } from "@/copy/en";
 import { getCollections } from "@/lib/commerce";
 import { LIGHT_BOOT_SCRIPT } from "@/lib/light/store";
@@ -59,7 +58,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer />
-          <NightAmbience />
           <LightSwitch />
         </SmoothScroll>
       </body>

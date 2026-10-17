@@ -15,6 +15,11 @@ export const copy = {
     origin: "Designed and hand-finished in India",
   },
 
+  contact: {
+    /** WhatsApp concierge, international format without "+" (from the previous site). */
+    whatsapp: "919606221205",
+  },
+
   nav: {
     primary: [
       { label: "Collections", href: "/collections/lumiere" },

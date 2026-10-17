@@ -1,39 +1,26 @@
-# AI image prompts
+# Lamp photography: off / on pairs
 
-Lit ("switched on") and in-room images for every product are generated with **Canva AI image generation**, using the owner's real product photo as the reference image. Reuse these prompts for new products: swap in the product's own description (shape, ribs or pleats, colours, base).
+The light switch crossfades two photographs of **the same shot**: the lamp switched off, and the lamp switched on. Because the glow, the warm wall and the light on the table are all in the photograph, it reads as real. Nothing is painted on in code.
 
-**Quality rule:** compare every result with the real piece (shape, rib/pleat pattern, colour, base). Regenerate anything that changes the product. The room can be imagined; the product cannot.
+The rule that makes it work: **the "on" image must be made from the "off" image**, never generated separately. Same camera, same framing, same position; only the light changes. `/dev/lights` shows every pair; flip the switch there and anything that shifts is obvious.
 
-## How the files get into the site
+## The three pairs each lamp can have
 
-1. Import the studio photo into Canva from the live site, e.g. `https://zohrae-five.vercel.app/products/samples/<file>.webp`.
-2. Generate with the prompt below, with the imported photo as the image reference.
-3. Place the result full-bleed on a page of the Canva design **"Zohraé — website image exports"** and export it as JPG.
-4. Convert to WebP into `public/products/generated/` named `<handle>_on.webp`, `<handle>_life.webp`, `<handle>_life_on.webp`.
-5. Add it to `GENERATED` in `data/mock/products.ts` (later: the `zohrae.image_on`, `lifestyle_image` and `lifestyle_image_on` metafields in Shopify).
+| Pair    | Used for                         | Files in `public/products/<handle>/`                            | Size             |
+| ------- | -------------------------------- | --------------------------------------------------------------- | ---------------- |
+| Cut-out | Product cards                    | `cutout-off.webp`, `cutout-on.webp` (transparent background)    | 768 × 1024 (3:4) |
+| Stage   | Home hero, product page          | `stage-off.webp`, `stage-on.webp` (dark showroom, stone plinth) | 1264 × 848 (3:2) |
+| Room    | Hover "see it at home" (Phase 4) | `room.webp` (+ `room-on.webp` when made)                        | 928 × 1152       |
 
-## 1. Lit studio shot (`image_on`), same aspect as the studio photo
+The current images were imported from the previous Zohraé site with `scripts/import-legacy-assets.mjs`.
 
-> Edit this exact product photo. Keep the lamp completely identical: same **[shade description]**, same **[base description]**, same proportions, same camera angle, same framing and position in the frame. Change only the lighting: the lamp is switched ON with a warm 2700K bulb inside the shade. **[How this shade glows: e.g. "the pleated shade glows from within with warm honey-amber light, brighter at the thin pleat edges"]**, light spilling downward onto the base and pooling on the surface beneath. The room lights are dimmed: the white studio backdrop becomes a soft warm dark brown-grey, falling into darkness at the edges, with a gentle warm halo on the backdrop behind the shade. Ultra-realistic product photography, real camera, natural light falloff, no added objects, no text.
+## Making a pair for a new lamp (Canva AI or any image editor)
 
-## 2. Evening room scene (`lifestyle_image_on`), 3:4
+1. **Off image first.** From the studio photo, generate the stage scene with the lamp **switched off**:
+   > Place this exact lamp, completely unchanged ([shape, ribs/pleats, colours, base]), on a dark honed-stone plinth against a textured charcoal plaster wall. Soft, low, cool ambient light from the left; the lamp is switched off. Ultra-realistic product photography, 3:2, no text.
+2. **On image from the off image.** Use the _off image_ as the only reference:
+   > Edit this exact photo. Keep everything identical: camera, framing, lamp position, plinth, wall. Change only the lighting: the lamp is switched on with a warm 2700K bulb. [How this shade glows: e.g. "the ribbed shade glows from within, brightest at the thin ribs"], warm light falls on the wall behind it and pools on the plinth; the rest of the room stays dim. Ultra-realistic, no text.
+3. **Cut-out pair:** remove the background from both images with the same crop (Canva's background remover), export 768 × 1024 transparent PNGs.
+4. Convert to WebP into `public/products/<handle>/` with the names above (`node scripts/import-legacy-assets.mjs` shows the settings), add the lamp to `MEDIA` in `data/mock/products.ts`, then check it at `/dev/lights`.
 
-> Place this exact lamp, completely unchanged (**[shade + base description]**), on **[surface]** in **[room]** in the evening. The lamp is switched on, **[glow description]**, casting a soft pool of light on **[nearby materials]**. Interior: **[3–5 styling details]**. Parisian-meets-Indian quiet luxury, editorial interior photography, shot on a full-frame camera at 50mm, shallow depth of field, ultra-realistic, natural light, no people, no text.
-
-## 3. Daytime version of the same room (`lifestyle_image`), 3:4
-
-Use **both** the evening room image and the studio photo as references:
-
-> Recreate this exact same **[room]** scene with the identical composition, camera angle, furniture, styling and the identical lamp (**[description]**), but in soft bright late-morning daylight. The lamp is switched OFF, showing its true colour and texture in natural light. Daylight streams gently through **[window detail]**, soft natural shadows. Ultra-realistic editorial interior photography, no people, no text.
-
-## Status (17 Oct 2026)
-
-| Lamp      | Lit studio shot | Evening room | Daytime room | Room                                  |
-| --------- | --------------- | ------------ | ------------ | ------------------------------------- |
-| Aurelia   | ✅              | ✅           | ⏳           | Bedroom                               |
-| Sora      | ✅              | ⏳           | ⏳           | Living room console                   |
-| Nuvola    | ✅              | ⏳           | ⏳           | Home studio desk                      |
-| Onda      | ⏳              | ⏳           | ⏳           | Living room, beside a bouclé armchair |
-| Ballerina | ⏳              | ⏳           | ⏳           | Reading corner                        |
-
-⏳ = waiting for Canva AI credits (the free plan includes 20 AI uses a month, resetting on the 1st; Canva Pro raises the limit). Until then, the light switch uses the procedural glow for lamps without a lit shot, and the room hover uses the evening scene where there's no daytime one.
+**Quality rule:** the lamp must stay true to the real piece (shape, rib/pleat count, colour, base). Regenerate anything that changes the product.

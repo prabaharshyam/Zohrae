@@ -1,62 +1,62 @@
-import imageMeta from "./image-meta.json";
-import type { GlowConfig, ImageAsset, Product, ProductSpecs, ProductType } from "@/lib/commerce/types";
+import type { ImageAsset, Product, ProductSpecs, ProductType } from "@/lib/commerce/types";
 
 /**
- * Placeholder catalogue, written in the house voice. Five lamps use the
- * owner's real photography (public/products/samples); the rest render the
- * brand placeholder until photographed. Prices are tax-inclusive INR.
+ * Placeholder catalogue, written in the house voice. Prices are tax-inclusive INR.
  *
- * Lit and in-room images are AI-generated from the owner's photos
- * (public/products/generated, prompts in docs/ai-image-prompts.md).
+ * Lamps use matched lamp-off / lamp-on photography (public/products/<handle>/):
+ * a transparent cut-out pair for cards, a showroom "stage" pair for hero and
+ * product pages, and a room scene. The light switch crossfades each pair.
+ * The owner's original studio shots stay in the product gallery.
  */
 
 const inr = (amount: number) => ({ amount, currencyCode: "INR" as const });
 
-const meta = imageMeta as Record<string, Pick<ImageAsset, "subject" | "mask">>;
-
-const photo = (file: string, width: number, height: number, alt: string): ImageAsset => ({
+const studio = (file: string, width: number, height: number, alt: string): ImageAsset => ({
   url: `/products/samples/${file}`,
   width,
   height,
   alt,
   onWhite: true,
-  ...meta[`/products/samples/${file}`],
 });
 
-const generated = (file: string, width: number, height: number, alt: string): ImageAsset => ({
-  url: `/products/generated/${file}`,
-  width,
-  height,
-  alt,
-  ...meta[`/products/generated/${file}`],
-});
-
-/** AI-generated companions to the studio shots, keyed by product handle. */
-const GENERATED: Record<string, Pick<Product, "imageOn" | "lifestyle" | "lifestyleOn">> = {
-  aurelia: {
-    imageOn: generated("aurelia_on.webp", 944, 1680, "Aurelia switched on, its pleated shade glowing honey-gold"),
-    lifestyleOn: {
-      ...generated(
-        "aurelia_life_on.webp",
-        1088,
-        1456,
-        "Aurelia glowing on a travertine bedside table in a linen bedroom at dusk",
-      ),
-      room: "In the bedroom",
-    },
-  },
-  sora: {
-    imageOn: generated("sora_on.webp", 1024, 1536, "Sora switched on, its twisted ridges glowing warm white"),
-  },
-  nuvola: {
-    imageOn: generated(
-      "nuvola_on.webp",
-      1024,
-      1536,
-      "Nuvola switched on, its cloud shade glowing above a saffron base",
-    ),
-  },
+/** Which photography exists for each lamp, beyond the cut-out pair every lamp has. */
+const MEDIA: Record<string, { stage?: boolean; room?: string }> = {
+  aurelia: { stage: true, room: "In the bedroom" },
+  nuvola: { stage: true },
+  rosalie: { stage: true, room: "In the bedroom" },
+  colonna: { stage: true, room: "In the study" },
+  sora: { room: "In the bedroom" },
+  onda: {},
+  ballerina: {},
+  coquille: {},
 };
+
+function lampMedia(handle: string, title: string): Partial<Product> & { images: ImageAsset[] } {
+  const media = MEDIA[handle];
+  if (!media) return { images: [] };
+  const src = (file: string) => `/products/${handle}/${file}`;
+  const cutoutOff = { url: src("cutout-off.webp"), width: 768, height: 1024, alt: `${title}, switched off` };
+  const cutoutOn = { url: src("cutout-on.webp"), width: 768, height: 1024, alt: `${title}, glowing` };
+  return {
+    images: [cutoutOff],
+    imageOff: cutoutOff,
+    imageOn: cutoutOn,
+    stage: media.stage
+      ? {
+          off: {
+            url: src("stage-off.webp"),
+            width: 1264,
+            height: 848,
+            alt: `${title} on a stone plinth in a dark showroom`,
+          },
+          on: { url: src("stage-on.webp"), width: 1264, height: 848, alt: `${title} glowing on a stone plinth` },
+        }
+      : undefined,
+    lifestyle: media.room
+      ? { url: src("room.webp"), width: 928, height: 1152, alt: `${title} styled at home`, room: media.room }
+      : undefined,
+  };
+}
 
 type Seed = {
   handle: string;
@@ -68,14 +68,18 @@ type Seed = {
   price: number;
   collections: string[];
   tags?: string[];
-  image?: ImageAsset;
-  glow?: GlowConfig;
+  /** The owner's original studio shot, shown in the product gallery. */
+  photo?: ImageAsset;
   specs?: ProductSpecs;
   handcraftHours?: number;
   editionSize?: number;
   finishes?: { name: string; swatch: string }[];
   available?: boolean;
 };
+
+function withGallery(media: ReturnType<typeof lampMedia>, photo?: ImageAsset) {
+  return { ...media, images: photo ? [...media.images, photo] : media.images };
+}
 
 function product(seed: Seed): Product {
   const finishes = seed.finishes ?? [{ name: "As shown", swatch: "#E8D3A8" }];
@@ -101,10 +105,7 @@ function product(seed: Seed): Product {
     availableForSale: seed.available ?? true,
     tags: seed.tags ?? [],
     collections: seed.collections,
-    images: seed.image ? [seed.image] : [],
-    imageOff: seed.image,
-    ...GENERATED[seed.handle],
-    glow: seed.glow,
+    ...withGallery(lampMedia(seed.handle, seed.title), seed.photo),
     specs: seed.specs ?? {},
     handcraftHours: seed.handcraftHours,
     editionSize: seed.editionSize,
@@ -133,8 +134,7 @@ const LAMPS: Seed[] = [
     price: 4600,
     collections: ["lumiere"],
     tags: ["bestseller"],
-    image: photo("01-ochre-pleated-lamp.webp", 940, 1672, "Aurelia, an ochre pleated lamp on a ribbed globe base"),
-    glow: { origin: { x: 0.5, y: 0.34 }, radius: 0.55, intensity: 0.9, colour: "amber" },
+    photo: studio("01-ochre-pleated-lamp.webp", 940, 1672, "Aurelia, an ochre pleated lamp on a ribbed globe base"),
     specs: lampSpecs("Ø 30 × H 38 cm", "1.1 kg", "Matte ochre, hand-sanded"),
     handcraftHours: 26,
     finishes: [
@@ -154,8 +154,7 @@ const LAMPS: Seed[] = [
       "Sora began as a single twisted line in my sketchbook. It took eleven prototypes to make the twist feel inevitable rather than designed.",
     price: 4200,
     collections: ["lumiere"],
-    image: photo("02-white-twist-vessel.webp", 1023, 1537, "Sora, a white twisted lamp with flowing ridges"),
-    glow: { origin: { x: 0.5, y: 0.52 }, radius: 0.5, intensity: 1, colour: "warm white" },
+    photo: studio("02-white-twist-vessel.webp", 1023, 1537, "Sora, a white twisted lamp with flowing ridges"),
     specs: lampSpecs("Ø 22 × H 30 cm", "0.8 kg", "Satin ivory"),
     handcraftHours: 22,
   },
@@ -171,13 +170,12 @@ const LAMPS: Seed[] = [
     price: 3800,
     collections: ["lumiere"],
     tags: ["new"],
-    image: photo(
+    photo: studio(
       "03-cloud-shade-orange-base.webp",
       1023,
       1537,
       "Nuvola, a white ribbed cloud shade on a saffron fluted base",
     ),
-    glow: { origin: { x: 0.5, y: 0.33 }, radius: 0.55, intensity: 1.05, colour: "warm white" },
     specs: lampSpecs("Ø 26 × H 34 cm", "0.9 kg", "Ivory shade, saffron base"),
     handcraftHours: 20,
     finishes: [
@@ -198,13 +196,12 @@ const LAMPS: Seed[] = [
     price: 4900,
     collections: ["lumiere", "limited-editions"],
     tags: ["limited"],
-    image: photo(
+    photo: studio(
       "04-wave-shade-terracotta-base.webp",
       940,
       1672,
       "Onda, a pearl-white wave-form lamp on a terracotta ring base",
     ),
-    glow: { origin: { x: 0.5, y: 0.46 }, radius: 0.5, intensity: 0.85, colour: "warm white" },
     specs: lampSpecs("Ø 22 × H 31 cm", "0.9 kg", "Pearl shade, terracotta base"),
     handcraftHours: 28,
     editionSize: 50,
@@ -220,13 +217,12 @@ const LAMPS: Seed[] = [
       "The legs came first — I wanted a lamp that stands like a dancer on pointe. The clear shade lets the light do the choreography.",
     price: 4400,
     collections: ["lumiere"],
-    image: photo(
+    photo: studio(
       "05-clear-ribbed-tripod.webp",
       941,
       1672,
       "Ballerina, a translucent ribbed lamp on three blush-pink legs",
     ),
-    glow: { origin: { x: 0.5, y: 0.34 }, radius: 0.6, intensity: 1.25, colour: "warm white" },
     specs: lampSpecs("Ø 28 × H 40 cm", "1.0 kg", "Translucent shade, blush legs"),
     handcraftHours: 24,
     finishes: [
@@ -236,17 +232,40 @@ const LAMPS: Seed[] = [
     ],
   },
   {
-    handle: "lys",
-    title: "Lys",
+    handle: "rosalie",
+    title: "Rosalie",
     type: "Lamp",
-    tagline: "A lily of light for the bedside.",
+    tagline: "A twist of porcelain light on a blush-pink foot.",
     description:
-      "Petal-soft curves open around a single warm bulb. Lys is small enough for a nightstand and generous enough to change the whole room.",
-    price: 3200,
+      "Deep spiral ridges wrap Rosalie like folded silk. Switched on, the thin walls turn to warm amber and every ridge holds its own line of light.",
+    story:
+      "I wanted the drama of a sculpture and the softness of a bedside lamp. The blush foot keeps it light on its feet, even when it glows.",
+    price: 4800,
+    collections: ["lumiere", "limited-editions"],
+    tags: ["limited"],
+    specs: lampSpecs("Ø 26 × H 32 cm", "0.9 kg", "Porcelain white, blush base"),
+    handcraftHours: 26,
+    editionSize: 30,
+    finishes: [
+      { name: "Blush", swatch: "#D9A3A0" },
+      { name: "Noir", swatch: "#1C1714" },
+    ],
+  },
+  {
+    handle: "colonna",
+    title: "Colonna",
+    type: "Lamp",
+    tagline: "A fluted column of light, cut clean as marble.",
+    description:
+      "Crisp vertical pleats on a deep olive column. Colonna is architecture for the desk or console: quiet by day, a lantern of warm stripes after dark.",
+    price: 3900,
     collections: ["lumiere"],
-    glow: { origin: { x: 0.5, y: 0.4 }, radius: 0.45, intensity: 0.9, colour: "rose" },
-    specs: lampSpecs("Ø 18 × H 26 cm", "0.6 kg", "Rose quartz"),
-    handcraftHours: 14,
+    specs: lampSpecs("Ø 16 × H 30 cm", "0.8 kg", "Ivory shade, olive column"),
+    handcraftHours: 18,
+    finishes: [
+      { name: "Olive", swatch: "#3F4630" },
+      { name: "Ivory", swatch: "#F1EADB" },
+    ],
   },
   {
     handle: "coquille",
@@ -254,27 +273,11 @@ const LAMPS: Seed[] = [
     type: "Lamp",
     tagline: "A seashell, held up to the light.",
     description:
-      "Fluted like the inside of a shell, Coquille throws a scalloped halo across the wall. A quiet show, every evening.",
+      "Fluted like the inside of a shell, Coquille throws a scalloped halo of amber across the wall. A quiet show, every evening.",
     price: 3600,
     collections: ["lumiere"],
-    glow: { origin: { x: 0.5, y: 0.38 }, radius: 0.5, intensity: 0.95, colour: "amber" },
-    specs: lampSpecs("Ø 24 × H 28 cm", "0.8 kg", "Sand"),
+    specs: lampSpecs("Ø 24 × H 28 cm", "0.8 kg", "Pearl white"),
     handcraftHours: 18,
-  },
-  {
-    handle: "fiore",
-    title: "Fiore",
-    type: "Lamp",
-    tagline: "A bloom that opens at dusk.",
-    description:
-      "Layered like petals, lit from within. Fiore is our most romantic piece — made for reading corners and long conversations.",
-    price: 5000,
-    collections: ["lumiere", "limited-editions"],
-    tags: ["limited"],
-    glow: { origin: { x: 0.5, y: 0.36 }, radius: 0.55, intensity: 1, colour: "amber" },
-    specs: lampSpecs("Ø 32 × H 36 cm", "1.2 kg", "Champagne"),
-    handcraftHours: 30,
-    editionSize: 30,
   },
 ];
 

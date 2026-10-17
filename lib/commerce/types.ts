@@ -19,28 +19,9 @@ export type ImageAsset = {
   alt: string;
   /** Shot on a white studio backdrop: blend into the page in day mode. */
   onWhite?: boolean;
-  /** Where the product sits in the image, as fractions (from scripts/analyze-products.mjs). */
-  subject?: { left: number; right: number; top: number; bottom: number };
-  /** Soft alpha mask of the product (white = product), same framing as the image. */
-  mask?: string;
 };
 
 export type ProductType = "Lamp" | "Vase" | "Planter" | "Decor" | "Custom Gift" | "Wedding";
-
-export type LightColour = "amber" | "warm white" | "rose";
-
-/** Procedural glow settings (metafields `glow_origin`, `light_colour`, …). Tuned at /dev/lights. */
-export type GlowConfig = {
-  /** Bulb/shade centre as a fraction of the image box (0–1). */
-  origin: { x: number; y: number };
-  /** Glow radius as a fraction of image width. */
-  radius: number;
-  /** 0–1.5; translucent shades go higher. */
-  intensity: number;
-  colour: LightColour;
-  /** Optional mask PNG for the shade region. */
-  maskUrl?: string;
-};
 
 export type ProductSpecs = {
   dimensions?: string;
@@ -81,16 +62,18 @@ export type Product = {
   tags: string[];
   collections: string[];
 
-  /** Gallery images; the first is the hero shot. Empty → elegant placeholder. */
+  /** Gallery images; the first is the card shot (for lamps: the switched-off cut-out). Empty → placeholder. */
   images: ImageAsset[];
+  /** Matched pair, identical framing: what the light switch crossfades between (metafields `image_off`, `image_on`). */
   imageOff?: ImageAsset;
   imageOn?: ImageAsset;
+  /** Showroom scene pair (metafields `stage_off`, `stage_on`), same framing. */
+  stage?: { off: ImageAsset; on?: ImageAsset };
   lifestyle?: ImageAsset & { room?: string };
   lifestyleOn?: ImageAsset & { room?: string };
   modelGlb?: string;
   modelUsdz?: string;
 
-  glow?: GlowConfig;
   specs: ProductSpecs;
   handcraftHours?: number;
   editionSize?: number;

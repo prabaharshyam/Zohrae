@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProductImage } from "@/components/product/ProductImage";
+import { ProductStage } from "@/components/product/ProductImage";
 import { copy } from "@/copy/en";
 import { getProduct, getProducts } from "@/lib/commerce";
 import { formatPrice } from "@/lib/format";
@@ -26,7 +26,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
 
   return (
     <div className="gutter mx-auto grid max-w-[1600px] gap-10 pt-[calc(var(--header-h)+3rem)] md:grid-cols-[1.3fr_1fr] md:gap-16">
-      <ProductImage product={product} priority sizes="(min-width: 768px) 55vw, 100vw" />
+      <ProductStage product={product} priority sizes="(min-width: 768px) 55vw, 100vw" className="aspect-[4/5]" />
 
       <div className="md:sticky md:top-28 md:self-start">
         <p className="label text-fg-muted">{product.type}</p>

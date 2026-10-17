@@ -1,3 +1,4 @@
+import { copy } from "@/copy/en";
 import type { Money } from "@/lib/commerce/types";
 
 const inr = new Intl.NumberFormat("en-IN", {
@@ -12,6 +13,6 @@ export function formatPrice(money: Money) {
 }
 
 export function whatsappHref(message: string) {
-  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
+  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || copy.contact.whatsapp;
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
