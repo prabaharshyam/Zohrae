@@ -22,8 +22,8 @@ export async function Footer() {
   return (
     <footer className="relative border-t border-line">
       <div className="gutter mx-auto max-w-[1600px] pt-16 md:pt-24">
-        <div className="grid gap-12 md:grid-cols-[1.2fr_repeat(3,1fr)]">
-          <div className="max-w-xs">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.2fr_repeat(3,1fr)] md:gap-12">
+          <div className="col-span-2 max-w-xs md:col-span-1">
             <Logo variant="full" title={copy.brand.name} className="w-52" />
             <p className="mt-6 text-sm text-fg-muted">{copy.brand.origin}.</p>
             {(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || copy.contact.whatsapp) && (
@@ -39,10 +39,11 @@ export async function Footer() {
             )}
           </div>
 
-          {copy.footer.columns.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
+          {/* On phones the long Shop list takes the left column; the rest stack beside it. */}
+          {copy.footer.columns.map((col, i) => (
+            <nav key={col.title} aria-label={col.title} className={i === 0 ? "max-md:row-span-2" : undefined}>
               <h2 className="label mb-5 text-fg-muted">{col.title}</h2>
-              <ul className="space-y-3 text-[0.95rem]">
+              <ul className="space-y-3 text-[0.95rem] max-md:text-sm">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="transition-colors hover:text-accent-text">

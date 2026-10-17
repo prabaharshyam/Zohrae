@@ -96,7 +96,7 @@ export function LightSwitch() {
       {nudge && !state.on && (
         <div
           role="status"
-          className="absolute bottom-full mb-4 w-[min(300px,calc(100vw-32px))] border border-line bg-bg-raised p-4 text-sm shadow-[0_24px_60px_-28px_rgba(0,0,0,0.5)] md:right-0"
+          className="absolute bottom-full mb-4 w-[min(300px,calc(100vw-32px))] border border-line bg-bg-raised p-4 text-sm shadow-[0_24px_60px_-28px_rgba(0,0,0,0.5)] right-0"
         >
           <p className="font-display text-lg italic leading-snug">{copy.light.nudge}</p>
           <div className="mt-3 flex gap-4">
@@ -174,7 +174,7 @@ function LightPanel({ id, onClose }: { id: string; onClose: () => void }) {
       id={id}
       role="dialog"
       aria-label={copy.light.settings}
-      className="absolute bottom-full mb-4 w-[min(300px,calc(100vw-32px))] border border-line bg-bg-raised p-5 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55)] md:right-0"
+      className="absolute bottom-full mb-4 w-[min(300px,calc(100vw-32px))] border border-line bg-bg-raised p-5 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.55)] right-0"
     >
       <div className="flex items-center justify-between">
         <p className="label text-fg-muted">{copy.light.settings}</p>
