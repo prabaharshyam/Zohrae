@@ -185,7 +185,7 @@ If you reply "approved" or answer only some of these, I'll go with the defaults 
 | #   | Question           | Decision                                                                                                                   |
 | --- | ------------------ | -------------------------------------------------------------------------------------------------------------------------- |
 | 1   | Logo               | Original supplied → `public/brand/zohrae-logo-original.png`, traced to vector paths (`components/brand/wordmark-paths.ts`) |
-| —   | Subline            | **"LUXURY HOME DECOR STUDIO"** (replaces "Creative Studio"; shorter than the brief's wording)                              |
+| —   | Subline            | **"ATELIER · INDIA"**: owner asked for a researched recommendation (see §11)                                               |
 | 2   | Photo #2           | It's a **lamp** (Sora)                                                                                                     |
 | 3   | Names & prices     | Names approved. **Lamps priced ₹3,000–₹5,000**                                                                             |
 | 4   | COD                | **Not available.** Footer shows "Prepaid orders only"; no COD badge anywhere. Other facts remain placeholders              |
@@ -258,3 +258,15 @@ Owner decision: **no photoshoots.** "Lamp on" images and lifestyle (in-the-room)
 - **Pilot (Aurelia):** lit studio shot and an evening bedroom scene generated successfully.
 - **Blocker:** this cloud environment's network blocks Canva's file servers, so full-resolution files can't be pulled into the repo automatically. Fix: allow `canva.com` / `*.canva.com` in the environment's network settings. Otherwise the owner downloads the files from Canva and sends them in chat.
 - PHOTO-GUIDE.md (Phase 7) becomes a short **image-generation guide** with the prompts used, so the owner can make images for new products the same way.
+
+---
+
+## 11. Decision: logo subline "ATELIER · INDIA" (17 Oct 2026)
+
+The owner rejected both earlier sublines and asked for a researched recommendation.
+
+- **Origin as descriptor** is the strongest luxury convention: Hermès Paris, Diptyque Paris, Flos Italia, Bottega Veneta Milano. Naming India owns the brand's origin with pride.
+- **"Atelier"** means a designer's workshop where pieces are made by hand. That's true of 3D-printed, hand-finished pieces, and it covers lamps, vessels, Cricut gifts and wedding keepsakes alike.
+- **Rejected:** "Maison …" (implies multi-generation heritage a new studio can't claim); "Atelier de Lumière" (too close to the Atelier des Lumières, a well-known Paris digital-art museum); "Objets de Lumière" (an existing lighting collection by artist Thierry Dreyfus); long descriptive lines like "Luxury Home Decor Studio" (generic, and too long to show at small sizes).
+- At 15 characters it stays visible down to 140px wide (the auto-hide threshold moved from 240px to 140px).
+- "Luxury home decor" still appears in the page titles, meta descriptions and copy, where it helps search.

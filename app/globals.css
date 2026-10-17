@@ -201,7 +201,7 @@ canvas {
 .logo {
   container-type: inline-size;
 }
-@container (max-width: 240px) {
+@container (max-width: 140px) {
   .logo-subline {
     display: none;
   }

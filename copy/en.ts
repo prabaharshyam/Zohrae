@@ -10,7 +10,7 @@ export const copy = {
   brand: {
     name: "Zohraé",
     tagline: "Shine Beyond!",
-    descriptor: "LUXURY HOME DECOR STUDIO",
+    descriptor: "ATELIER · INDIA",
     categories: ["Decor", "Lamps", "Vases", "Planters"],
     origin: "Designed and hand-finished in India",
   },
