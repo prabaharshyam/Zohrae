@@ -1,5 +1,27 @@
 # Changelog
 
+## Phase 3.6 — Touch the light (17 Oct 2026)
+
+The owner pointed to lummar.studio and eldendesigns.com: click a lamp's own switch and that lamp lights; click again and it goes off.
+
+- **Every lamp has its own switch.** A small gold button with a slow breathing ring sits on each lamp's base: on cards, product pages, the hero and every chapter. Touching it lights that lamp alone:
+  - it catches, blinks off for a beat, then holds (like a bulb finding its contact);
+  - touching it again puts it out with a short ember fade;
+  - the cursor reads "Light it" / "Dim it";
+  - the switch click plays if sound is on.
+
+  The room switch still controls everything: flipping it brings every lamp back in line. The same lamp shown twice on a page lights together.
+
+- **First light.** As on Lummar, lamps light themselves the first time you see them (once per visit, never after you've touched them or turned the room lights on). The hero lamp catches just after you enter, and each chapter's lamp ignites as it rises into view.
+- **Idle life.** A lamp that stays lit on screen gives a tiny bzz-bzz-bzz now and then (every 15–25s).
+- **Hero, now a cinematic scene.** Aurelia on her stone plinth in the dark showroom fills the screen. The headline sits on the far side and the room drifts slowly with the cursor. On phones the scene stacks above the copy. The pull-chain is retired: the lamp's own switch is the interaction now.
+- **Lamp chapters go dark.** Lamps with showroom photography (Aurelia, Nuvola, Rosalie, Colonna) get full-bleed scenes with their name in capitals on the far side. The others keep the 3D-turning cut-out on a deep, tinted ground. Every chapter carries the hint "Touch the light · the gold button on its base".
+- **"Lights off / on" pill on collection grids** (as on Elden): lights every lamp in the grid at once, or puts them all out.
+
+### Fixed
+
+- Product cards: the whole card is still one link, but the lamp switch on the photo now works (no link-inside-link).
+
 ## Phase 3.5 — The immersive redesign (17 Oct 2026)
 
 The owner felt the home page looked "average" and asked for something smooth, futuristic and insanely engaging: objects that turn with the cursor, reveal animations and hover sounds. The ivory editorial base and the photographic light switch stay; everything around them got bolder.

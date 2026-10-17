@@ -13,6 +13,8 @@ type Props = {
   priority?: boolean;
   frameClassName?: string;
   className?: string;
+  lampId?: string;
+  ignite?: boolean;
   /** Max turn toward the cursor, in radians. */
   turn?: number;
 };

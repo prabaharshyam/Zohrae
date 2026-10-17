@@ -21,6 +21,8 @@ export type ImageAsset = {
   onWhite?: boolean;
   /** A full styled photograph (not a cut-out): fill the frame. */
   scene?: boolean;
+  /** Where the lamp's own switch sits in the photo (fractions of width and height). */
+  switchAt?: [number, number];
 };
 
 export type ProductType = "Lamp" | "Vase" | "Planter" | "Decor" | "Custom Gift" | "Wedding";

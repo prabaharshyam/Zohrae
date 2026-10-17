@@ -37,6 +37,7 @@
   --fs-hero: clamp(3.25rem, 11vw, 11rem);
   --fs-giant: clamp(5.5rem, 21vw, 26rem);
   --fs-chapter: clamp(6rem, 26vw, 30rem);
+  --fs-stage-name: clamp(4rem, 11vw, 12rem);
   --fs-h1: clamp(2.5rem, 6vw, 5.5rem);
   --fs-h2: clamp(2rem, 4vw, 3.5rem);
   --fs-h3: clamp(1.5rem, 2.4vw, 2rem);
@@ -576,23 +577,99 @@ canvas {
 
 /* ─── Lamp chapters ───────────────────────────────────────── */
 .chapter-ground {
-  background: var(--chap);
-  color: var(--ink);
-  --fg-muted: color-mix(in oklab, var(--ink) 75%, transparent);
+  /* Dark, like a showroom at night, with a breath of the lamp's own colour. */
+  background: color-mix(in oklab, var(--chap) 30%, var(--night));
+  color: color-mix(in oklab, var(--ink) 40%, var(--moon));
+  --fg-muted: color-mix(in oklab, var(--moon) 70%, transparent);
   transition: background-color 0.8s var(--ease-silk);
   will-change: clip-path, transform;
 }
 .chapter-name {
-  color: color-mix(in oklab, var(--ink) 92%, transparent);
+  color: color-mix(in oklab, var(--ink) 55%, transparent);
 }
 .chapter-glow {
-  background: radial-gradient(closest-side, color-mix(in oklab, var(--ink) 22%, transparent), transparent);
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--chap) 30%, transparent), transparent);
   transition: background 0.8s;
 }
 /* After dark, every chapter dims to a deep version of its colour and the lamps glow. */
 [data-lights="on"] .chapter-ground {
-  background: color-mix(in oklab, var(--chap) 32%, var(--night));
+  background: color-mix(in oklab, var(--chap) 20%, var(--night));
 }
 [data-lights="on"] .chapter-glow {
   background: radial-gradient(closest-side, rgb(var(--glow-rgb) / 0.3), transparent);
+}
+
+/* ─── A lamp's own switch: a small gold button on its base ── */
+.lamp-touch {
+  position: absolute;
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+}
+.lamp-touch-dot {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #fbe3a6, #c99447 55%, #7a4f1e);
+  box-shadow:
+    0 0 0 1px rgb(42 29 21 / 0.35),
+    0 1px 3px rgb(0 0 0 / 0.45);
+  transition:
+    transform 0.4s var(--ease-silk),
+    box-shadow 0.4s;
+}
+/* A slow breathing ring, so it reads as touchable without shouting. */
+.lamp-touch-dot::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: inherit;
+  border: 1px solid rgb(232 196 120 / 0.75);
+  animation: touch-breathe 2.6s var(--ease-silk) infinite;
+}
+.lamp-touch:hover .lamp-touch-dot,
+.lamp-touch:focus-visible .lamp-touch-dot {
+  transform: scale(1.25);
+}
+.lamp-touch[aria-pressed="true"] .lamp-touch-dot {
+  box-shadow:
+    0 0 0 1px rgb(42 29 21 / 0.35),
+    0 0 12px 3px rgb(var(--glow-rgb) / 0.7);
+}
+.lamp-touch[aria-pressed="true"] .lamp-touch-dot::after {
+  animation: none;
+  opacity: 0;
+}
+@keyframes touch-breathe {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lamp-touch-dot::after {
+    animation: none;
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+/* On the dark chapters a lamp lit by its own switch throws light on the wall too. */
+.chapter-ground .lit-halo {
+  opacity: calc(var(--lamp) * var(--dim));
+  transition: none;
+}
+.chapter-name-stage {
+  color: color-mix(in oklab, var(--moon) 82%, transparent);
 }

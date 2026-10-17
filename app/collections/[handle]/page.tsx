@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { LightsPill } from "@/components/light/LightsPill";
 import { ProductCard } from "@/components/product/ProductCard";
 import { copy } from "@/copy/en";
 import { getCollection, getCollections, getProducts } from "@/lib/commerce";
@@ -18,6 +19,7 @@ export default async function CollectionPage({ params }: PageProps<"/collections
   const { handle } = await params;
   const [collection, products] = await Promise.all([getCollection(handle), getProducts({ collection: handle })]);
   if (!collection) notFound();
+  const lampHandles = products.filter((p) => p.imageOn).map((p) => p.handle);
 
   return (
     <div className="gutter mx-auto max-w-[1600px] pt-[calc(var(--header-h)+10vh)]">
@@ -25,7 +27,10 @@ export default async function CollectionPage({ params }: PageProps<"/collections
         <p className="label text-fg-muted">{collection.eyebrow}</p>
         <h1 className="font-display mt-5 text-[length:var(--fs-h1)]">{collection.title}</h1>
         <p className="mt-6 max-w-xl text-fg-muted">{collection.description}</p>
-        <p className="label mt-8 text-[10px] text-fg-muted">{copy.cart.count(products.length)}</p>
+        <div className="mt-8 flex items-center gap-6">
+          <p className="label text-[10px] text-fg-muted">{copy.cart.count(products.length)}</p>
+          {lampHandles.length > 0 && <LightsPill handles={lampHandles} />}
+        </div>
       </header>
 
       <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-14 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">

@@ -303,3 +303,12 @@ The owner asked for a "very smooth, ultra futuristic, insanely engaging 3D" site
 - **Sound is opt-in:** browsers block audio before a gesture, and luxury shoppers browse in offices. The intro asks once, and the footer toggle changes it any time.
 - **Atelier:** photographs replace the procedural lamp, which looked artificial (owner feedback).
 - **Images:** generated in Canva (AI), exported through the working design "Zohraé — website image exports". The owner will replace them with originals at the end.
+
+## 16. Phase 3.6: per-lamp switches (17 Oct 2026)
+
+References: lummar.studio (registered photo states, an invisible button over each lamp's brass switch, an ignition the first time a scene is seen, idle flicker) and eldendesigns.com (a "Lights on" pill on the shop grid).
+
+- **State model:** `lib/light/lamps.ts` keeps per-lamp overrides keyed by product handle on top of the room switch. Touching a lamp sets its override, and flipping the room switch clears all overrides. One source of truth means the same lamp lights everywhere it appears.
+- **Switch position:** `ImageAsset.switchAt` stores fractions of the photo. These were measured from the cut-out silhouettes (base, about 7% above the bottom) and read off the stage photos. LitImage maps the point through object-fit contain/cover and object-position, so the dot stays on the base at any crop.
+- **Our lamps have no visible switch** in the photos (Lummar's have a brass button), so the gold dot is drawn. When the owner's real photos arrive, set `switchAt` to the real switch.
+- **Two lamps in one scene** (Lummar's 4-state photos) needs pixel-registered photography of both lamps in all four on/off combinations. That's possible later from a real shoot; AI can't keep frames registered.

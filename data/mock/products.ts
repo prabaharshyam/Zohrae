@@ -31,11 +31,33 @@ const MEDIA: Record<string, { stage?: boolean; room?: string }> = {
   coquille: {},
 };
 
+/**
+ * Where each lamp's own switch sits (fractions of the photo): low on the base,
+ * centred, measured from the cut-out silhouettes and the stage photos.
+ */
+const SWITCH: Record<string, { cutout: [number, number]; stage?: [number, number] }> = {
+  aurelia: { cutout: [0.502, 0.83], stage: [0.293, 0.8] },
+  sora: { cutout: [0.492, 0.775] },
+  nuvola: { cutout: [0.493, 0.82], stage: [0.775, 0.8] },
+  onda: { cutout: [0.494, 0.805] },
+  ballerina: { cutout: [0.5, 0.5] },
+  rosalie: { cutout: [0.495, 0.815], stage: [0.47, 0.725] },
+  colonna: { cutout: [0.494, 0.85], stage: [0.763, 0.8] },
+  coquille: { cutout: [0.495, 0.805] },
+};
+
 function lampMedia(handle: string, title: string): Partial<Product> & { images: ImageAsset[] } {
   const media = MEDIA[handle];
   if (!media) return { images: [] };
   const src = (file: string) => `/products/${handle}/${file}`;
-  const cutoutOff = { url: src("cutout-off.webp"), width: 768, height: 1024, alt: `${title}, switched off` };
+  const sw = SWITCH[handle];
+  const cutoutOff: ImageAsset = {
+    url: src("cutout-off.webp"),
+    width: 768,
+    height: 1024,
+    alt: `${title}, switched off`,
+    switchAt: sw?.cutout,
+  };
   const cutoutOn = { url: src("cutout-on.webp"), width: 768, height: 1024, alt: `${title}, glowing` };
   return {
     images: [cutoutOff],
@@ -48,6 +70,7 @@ function lampMedia(handle: string, title: string): Partial<Product> & { images: 
             width: 1264,
             height: 848,
             alt: `${title} on a stone plinth in a dark showroom`,
+            switchAt: sw?.stage,
           },
           on: { url: src("stage-on.webp"), width: 1264, height: 848, alt: `${title} glowing on a stone plinth` },
         }

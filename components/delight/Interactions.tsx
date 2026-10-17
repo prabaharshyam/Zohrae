@@ -27,7 +27,8 @@ export function Interactions() {
       current = el;
     };
     const down = (e: PointerEvent) => {
-      if ((e.target as Element).closest?.(INTERACTIVE)) tapSound();
+      const el = (e.target as Element).closest?.(INTERACTIVE);
+      if (el && !el.closest("[data-silent]")) tapSound();
     };
     document.addEventListener("pointerover", over, { passive: true });
     document.addEventListener("pointerdown", down, { passive: true });

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useRef } from "react";
+import { ProductStage } from "@/components/product/ProductImage";
 import { DepthTurn } from "@/components/three/DepthTurn";
 import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
@@ -93,13 +93,17 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
             style={{ "--chap": c.bg, "--ink": c.ink } as React.CSSProperties}
           >
             <div data-header-tone className="chapter-inner chapter-ground relative flex h-full flex-col">
-              {/* The name, enormous, behind the lamp */}
-              <p
-                aria-hidden
-                className="chapter-name font-display pointer-events-none absolute inset-x-0 top-1/2 -translate-y-[58%] select-none text-center text-[length:var(--fs-chapter)] leading-none italic tracking-[-0.04em] whitespace-nowrap"
-              >
-                {p.title}
-              </p>
+              {p.stage ? (
+                <StageScene product={p} />
+              ) : (
+                /* The name, enormous, behind the lamp */
+                <p
+                  aria-hidden
+                  className="chapter-name font-display pointer-events-none absolute inset-x-0 top-1/2 -translate-y-[58%] select-none text-center text-[length:var(--fs-chapter)] leading-none italic tracking-[-0.04em] whitespace-nowrap"
+                >
+                  {p.title}
+                </p>
+              )}
 
               <header className="gutter relative z-10 mx-auto flex w-full max-w-[1600px] items-start justify-between pt-[calc(var(--header-h)+1rem)]">
                 <p className="label opacity-80">
@@ -110,27 +114,32 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
                 </p>
               </header>
 
-              <Link
-                href={`/products/${p.handle}`}
-                data-cursor="Turn · View"
-                aria-label={`${p.title}: ${p.tagline}`}
-                className="chapter-lamp relative z-10 mx-auto my-auto block w-[min(70vw,330px)] md:w-[min(30vw,420px)]"
-              >
-                <span aria-hidden className="chapter-glow absolute inset-[8%] rounded-full" />
-                <DepthTurn
-                  title={p.title}
-                  off={p.imageOff}
-                  on={p.imageOn}
-                  sizes="(min-width: 768px) 30vw, 70vw"
-                  frameClassName="aspect-[3/4]"
-                  turn={0.5}
-                />
-              </Link>
+              {p.stage ? (
+                <div className="flex-1" />
+              ) : (
+                <div
+                  data-cursor="Turn"
+                  className="chapter-lamp relative z-10 mx-auto my-auto block w-[min(70vw,330px)] md:w-[min(30vw,420px)]"
+                >
+                  <span aria-hidden className="chapter-glow absolute inset-[8%] rounded-full" />
+                  <DepthTurn
+                    title={p.title}
+                    off={p.imageOff}
+                    on={p.imageOn}
+                    sizes="(min-width: 768px) 30vw, 70vw"
+                    frameClassName="aspect-[3/4]"
+                    turn={0.5}
+                    lampId={p.handle}
+                    ignite
+                  />
+                </div>
+              )}
 
               <footer className="gutter relative z-10 mx-auto grid w-full max-w-[1600px] gap-4 pb-8 md:grid-cols-2 md:items-end md:pb-10">
                 <div className="max-w-md">
                   <h2 className="font-display text-3xl md:text-5xl">{p.title}</h2>
                   <p className="mt-2 text-sm opacity-80 md:text-base">{p.tagline}</p>
+                  <p className="label mt-4 text-[10px] opacity-60">{copy.light.touchHint}</p>
                 </div>
                 <div className="flex items-center gap-6 md:justify-end">
                   <p className="font-display text-2xl">{formatPrice(p.priceRange.min)}</p>
@@ -148,5 +157,38 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
         );
       })}
     </section>
+  );
+}
+
+/**
+ * A chapter for a lamp with showroom photography: the dark room fills the
+ * screen, the lamp on its plinth, the name set in capitals on the far side.
+ */
+function StageScene({ product }: { product: Product }) {
+  const lampLeft = (product.stage?.off.switchAt?.[0] ?? 0.5) < 0.5;
+  return (
+    <>
+      <div className="chapter-lamp absolute inset-0">
+        <ProductStage product={product} sizes="100vw" className="size-full" ignite />
+      </div>
+      <div
+        aria-hidden
+        className={
+          "pointer-events-none absolute inset-0 " +
+          (lampLeft
+            ? "bg-[linear-gradient(to_top,rgb(14_11_9/0.8),transparent_50%)] md:bg-[linear-gradient(to_left,rgb(14_11_9/0.7),transparent_60%)]"
+            : "bg-[linear-gradient(to_top,rgb(14_11_9/0.8),transparent_50%)] md:bg-[linear-gradient(to_right,rgb(14_11_9/0.7),transparent_60%)]")
+        }
+      />
+      <p
+        aria-hidden
+        className={
+          "chapter-name chapter-name-stage font-display pointer-events-none absolute top-[22%] hidden select-none text-[length:var(--fs-stage-name)] leading-none tracking-[0.02em] uppercase md:block " +
+          (lampLeft ? "right-[var(--gutter)] text-right" : "left-[var(--gutter)]")
+        }
+      >
+        {product.title}
+      </p>
+    </>
   );
 }
