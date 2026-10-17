@@ -82,7 +82,7 @@ export type Product = {
   imageOff?: ImageAsset;
   imageOn?: ImageAsset;
   lifestyle?: ImageAsset & { room?: string };
-  lifestyleOn?: ImageAsset;
+  lifestyleOn?: ImageAsset & { room?: string };
   modelGlb?: string;
   modelUsdz?: string;
 

@@ -4,6 +4,9 @@ import type { GlowConfig, ImageAsset, Product, ProductSpecs, ProductType } from 
  * Placeholder catalogue, written in the house voice. Five lamps use the
  * owner's real photography (public/products/samples); the rest render the
  * brand placeholder until photographed. Prices are tax-inclusive INR.
+ *
+ * Lit and in-room images are AI-generated from the owner's photos
+ * (public/products/generated, prompts in docs/ai-image-prompts.md).
  */
 
 const inr = (amount: number) => ({ amount, currencyCode: "INR" as const });
@@ -15,6 +18,40 @@ const photo = (file: string, width: number, height: number, alt: string): ImageA
   alt,
   onWhite: true,
 });
+
+const generated = (file: string, width: number, height: number, alt: string): ImageAsset => ({
+  url: `/products/generated/${file}`,
+  width,
+  height,
+  alt,
+});
+
+/** AI-generated companions to the studio shots, keyed by product handle. */
+const GENERATED: Record<string, Pick<Product, "imageOn" | "lifestyle" | "lifestyleOn">> = {
+  aurelia: {
+    imageOn: generated("aurelia_on.webp", 944, 1680, "Aurelia switched on, its pleated shade glowing honey-gold"),
+    lifestyleOn: {
+      ...generated(
+        "aurelia_life_on.webp",
+        1088,
+        1456,
+        "Aurelia glowing on a travertine bedside table in a linen bedroom at dusk",
+      ),
+      room: "In the bedroom",
+    },
+  },
+  sora: {
+    imageOn: generated("sora_on.webp", 1024, 1536, "Sora switched on, its twisted ridges glowing warm white"),
+  },
+  nuvola: {
+    imageOn: generated(
+      "nuvola_on.webp",
+      1024,
+      1536,
+      "Nuvola switched on, its cloud shade glowing above a saffron base",
+    ),
+  },
+};
 
 type Seed = {
   handle: string;
@@ -61,6 +98,7 @@ function product(seed: Seed): Product {
     collections: seed.collections,
     images: seed.image ? [seed.image] : [],
     imageOff: seed.image,
+    ...GENERATED[seed.handle],
     glow: seed.glow,
     specs: seed.specs ?? {},
     handcraftHours: seed.handcraftHours,
