@@ -100,6 +100,8 @@ type Seed = {
   handcraftHours?: number;
   editionSize?: number;
   finishes?: { name: string; swatch: string }[];
+  /** Sizes with their own price (art frames: A3 · A2 · A1). `price` is then the smallest. */
+  sizes?: { name: string; price: number }[];
   available?: boolean;
 };
 
@@ -130,14 +132,22 @@ function placeholderMedia(seed: Seed): Partial<Product> & { images: ImageAsset[]
 
 function product(seed: Seed): Product {
   const finishes = seed.finishes ?? [{ name: "As shown", swatch: "#E8D3A8" }];
-  const variants = finishes.map((f, i) => ({
-    id: `gid://zohrae/ProductVariant/${seed.handle}-${i + 1}`,
-    title: f.name,
-    availableForSale: seed.available ?? true,
-    price: inr(seed.price),
-    selectedOptions: [{ name: "Finish", value: f.name }],
-    swatch: f.swatch,
-  }));
+  // One variant per size × finish, like Shopify: options in display order.
+  const sizes = seed.sizes ?? [{ name: "", price: seed.price }];
+  const variants = sizes.flatMap((size, si) =>
+    finishes.map((f, fi) => ({
+      id: `gid://zohrae/ProductVariant/${seed.handle}-${si * finishes.length + fi + 1}`,
+      title: [size.name, f.name].filter(Boolean).join(" / "),
+      availableForSale: seed.available ?? true,
+      price: inr(size.price),
+      selectedOptions: [
+        ...(size.name ? [{ name: "Size", value: size.name }] : []),
+        { name: seed.type === "Art Frame" ? "Frame" : "Finish", value: f.name },
+      ],
+      swatch: f.swatch,
+    })),
+  );
+  const prices = sizes.map((s) => s.price);
   return {
     id: `gid://zohrae/Product/${seed.handle}`,
     handle: seed.handle,
@@ -146,9 +156,12 @@ function product(seed: Seed): Product {
     tagline: seed.tagline,
     description: seed.description,
     story: seed.story,
-    priceRange: { min: inr(seed.price), max: inr(seed.price) },
+    priceRange: { min: inr(Math.min(...prices)), max: inr(Math.max(...prices)) },
     variants,
-    options: [{ name: "Finish", values: finishes.map((f) => f.name) }],
+    options: [
+      ...(seed.sizes ? [{ name: "Size", values: seed.sizes.map((s) => s.name) }] : []),
+      { name: seed.type === "Art Frame" ? "Frame" : "Finish", values: finishes.map((f) => f.name) },
+    ],
     availableForSale: seed.available ?? true,
     tags: seed.tags ?? [],
     collections: seed.collections,
@@ -438,6 +451,85 @@ const GIFTS: Seed[] = [
   },
 ];
 
+/**
+ * Art wall frames: A3 (29.7 × 42 cm), A2 (42 × 59.4 cm), A1 (59.4 × 84.1 cm).
+ * Placeholder prices until the owner confirms them.
+ */
+const FRAME_SIZES = [
+  { name: "A3", price: 1999 },
+  { name: "A2", price: 3299 },
+  { name: "A1", price: 4999 },
+];
+const FRAME_FINISHES = [
+  { name: "Natural oak", swatch: "#C8A47A" },
+  { name: "Matte black", swatch: "#1C1714" },
+  { name: "Antique gold", swatch: "#B8913F" },
+];
+const frameSpecs = (art: string): ProductSpecs => ({
+  dimensions: "A3 29.7 × 42 cm · A2 42 × 59.4 cm · A1 59.4 × 84.1 cm (artwork size)",
+  material: "Solid wood frame, acid-free white mount, archival fine-art paper",
+  finish: art,
+});
+
+const FRAMES: Seed[] = [
+  {
+    handle: "your-art-framed",
+    title: "Your Art, Framed",
+    type: "Art Frame",
+    tagline: "Your photograph or artwork, framed like it belongs in a gallery.",
+    description:
+      "Send us a photograph, a painting or your child's first drawing. We print it on archival fine-art paper, cut a wide white mount by hand and set it in the frame you choose. Ready to hang.",
+    story:
+      "The most precious art in a home is rarely bought. We frame it the way a gallery would, so it can finally leave the drawer.",
+    price: FRAME_SIZES[0].price,
+    sizes: FRAME_SIZES,
+    finishes: FRAME_FINISHES,
+    collections: ["art-frames", "personalised-gifts"],
+    tags: ["custom"],
+    specs: frameSpecs("Your image, printed on archival fine-art paper"),
+  },
+  {
+    handle: "arches-art-frame",
+    title: "Arches",
+    type: "Art Frame",
+    tagline: "Three terracotta arches, warm as a courtyard at four o'clock.",
+    description:
+      "A quiet abstract of overlapping arches in terracotta, ochre and cream. It brings the warmth of old Indian courtyards to a modern wall.",
+    price: FRAME_SIZES[0].price,
+    sizes: FRAME_SIZES,
+    finishes: FRAME_FINISHES,
+    collections: ["art-frames"],
+    specs: frameSpecs("Giclée print on archival fine-art paper"),
+  },
+  {
+    handle: "botanica-art-frame",
+    title: "Botanica",
+    type: "Art Frame",
+    tagline: "One unbroken line of gold, growing into leaves.",
+    description:
+      "Drawn in a single continuous line, like our lamps are printed. Gold ink on warm white paper, with a generous mount to let it breathe.",
+    price: FRAME_SIZES[0].price,
+    sizes: FRAME_SIZES,
+    finishes: FRAME_FINISHES,
+    collections: ["art-frames"],
+    specs: frameSpecs("Giclée print with gold-toned ink on archival paper"),
+  },
+  {
+    handle: "soleil-art-frame",
+    title: "Soleil",
+    type: "Art Frame",
+    tagline: "A low amber sun for the wall above the bed.",
+    description:
+      "One soft circle of amber light over a thin horizon. Soleil is the calmest thing in the room, and the warmest.",
+    price: FRAME_SIZES[0].price,
+    sizes: FRAME_SIZES,
+    finishes: FRAME_FINISHES,
+    collections: ["art-frames"],
+    tags: ["new"],
+    specs: frameSpecs("Giclée print on archival fine-art paper"),
+  },
+];
+
 const WEDDING: Seed[] = [
   {
     handle: "couture-wedding-badge",
@@ -481,4 +573,4 @@ const WEDDING: Seed[] = [
   },
 ];
 
-export const MOCK_PRODUCTS: Product[] = [...LAMPS, ...VASES, ...PLANTERS, ...GIFTS, ...WEDDING].map(product);
+export const MOCK_PRODUCTS: Product[] = [...LAMPS, ...VASES, ...PLANTERS, ...FRAMES, ...GIFTS, ...WEDDING].map(product);

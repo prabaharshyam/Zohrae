@@ -20,6 +20,12 @@ export const MOCK_COLLECTIONS: Collection[] = [
     description: "Fluted, footed and generous homes for something green.",
   },
   {
+    handle: "art-frames",
+    title: "Art Wall Frames",
+    eyebrow: "IV · Galleria",
+    description: "Framed art for the walls around the light, in A3, A2 and A1. Ours, or yours.",
+  },
+  {
     handle: "objets",
     title: "Objets",
     eyebrow: "IV · Decor",

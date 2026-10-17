@@ -759,7 +759,7 @@ canvas {
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 120px;
+  top: 84px;
   z-index: 86;
   translate: -50% 0;
   max-width: min(92vw, 420px);
@@ -772,4 +772,40 @@ canvas {
   font-size: 0.875rem;
   text-align: center;
   pointer-events: none;
+}
+/* Add to bag: a little sun that arcs into the bag icon. */
+.bag-orb {
+  position: fixed;
+  z-index: 90;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(circle at 35% 30%, #fff3d6, var(--glow) 55%, var(--ochre));
+  box-shadow: 0 0 18px 6px rgb(255 184 105 / 0.55);
+}
+/* Shop grid: cards rise in, staggered, whenever the filter changes. */
+@media (prefers-reduced-motion: no-preference) {
+  .shop-card {
+    animation: shop-rise 0.8s var(--ease-silk) both;
+  }
+}
+@keyframes shop-rise {
+  from {
+    opacity: 0;
+    transform: perspective(900px) translateY(30px) rotateX(14deg);
+  }
+}
+
+/* ─── Galleria: a warm limewashed wall ─────────────────────── */
+.art-wall {
+  background:
+    radial-gradient(120% 80% at 70% 20%, rgb(255 244 222 / 0.6), transparent 60%),
+    color-mix(in oklab, var(--champagne) 38%, var(--bg));
+}
+[data-lights="on"] .art-wall {
+  background:
+    radial-gradient(90% 70% at 70% 25%, rgb(var(--glow-rgb) / 0.1), transparent 60%),
+    color-mix(in oklab, #3a2c20 40%, var(--bg));
 }

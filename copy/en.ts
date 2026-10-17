@@ -126,8 +126,22 @@ export const copy = {
       cta: "Explore vessels",
     },
 
+    artWall: {
+      eyebrow: "VI · Galleria",
+      title: "Art for the walls around the light",
+      body: "Framed prints in solid wood with a hand-cut mount, in three sizes. Choose one of ours, or send us yours: a photograph, a painting, a first drawing.",
+      cta: "Explore the frames",
+      custom: "Frame your own art",
+      sizesTitle: "Three sizes, drawn to scale",
+      sizes: [
+        { name: "A3", cm: "29.7 × 42 cm", use: "Shelves, desks and gallery walls" },
+        { name: "A2", cm: "42 × 59.4 cm", use: "Above a console or a bedside" },
+        { name: "A1", cm: "59.4 × 84.1 cm", use: "A statement over the sofa or bed" },
+      ],
+    },
+
     conscious: {
-      eyebrow: "VI · Conscious luxury",
+      eyebrow: "VII · Conscious luxury",
       title: "Made from plants, made to last",
       stages: ["Grown", "Spun", "Sculpted", "Kept"],
       points: [
@@ -158,7 +172,7 @@ export const copy = {
     ],
 
     room: {
-      eyebrow: "VII · Shop the room",
+      eyebrow: "VIII · Shop the room",
       title: "See it where it lives",
       hotspot: (name: string) => `See ${name}`,
       viewPiece: "View the piece",
@@ -175,7 +189,7 @@ export const copy = {
     ],
 
     circle: {
-      eyebrow: "VIII · The Zohraé Circle",
+      eyebrow: "IX · The Zohraé Circle",
       title: "Be first to see new pieces",
       body: "Members get early access to limited editions, and a private welcome gift.",
       placeholder: "Your email",
@@ -191,6 +205,9 @@ export const copy = {
 
   product: {
     addToCart: "Add to Collection",
+    quantity: "Quantity",
+    related: "Pieces that keep it company",
+    shipsIn: "Made to order · ships in 5–7 days",
     buyNow: "Buy now",
     added: "Beautiful choice.",
     soldOut: "Being crafted — join the waitlist",
@@ -239,8 +256,41 @@ export const copy = {
   cart: {
     title: "Your Collection",
     empty: "Your collection awaits its first light.",
+    emptyCta: "Discover the lamps",
     checkout: "Proceed to secure checkout",
     count: (n: number) => (n === 1 ? "1 piece" : `${n} pieces`),
+    subtotal: "Subtotal",
+    shippingNote: "Shipping and GST shown at checkout · Prepaid orders only",
+    remove: "Remove",
+    close: "Close",
+    increase: "One more",
+    decrease: "One fewer",
+    preview:
+      "This is a preview of the store: checkout opens once the shop is connected. Your selection is saved on this device.",
+    failed: "Checkout couldn't open just now. Please try again in a moment.",
+    giftNote: "Every piece arrives in our keepsake box.",
+  },
+
+  shop: {
+    all: "All",
+    allPrices: "Any price",
+    under: (n: number) => `Under ₹${n.toLocaleString("en-IN")}`,
+    between: (a: number, b: number) => `₹${a.toLocaleString("en-IN")}–${b.toLocaleString("en-IN")}`,
+    over: (n: number) => `Over ₹${n.toLocaleString("en-IN")}`,
+    sort: "Sort",
+    sortFeatured: "Featured",
+    sortNew: "New",
+    sortPriceAsc: "Price, low to high",
+    sortPriceDesc: "Price, high to low",
+    none: "Nothing here at that price. Try another filter.",
+  },
+
+  dreamRoom: {
+    eyebrow: "Your Dream Room",
+    title: "The pieces you're dreaming of",
+    empty: "Nothing saved yet. Tap the heart on any piece to keep it here.",
+    save: "Save to Dream Room",
+    saved: "Saved to your Dream Room",
   },
 
   trust: {
@@ -262,6 +312,7 @@ export const copy = {
           { label: "Lumière — Lamps", href: "/collections/lumiere" },
           { label: "Vases & Vessels", href: "/collections/vases-vessels" },
           { label: "Planters", href: "/collections/planters" },
+          { label: "Art Wall Frames", href: "/collections/art-frames" },
           { label: "Personalised Gifts", href: "/personalised" },
           { label: "Wedding Atelier", href: "/wedding" },
           { label: "Find your light", href: "/light-finder" },

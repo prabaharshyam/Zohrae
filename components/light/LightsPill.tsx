@@ -43,7 +43,7 @@ export function LightsPill({ handles }: { handles: string[] }) {
         }
       }}
       className={clsx(
-        "label inline-flex h-10 items-center gap-3 rounded-full border px-4 text-[10px] transition-colors duration-500",
+        "label inline-flex h-10 shrink-0 items-center gap-3 whitespace-nowrap rounded-full border px-4 text-[10px] transition-colors duration-500",
         allOn ? "border-glow/60 bg-night text-glow" : "border-line text-fg-muted hover:border-current hover:text-fg",
       )}
     >

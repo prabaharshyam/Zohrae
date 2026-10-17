@@ -1,23 +1,16 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { CartContents } from "@/components/cart/CartDrawer";
 
 export const metadata: Metadata = {
   title: "Your Collection",
-  description: "The cart opens as a drawer from any page. This page is its quiet fallback.",
+  description: "The pieces in your bag, ready for secure checkout.",
 };
 
+/** The bag as a page (the drawer is the usual way in). */
 export default function CartPage() {
   return (
-    <ChapterStub
-      numeral="—"
-      eyebrow="Cart"
-      title={
-        <>
-          Your collection awaits <em className="italic">its first light</em>.
-        </>
-      }
-      intro="The cart opens as a drawer from any page. This page is its quiet fallback."
-      phase={4}
-    />
+    <div className="gutter mx-auto flex max-w-3xl flex-col pt-[calc(var(--header-h)+8vh)] pb-24">
+      <CartContents page />
+    </div>
   );
 }

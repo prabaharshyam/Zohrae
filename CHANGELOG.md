@@ -1,5 +1,30 @@
 # Changelog
 
+## Phase 4 — The shop (17 Oct 2026)
+
+- **Art Wall Frames** (new collection, `/collections/art-frames`):
+  - four frames: _Your Art, Framed_ (send us your photo or artwork), _Arches_, _Botanica_ and _Soleil_;
+  - **Size** A3 · A2 · A1, each priced separately (placeholder ₹1,999 / ₹3,299 / ₹4,999 until confirmed);
+  - **Frame** in natural oak, matte black or antique gold;
+  - AI-generated placeholder photographs until the originals arrive.
+- **VI · Galleria on the home page:**
+  - frames hang from fine wires on a warm limewashed wall and swing into stillness as they appear;
+  - they lean toward the cursor;
+  - a to-scale size guide draws A3, A2 and A1 side by side and explains what each suits.
+- **Product pages:**
+  - a gallery (lamps keep their gold switch, thumbnails cross-dissolve);
+  - option pickers (size buttons, finish swatches) with live price;
+  - quantity, **Add to Collection**, the Dream Room heart, "made to order" note and trust line;
+  - the story, specifications, and "Pieces that keep it company".
+- **The bag:**
+  - a drawer from the right on any page (and a `/cart` page), with quantity steppers, remove, subtotal and a keepsake-box note;
+  - adding a piece sends a little glowing orb arcing into the bag icon, which gives a bump, and a toast says "Beautiful choice.";
+  - the bag is saved on the device.
+- **Checkout:** hands the bag to Shopify's hosted, secure checkout. Until the store is connected it says honestly that checkout opens once the shop is live.
+- **Collections:** a sticky filter bar with type chips, price bands, sort (featured, new, price) and the Lights pill. Cards rise in, staggered.
+- **Dream Room** (`/dream-room`): tap the heart on any card or product to save it, with a pop and a few sparks. The header heart shows a dot when something is saved.
+- **Shopify adapter:** collections, products, variants with swatches, `zohrae.*` metafields (lit photo pairs, switch positions, specifications), and cart creation for checkout. Go-live steps are in **SHOPIFY-SETUP.md**.
+
 ## Phase 3.8 — Motion, 3D and small surprises (17 Oct 2026)
 
 Owner feedback: the site wasn't smooth; lamps already looked lit with the room lights on; beyond the lights there was too little animation or 3D; Coquille's AI image looked hallucinated; two layout bugs.

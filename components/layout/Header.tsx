@@ -7,6 +7,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { BagIcon, CloseIcon, HeartIcon, MenuIcon, SearchIcon, UserIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
+import { cart, cartCount, useCart } from "@/lib/cart/store";
+import { useWishlist } from "@/lib/wishlist/store";
 import { useLenis } from "@/lib/motion/SmoothScroll";
 
 type NavCollection = { handle: string; title: string; eyebrow: string };
@@ -20,7 +22,9 @@ export function Header({ collections }: { collections: NavCollection[] }) {
   const panelId = useId();
   const menuId = useId();
   const collectionsRef = useRef<HTMLLIElement>(null);
-  const cartCount = 0; // Cart arrives in Phase 4.
+  const bag = useCart();
+  const cartCountValue = cartCount(bag);
+  const saved = useWishlist().length;
 
   // Over a section marked data-header-tone (the coloured lamp chapters), the
   // header takes on that section's own ground and ink instead of ivory.
@@ -180,22 +184,28 @@ export function Header({ collections }: { collections: NavCollection[] }) {
             <IconLink href="/journal" label={copy.nav.search} className="hidden sm:grid">
               <SearchIcon />
             </IconLink>
-            <IconLink href="/personalised" label={copy.nav.wishlist} className="hidden sm:grid">
+            <IconLink href="/dream-room" label={copy.nav.wishlist} className="relative hidden sm:grid">
               <HeartIcon />
+              {saved > 0 && <span aria-hidden className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-ochre" />}
             </IconLink>
             <IconLink href="/about" label={copy.nav.account} className="hidden md:grid">
               <UserIcon />
             </IconLink>
             <Link
               href="/cart"
+              data-cart-icon
+              onClick={(e) => {
+                e.preventDefault();
+                cart.open();
+              }}
               className="group flex h-11 items-center gap-2 px-2"
-              aria-label={`${copy.nav.cart}, ${copy.cart.count(cartCount)}`}
+              aria-label={`${copy.nav.cart}, ${copy.cart.count(cartCountValue)}`}
             >
               <span className="label hidden lg:inline">{copy.nav.cart}</span>
               <span className="relative">
                 <BagIcon />
                 <span className="absolute -right-1.5 -top-1 grid size-4 place-items-center rounded-full bg-ochre text-[9px] font-normal text-espresso">
-                  {cartCount}
+                  {cartCountValue}
                 </span>
               </span>
             </Link>

@@ -25,7 +25,7 @@ export type ImageAsset = {
   switchAt?: [number, number];
 };
 
-export type ProductType = "Lamp" | "Vase" | "Planter" | "Decor" | "Custom Gift" | "Wedding";
+export type ProductType = "Lamp" | "Vase" | "Planter" | "Art Frame" | "Decor" | "Custom Gift" | "Wedding";
 
 export type ProductSpecs = {
   dimensions?: string;

@@ -1,3 +1,4 @@
+import { ArtWall } from "@/components/home/ArtWall";
 import { Atelier } from "@/components/home/Atelier";
 import { Circle } from "@/components/home/Circle";
 import { CollectionGrid } from "@/components/home/CollectionGrid";
@@ -15,13 +16,14 @@ import { getProducts } from "@/lib/commerce";
 /**
  * Home: one continuous story, chapter by chapter.
  * Intro → hero → spotlight chapters → the full collection → why light matters → the atelier →
- * vessels → conscious luxury → gifts & weddings → shop the room → the Circle.
+ * vessels → art for the walls → conscious luxury → gifts & weddings → shop the room → the Circle.
  */
 export default async function HomePage() {
-  const [lamps, vessels, planters] = await Promise.all([
+  const [lamps, vessels, planters, frames] = await Promise.all([
     getProducts({ collection: "lumiere" }),
     getProducts({ collection: "vases-vessels" }),
     getProducts({ collection: "planters" }),
+    getProducts({ collection: "art-frames" }),
   ]);
   // Merchandising by tag: one "signature" lamp for the hero, up to five
   // "featured" lamps for the scrolling chapters, every lamp in the grid.
@@ -37,6 +39,7 @@ export default async function HomePage() {
       <WhyLight />
       <Atelier />
       <Vessels products={[...vessels, ...planters]} />
+      <ArtWall frames={frames} />
       <Conscious />
       <Teasers />
       <ShopTheRoom products={lamps} />

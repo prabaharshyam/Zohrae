@@ -312,3 +312,11 @@ References: lummar.studio (registered photo states, an invisible button over eac
 - **Switch position:** `ImageAsset.switchAt` stores fractions of the photo. These were measured from the cut-out silhouettes (base, about 7% above the bottom) and read off the stage photos. LitImage maps the point through object-fit contain/cover and object-position, so the dot stays on the base at any crop.
 - **Our lamps have no visible switch** in the photos (Lummar's have a brass button), so the gold dot is drawn. When the owner's real photos arrive, set `switchAt` to the real switch.
 - **Two lamps in one scene** (Lummar's 4-state photos) needs pixel-registered photography of both lamps in all four on/off combinations. That's possible later from a real shoot; AI can't keep frames registered.
+
+## 17. Phase 4 decisions (17 Oct 2026)
+
+- **Checkout is Shopify's hosted checkout:** the bag lives on the device and becomes a Shopify cart only at checkout (`cartCreate`, then `checkoutUrl`). That keeps the site fast and static, and payments (UPI, cards, netbanking) stay with Shopify and its Indian gateways.
+- **Art frames are size × frame variants**, each size priced separately. Prices are placeholders until the owner confirms them.
+- **Wishlist is device-local** (no account needed). It can sync to Shopify customer metafields later if accounts are added.
+- **Still to come in this phase:** live Shopify data, which needs the Storefront token (see SHOPIFY-SETUP.md).
+- **Moved to later phases:** the lifestyle hover reveal on cards, and the PIN-code delivery estimate (Phase 6).
