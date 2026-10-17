@@ -1,0 +1,220 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* ─────────────────────────────────────────────────────────────
+   Zohraé design tokens
+   Brand palette is fixed; semantic tokens flip in night mode
+   ([data-lights="on"] on <html>, driven by the light switch).
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* brand */
+  --ochre: #c0823a;
+  --ochre-deep: #8f5c22; /* AA text on ivory (5.0:1) */
+  --ivory: #f6f1e7;
+  --champagne: #e8d3a8;
+  --espresso: #2a1d15;
+  --night: #0e0b09;
+  --glow: #ffb869;
+  --sage: #8e9a7b;
+  --moon: #f3e9d8; /* warm ivory text on night */
+
+  /* semantic — day */
+  --bg: var(--ivory);
+  --bg-raised: #fbf8f2;
+  --fg: var(--espresso);
+  --fg-muted: #6b5a4c;
+  --line: color-mix(in oklab, var(--champagne) 75%, transparent);
+  --accent: var(--ochre);
+  --accent-text: var(--ochre-deep);
+  --focus: var(--ochre);
+
+  /* light engine (animated by LightProvider in Phase 2) */
+  --lights: 0;
+  --dim: 1;
+  --warmth: var(--glow);
+
+  /* type */
+  --fs-hero: clamp(3.25rem, 11vw, 11rem);
+  --fs-h1: clamp(2.5rem, 6vw, 5.5rem);
+  --fs-h2: clamp(2rem, 4vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 2.4vw, 2rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.6875rem;
+  --track-label: 0.28em;
+  --lead-display: 0.95;
+
+  /* space & motion */
+  --gutter: 16px;
+  --gutter-lg: clamp(24px, 5vw, 96px);
+  --header-h: 72px;
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-filament: cubic-bezier(0.12, 0.9, 0.2, 1);
+  --dur-theme: 1200ms;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: var(--gutter-lg);
+    --header-h: 88px;
+  }
+}
+
+[data-lights="on"] {
+  --bg: var(--night);
+  --bg-raised: #17120e;
+  --fg: var(--moon);
+  --fg-muted: #b8a894;
+  --line: #3a2c20;
+  --accent-text: var(--glow);
+}
+
+@theme inline {
+  --color-ochre: var(--ochre);
+  --color-ochre-deep: var(--ochre-deep);
+  --color-ivory: var(--ivory);
+  --color-champagne: var(--champagne);
+  --color-espresso: var(--espresso);
+  --color-night: var(--night);
+  --color-glow: var(--glow);
+  --color-sage: var(--sage);
+  --color-moon: var(--moon);
+
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+
+  --font-display: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
+  --font-sans: var(--font-jost), "Helvetica Neue", Arial, sans-serif;
+
+  --ease-silk: var(--ease-silk);
+  --ease-filament: var(--ease-filament);
+}
+
+/* ─── base ─────────────────────────────────────────────────── */
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: clip;
+  transition:
+    background-color var(--dur-theme) var(--ease-silk),
+    color var(--dur-theme) var(--ease-silk);
+}
+
+::selection {
+  background: var(--champagne);
+  color: var(--espresso);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* ─── typographic primitives ──────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: var(--lead-display);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 400;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent-text);
+}
+
+.hairline {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+}
+
+.gutter {
+  padding-inline: var(--gutter);
+}
+
+/* Product photography is shot on white; multiply melts it into the page in day mode. */
+.on-white {
+  mix-blend-mode: multiply;
+}
+[data-lights="on"] .on-white {
+  mix-blend-mode: normal;
+}
+/* Fades a frame's edges so studio shadows dissolve instead of ending in a line. */
+.feather {
+  mask-image:
+    linear-gradient(to right, transparent, #000 16%, #000 84%, transparent),
+    linear-gradient(to top, transparent, #000 14%);
+  mask-composite: intersect;
+}
+
+/* Screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Logo: subline hides automatically when the logo is rendered small */
+.logo {
+  container-type: inline-size;
+}
+@container (max-width: 240px) {
+  .logo-subline {
+    display: none;
+  }
+}
+
+/* ─── motion preferences ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
