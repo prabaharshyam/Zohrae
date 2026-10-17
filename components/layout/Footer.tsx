@@ -1,8 +1,8 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
-import { WORDMARK_ACCENT, WORDMARK_GLYPHS, WORDMARK_VIEWBOX } from "@/components/brand/wordmark-paths";
 import { SoundToggle } from "@/components/light/SoundToggle";
+import { FooterWordmark } from "./FooterWordmark";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
 import { whatsappHref } from "@/lib/format";
@@ -18,7 +18,7 @@ export async function Footer() {
   const gstin = process.env.NEXT_PUBLIC_GSTIN;
 
   return (
-    <footer className="relative mt-32 border-t border-line">
+    <footer className="relative border-t border-line">
       <div className="gutter mx-auto max-w-[1600px] pt-16 md:pt-24">
         <div className="grid gap-12 md:grid-cols-[1.2fr_repeat(3,1fr)]">
           <div className="max-w-xs">
@@ -66,21 +66,9 @@ export async function Footer() {
         </div>
       </div>
 
-      {/* Outline wordmark — fills with light as you arrive (Phase 3). */}
-      <div className="gutter mx-auto max-w-[1600px] pb-6 pt-14" aria-hidden>
-        <svg
-          viewBox={WORDMARK_VIEWBOX}
-          className="w-full"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.2}
-          opacity={0.35}
-        >
-          {Object.values(WORDMARK_GLYPHS).map((d, i) => (
-            <path key={i} d={d} fillRule="evenodd" vectorEffect="non-scaling-stroke" />
-          ))}
-          <path d={WORDMARK_ACCENT} vectorEffect="non-scaling-stroke" />
-        </svg>
+      {/* Outline wordmark that fills with gold light as you arrive. */}
+      <div className="gutter mx-auto max-w-[1600px] pb-6 pt-14">
+        <FooterWordmark />
       </div>
 
       <div className="gutter mx-auto flex max-w-[1600px] flex-col gap-2 pb-8 text-xs text-fg-muted md:flex-row md:justify-between">

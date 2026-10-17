@@ -284,3 +284,12 @@ The owner rejected both earlier sublines and asked for a researched recommendati
 ## 13. Light switch v2: photographic pairs (17 Oct 2026)
 
 Supersedes §5, §10 and §12. The owner wants the light switch to look like the previous Zohraé site: a crossfade between **matched off/on photographs** of the same shot. The glow is photographed, not drawn. The previous site's pairs (cut-outs, stages, rooms) were imported for all five lamps plus three more. New lamps follow `docs/ai-image-prompts.md`: generate the off image, then make the on image _from_ it. The page itself still moves from ivory to night when the lights go on; the hero is a dark showroom in both modes.
+
+---
+
+## 14. Phase 3 decisions (17 Oct 2026)
+
+- **Design:** the ivory editorial direction from Phases 1–2 (owner's preference), with photographic light pairs. The home hero shows the product as a real photograph; 3D is used for the atelier's making story, where a rendered look is expected.
+- **No invented social proof:** the reviews marquee is replaced by true brand facts until real reviews exist.
+- **No fake lighting moods:** the "Morning / Golden hour / Midnight" photo-grading switcher on Shop the room was dropped; filter-graded photos read as artificial.
+- **Sustainability stats:** "100% plant-based filament" is avoided (pigments and additives); copy says "plant-based PLA".

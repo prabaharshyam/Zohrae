@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { LIGHT_STORAGE_KEY as STORAGE_KEY } from "@/lib/boot-scripts";
 import { KELVIN, kelvinToCssRgb } from "./kelvin";
 
 /**
@@ -20,7 +21,6 @@ export type LightState = {
   flips: number;
 };
 
-export const STORAGE_KEY = "zohrae:light";
 const DEFAULTS: LightState = { on: false, dim: 1, kelvin: KELVIN.warm, sound: false, flips: 0 };
 
 let state: LightState = DEFAULTS;
@@ -109,6 +109,3 @@ const serverSnapshot = () => DEFAULTS;
 export function useLight() {
   return useSyncExternalStore(light.subscribe, light.get, serverSnapshot);
 }
-
-/** Inline, pre-hydration version of load()+apply(); keep in sync with STORAGE_KEY and apply(). */
-export const LIGHT_BOOT_SCRIPT = `try{var s=JSON.parse(localStorage.getItem("${STORAGE_KEY}")||"null");if(s&&s.on){document.documentElement.dataset.lights="on"}if(s&&s.dim){document.documentElement.style.setProperty("--dim",String(Math.min(1,Math.max(.1,+s.dim))))}}catch(e){}`;

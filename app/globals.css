@@ -214,6 +214,123 @@ canvas {
   background: radial-gradient(circle at 50% 38%, rgb(var(--glow-rgb) / 0.08), transparent 62%);
 }
 
+/* Atelier "tested in the dark" step: the room goes dark while the lamp glows. */
+.atelier.is-dark {
+  background-color: var(--night);
+  color: var(--moon);
+  --fg-muted: #b8a894;
+  --line: #3a2c20;
+}
+
+/* ─── Sustainability chapter ─────────────────────────────── */
+.sage-band {
+  background: color-mix(in oklab, var(--sage) 22%, var(--bg));
+  color: var(--fg);
+}
+.sage-band .numeral {
+  color: color-mix(in oklab, var(--sage) 60%, var(--fg));
+}
+
+/* ─── Home teasers ───────────────────────────────────────── */
+.teaser-gifts {
+  background: color-mix(in oklab, var(--champagne) 45%, var(--bg));
+}
+.teaser-wedding {
+  background: color-mix(in oklab, #e9c9c4 55%, var(--bg));
+}
+[data-lights="on"] .teaser-gifts,
+[data-lights="on"] .teaser-wedding {
+  background: var(--bg-raised);
+}
+/* Fine guilloché-style rings, like the inside of a keepsake box. */
+.teaser-motif {
+  background: repeating-radial-gradient(circle at 85% 15%, transparent 0 14px, rgb(192 130 58 / 0.13) 14px 15px);
+  mask-image: radial-gradient(circle at 85% 15%, #000, transparent 70%);
+  transition: transform 1.2s var(--ease-silk);
+}
+.group:hover .teaser-motif {
+  transform: scale(1.06);
+}
+
+/* ─── Shop the room hotspot ──────────────────────────────── */
+.hotspot {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+.hotspot-dot {
+  grid-area: 1/1;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ivory);
+  box-shadow: 0 0 0 4px rgb(192 130 58 / 0.9);
+}
+.hotspot-ring {
+  grid-area: 1/1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--ivory);
+  animation: hotspot 2.2s var(--ease-silk) infinite;
+}
+@keyframes hotspot {
+  from {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ─── Values marquee ───────────────────────────────────────── */
+.marquee {
+  animation: marquee 48s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Newsletter code reveal: lights up like a filament. */
+.circle-reveal {
+  animation: circle-glow 1.4s var(--ease-filament) both;
+}
+@keyframes circle-glow {
+  0% {
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgb(255 184 105 / 0);
+  }
+  12% {
+    opacity: 0.6;
+  }
+  16% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 0 60px -10px rgb(255 184 105 / 0.6);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 40px -16px rgb(255 184 105 / 0.4);
+  }
+}
+
+/* ─── Intro ──────────────────────────────────────────────── */
+.intro-seen .preloader {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none;
+  }
+}
+
 /* ─── The floating rocker switch ──────────────────────────── */
 .light-switch {
   left: 50%;

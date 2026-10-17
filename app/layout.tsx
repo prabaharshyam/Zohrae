@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { LightSwitch } from "@/components/light/LightSwitch";
 import { copy } from "@/copy/en";
 import { getCollections } from "@/lib/commerce";
-import { LIGHT_BOOT_SCRIPT } from "@/lib/light/store";
+import { INTRO_BOOT_SCRIPT, LIGHT_BOOT_SCRIPT } from "@/lib/boot-scripts";
 import { SmoothScroll } from "@/lib/motion/SmoothScroll";
 import "./globals.css";
 
@@ -48,8 +48,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-IN" className={`${bodoni.variable} ${jost.variable}`} data-lights="off" suppressHydrationWarning>
       <head>
-        {/* Applies a saved "lights on" before first paint, so night mode never flashes in. */}
-        <script dangerouslySetInnerHTML={{ __html: LIGHT_BOOT_SCRIPT }} />
+        {/* Before first paint: apply a saved "lights on", and skip the intro for returning visitors. */}
+        <script dangerouslySetInnerHTML={{ __html: LIGHT_BOOT_SCRIPT + INTRO_BOOT_SCRIPT }} />
       </head>
       <body className="flex min-h-dvh flex-col antialiased">
         <SmoothScroll>

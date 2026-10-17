@@ -1,5 +1,51 @@
 # Changelog
 
+## Phase 3 — The home page story (17 Oct 2026)
+
+The ivory editorial design is back (the owner preferred it), keeping the photographic light switch. The home page is now one continuous story:
+
+- **Intro** (first visit only, under 1.8s, skippable): a gold filament draws itself on a night screen, flickers once, warms into the monogram, then the curtain lifts. Not shown to returning visitors or with reduced motion.
+- **I · Hero:** Aurelia as a real photograph that lights with the switch. The headline rises line by line (masked), and the lamp drifts slower than the words as you scroll. A tiny brass **pull-chain** sways with the cursor; pull it to glide to the collection.
+- **II · The Lumière Collection:** on desktop the section pins and scrolling glides all eight lamps sideways, with a progress line and cards that tilt toward the cursor (max 6°). On phones it's a swipeable, snapping row.
+- **III · Why light is the ultimate luxury:** a dark, pinned chapter. Scrolling turns a real living room from flat daylight to evening lamplight (a matched photo pair) while three beats of copy play out, ending with "Light your room".
+- **IV · L'Atelier, in 3D:** a pinned five-step story with a three.js lamp built in code, with real pleats, ribs and fine print-layer ridges:
+  1. a hand-drawn wireframe sketch;
+  2. printing layer by layer, with a glowing nozzle ring at the print line;
+  3. hand finishing (the matte surface softens to a sheen);
+  4. tested in the dark (the whole section goes dark and the lamp glows);
+  5. a keepsake box rises with its ochre lid.
+
+  Stats count up. It renders only while near the screen, at a capped pixel ratio; with reduced motion or no WebGL it shows the studio photograph.
+
+- **V · Vases & Vessels:** a staggered two-column masonry with a sticky intro.
+- **VI · Conscious luxury** (sage chapter): line drawings of a sprout, a filament spool and a lamp draw themselves on scroll, beside honest PLA copy ("plant-based bioplastic", industrial composting only, made to order, built to last).
+- **VII & VIII · Gifts and Wedding teasers:** two split panels with a fine guilloché motif.
+- **IX · Shop the room:** real room scenes for four lamps, one tab per room. A pulsing hotspot on the lamp opens a quick card.
+- **Brand band:** a slow marquee of true facts (handcrafted in India, plant-based PLA, made to order…). Customer reviews will take this place once real ones exist; invented testimonials would mislead.
+- **XI · The Zohraé Circle:** newsletter with a filament-glow code reveal. Until a mailing list is connected it says honestly that the Circle opens at launch, and stores nothing (`/api/newsletter`; set `CIRCLE_LIST_ENDPOINT` and `CIRCLE_WELCOME_CODE` to switch it on).
+- **Footer:** the outline wordmark fills with gold light as you reach the end.
+
+### Fixed
+
+- **Saved "lights on" now applies before first paint.** The pre-paint script lived in a client-only module, so since Phase 2 the server had been inlining a broken reference instead of the script. The scripts now live in `lib/boot-scripts.ts`.
+
+### Notes
+
+- Motion uses GSAP + ScrollTrigger (with SplitText) under one `gsap.matchMedia` helper (`lib/motion/useGsap.ts`). Every pinned or scrubbed effect has a desktop setup and a phone setup, and none runs with reduced motion, where content is simply visible.
+- three.js is pinned to r182; r183 deprecates the `Clock` that React Three Fiber still uses, which logged a console warning.
+
+### Verified
+
+- Build, typecheck and lint clean. Scrolled the whole home page in headless Chromium (with WebGL) at 1440×900 and 390×844, lights off and on: no console errors or warnings, no horizontal overflow.
+
+### What I need from you
+
+- Photos (or Canva credits) for the vases and planters; those cards still show the placeholder.
+- When you have real customer reviews, send them and they'll replace the brand band.
+- A mailing list choice for the Circle (Shopify customer emails or Klaviyo); Phase 4 can connect it.
+
+---
+
 ## Phase 2, revised: photographic light switch (17 Oct 2026)
 
 The owner found the first version too artificial and pointed to the previous Zohraé site, where the switch crossfades **matched photographs**: the same shot with the lamp off and on.
