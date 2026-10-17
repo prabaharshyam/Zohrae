@@ -340,3 +340,15 @@ References: lummar.studio (registered photo states, an invisible button over eac
 - **No exit-intent pop-up.** It works against a calm, luxury feel, and the Circle mailing list isn't live yet. Better: a quiet Circle prompt after a second visit, once the list is connected.
 - **Page transitions use `template.tsx`** (an entrance on each navigation) rather than a page-blocking cover, so pages are never held back.
 - **The Light Finder scores lamps** from a small profile map. New lamps join automatically, scored on price until they get a profile.
+
+## 20. Phase 7 notes (17 Oct 2026)
+
+- **Policies are sensible defaults** for a made-to-order studio in India: prepaid only, 48-hour damage claims with an unboxing video, a 7-day change-of-mind return for non-personalised pieces, and personalised pieces non-returnable unless faulty. The owner should confirm them, and a lawyer should review Privacy and Terms.
+- **Performance:**
+  - Lighthouse runs here on a software GPU, so its numbers are pessimistic (home 66, product and collection pages about 79).
+  - The heaviest cost is the home page's motion and WebGL, which only start near the viewport.
+  - Next steps if real-device numbers need it: fewer simultaneous depth-turn lamps, and a lighter preloader.
+- **Not built:**
+  - a PIN-code delivery estimate (needs the courier's API);
+  - reviews (none exist yet, and invented ones would mislead);
+  - AR models (need scans).

@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { Atelier } from "@/components/home/Atelier";
+import { ProsePage } from "@/components/layout/ProsePage";
+import { ContactCard } from "@/components/layout/ContactCard";
+import { PAGES } from "@/data/pages";
 
 export const metadata: Metadata = {
   title: "L'Atelier",
   description:
-    "Every piece is printed layer by layer in plant-based PLA, then sanded, finished, light-tested and wrapped by hand.",
+    "How a Zohraé lamp is made: drawn by hand, printed layer by layer, finished by hand, tested in the dark.",
+  alternates: { canonical: "/atelier" },
 };
 
+/** The making, as a story: the five-step deck, then the studio's beliefs. */
 export default function AtelierPage() {
   return (
-    <ChapterStub
-      numeral="IV"
-      eyebrow="How it's made"
-      title={
-        <>
-          From thread <em className="italic">to treasure</em>.
-        </>
-      }
-      intro="Every piece is printed layer by layer in plant-based PLA, then sanded, finished, light-tested and wrapped by hand."
-      phase={3}
-    />
+    <>
+      <div className="pt-[var(--header-h)]">
+        <Atelier />
+      </div>
+      <ProsePage page={PAGES.about} aside={<ContactCard />} />
+    </>
   );
 }

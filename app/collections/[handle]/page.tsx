@@ -9,7 +9,13 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/collections/[handle]">): Promise<Metadata> {
   const collection = await getCollection((await params).handle);
-  return collection ? { title: collection.title, description: collection.description } : {};
+  return collection
+    ? {
+        title: collection.title,
+        description: collection.description,
+        alternates: { canonical: `/collections/${collection.handle}` },
+      }
+    : {};
 }
 
 /** A collection: its story, then the browsable grid (filters, sorting, one switch for every lamp). */

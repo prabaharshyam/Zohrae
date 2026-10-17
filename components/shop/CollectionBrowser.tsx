@@ -21,6 +21,8 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
   const [type, setType] = useState<string>("all");
   const [price, setPrice] = useState<(typeof PRICES)[number]["id"]>("all");
   const [sort, setSort] = useState<Sort>("featured");
+  // Cards rise in when the filter changes, not on first load (the first photos are what we wait for).
+  const [changed, setChanged] = useState(false);
 
   const shown = useMemo(() => {
     const test = PRICES.find((p) => p.id === price)!.test;
@@ -49,7 +51,7 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
             <button
               type="button"
               aria-pressed={type === "all"}
-              onClick={() => setType("all")}
+              onClick={() => (setType("all"), setChanged(true))}
               className={chip(type === "all")}
             >
               {copy.shop.all}
@@ -59,7 +61,7 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
                 key={t}
                 type="button"
                 aria-pressed={type === t}
-                onClick={() => setType(t)}
+                onClick={() => (setType(t), setChanged(true))}
                 className={chip(type === t)}
               >
                 {t}
@@ -73,7 +75,7 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
             key={p.id}
             type="button"
             aria-pressed={price === p.id}
-            onClick={() => setPrice(p.id)}
+            onClick={() => (setPrice(p.id), setChanged(true))}
             className={chip(price === p.id)}
           >
             {p.label}
@@ -85,7 +87,7 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
             {copy.shop.sort}
             <select
               value={sort}
-              onChange={(e) => setSort(e.target.value as Sort)}
+              onChange={(e) => (setSort(e.target.value as Sort), setChanged(true))}
               className="label h-9 border border-line bg-bg px-2 text-[10px] text-fg"
             >
               <option value="featured">{copy.shop.sortFeatured}</option>
@@ -97,6 +99,7 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
         </div>
       </div>
 
+      <h2 className="sr-only">{copy.shop.pieces}</h2>
       <p className="label mt-8 text-[10px] text-fg-muted" aria-live="polite">
         {copy.cart.count(shown.length)}
       </p>
@@ -105,7 +108,11 @@ export function CollectionBrowser({ products }: { products: Product[] }) {
       ) : (
         <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-14 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">
           {shown.map((p, i) => (
-            <div key={p.id} className="shop-card" style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}>
+            <div
+              key={p.id}
+              className={changed ? "shop-card" : undefined}
+              style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+            >
               <ProductCard product={p} priority={i < 2} />
             </div>
           ))}

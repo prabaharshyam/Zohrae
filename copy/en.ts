@@ -291,6 +291,7 @@ export const copy = {
     sortPriceAsc: "Price, low to high",
     sortPriceDesc: "Price, high to low",
     none: "Nothing here at that price. Try another filter.",
+    pieces: "The pieces",
   },
 
   personalise: {
@@ -487,6 +488,30 @@ export const copy = {
         ],
       },
     ],
+  },
+
+  contactPage: {
+    eyebrow: "Contact",
+    title: "Talk to the atelier",
+    intro: "A question about a piece, a wedding, a gift that has to arrive on time? We answer every message ourselves.",
+    cardTitle: "The atelier",
+    hours: "Monday to Saturday, 10am to 7pm IST. We usually reply within a few hours.",
+    formTitle: "Send a note",
+    name: "Your name",
+    topic: "What's it about?",
+    topics: ["A lamp or vase", "A personalised gift", "A wedding", "An existing order", "Something else"],
+    message: "Your message",
+    send: "Send on WhatsApp",
+    sendHint: "Opens WhatsApp with your note ready to send.",
+  },
+
+  consent: {
+    title: "A note on cookies",
+    body: "We use essential storage to keep your bag and preferences. With your permission, we'd also like to measure visits to improve the site.",
+    accept: "Accept",
+    essential: "Essential only",
+    more: "Privacy",
+    settings: "Cookie settings",
   },
 
   notFound: {

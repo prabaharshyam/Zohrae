@@ -1,8 +1,9 @@
 "use client";
 
 import clsx from "clsx";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { copy } from "@/copy/en";
+import { track } from "@/lib/analytics";
 import { cart, type CartAttribute } from "@/lib/cart/store";
 import type { Product, ProductVariant } from "@/lib/commerce/types";
 import { toast } from "@/lib/delight/fireflies";
@@ -68,6 +69,13 @@ export function BuyBox({
     onSelectedChange?.(next);
   };
   const [problem, setProblem] = useState<string | null>(null);
+  useEffect(() => {
+    track("view_item", {
+      currency: "INR",
+      value: product.priceRange.min.amount,
+      items: [{ item_id: product.handle, item_name: product.title, item_category: product.type }],
+    });
+  }, [product]);
   const min = product.unit?.min ?? 1;
   const max = product.unit ? 999 : 20;
   const [quantity, setQuantity] = useState(min);
@@ -96,6 +104,19 @@ export function BuyBox({
       quantity,
       minQuantity: min,
       attributes: attributes?.filter((a) => a.value),
+    });
+    track("add_to_cart", {
+      currency: "INR",
+      value: variant.price.amount * quantity,
+      items: [
+        {
+          item_id: product.handle,
+          item_name: product.title,
+          item_variant: variant.title,
+          price: variant.price.amount,
+          quantity,
+        },
+      ],
     });
     flyToBag(e.currentTarget.getBoundingClientRect());
     toast(copy.product.added);

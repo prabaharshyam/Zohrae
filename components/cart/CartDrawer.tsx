@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { startCheckout } from "@/app/cart/actions";
 import { CloseIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
+import { track } from "@/lib/analytics";
 import { cart, cartCount, cartSubtotal, useCart, type CartLine } from "@/lib/cart/store";
 import { formatPrice } from "@/lib/format";
 import { useLenis } from "@/lib/motion/SmoothScroll";
@@ -70,6 +71,16 @@ export function CartContents({ onNavigate, page }: { onNavigate?: () => void; pa
   const checkout = () =>
     startTransition(async () => {
       setMessage(null);
+      track("begin_checkout", {
+        currency: "INR",
+        value: cartSubtotal(state),
+        items: state.lines.map((l) => ({
+          item_id: l.handle,
+          item_name: l.title,
+          price: l.price,
+          quantity: l.quantity,
+        })),
+      });
       const res = await startCheckout(
         state.lines.map(({ variantId, quantity, attributes }) => ({ variantId, quantity, attributes })),
         state.gift,

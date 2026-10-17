@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PersonalisedProduct } from "@/components/personalise/PersonalisedProduct";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { absolute } from "@/lib/site";
 import { ProductCard } from "@/components/product/ProductCard";
 import { BuyBox } from "@/components/shop/BuyBox";
 import { Gallery } from "@/components/shop/Gallery";
@@ -14,7 +16,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/products/[handle]">): Promise<Metadata> {
   const product = await getProduct((await params).handle);
-  return product ? { title: product.title, description: product.tagline } : {};
+  if (!product) return {};
+  // The share image comes from opengraph-image.tsx (a branded card).
+  return {
+    title: product.title,
+    description: `${product.tagline} ${product.description}`.slice(0, 160),
+    alternates: { canonical: `/products/${product.handle}` },
+    openGraph: {
+      type: "website",
+      title: `${product.title} · Zohraé`,
+      description: product.tagline,
+    },
+  };
 }
 
 /**
@@ -78,8 +91,53 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
     </>
   );
 
+  const ld = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.title,
+      description: product.description,
+      image: [product.imageOff, ...product.images].filter(Boolean).map((i) => absolute(i!.url)),
+      brand: { "@type": "Brand", name: "Zohraé" },
+      category: product.type,
+      offers: {
+        "@type": "AggregateOffer",
+        priceCurrency: "INR",
+        lowPrice: product.priceRange.min.amount,
+        highPrice: product.priceRange.max.amount,
+        offerCount: product.variants.length,
+        availability: product.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        url: absolute(`/products/${product.handle}`),
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: absolute("/") },
+        ...(product.collections[0]
+          ? [
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: product.type,
+                item: absolute(`/collections/${product.collections[0]}`),
+              },
+            ]
+          : []),
+        {
+          "@type": "ListItem",
+          position: product.collections[0] ? 3 : 2,
+          name: product.title,
+          item: absolute(`/products/${product.handle}`),
+        },
+      ],
+    },
+  ];
+
   return (
     <>
+      <JsonLd data={ld} />
       {product.personalise ? (
         <PersonalisedProduct product={product} header={header} details={details} />
       ) : (

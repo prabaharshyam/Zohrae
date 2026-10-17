@@ -1,7 +1,9 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
+import { CookieSettings } from "@/components/consent/Consent";
 import { SoundToggle } from "@/components/light/SoundToggle";
+import { business } from "@/lib/business";
 import { FooterWordmark } from "./FooterWordmark";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
@@ -78,7 +80,10 @@ export async function Footer() {
           <li>
             <SoundToggle />
           </li>
-          {copy.footer.social.map((s) => (
+          <li>
+            <CookieSettings />
+          </li>
+          {(business.instagram ? [{ label: "Instagram", href: business.instagram }] : []).map((s) => (
             <li key={s.label}>
               <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-accent-text">
                 {s.label}

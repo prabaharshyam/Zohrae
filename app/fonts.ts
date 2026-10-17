@@ -3,7 +3,7 @@ import { Bodoni_Moda, Jost, Parisienne, Pinyon_Script } from "next/font/google";
 /** House faces. */
 export const bodoni = Bodoni_Moda({
   variable: "--font-bodoni",
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   style: ["normal", "italic"],
   axes: ["opsz"],
   display: "swap",
@@ -16,12 +16,20 @@ export const jost = Jost({
 });
 
 /** Personalisation scripts (names on tumblers, badges, trays). */
-export const pinyon = Pinyon_Script({ weight: "400", subsets: ["latin"], variable: "--font-pinyon", display: "swap" });
+// Not preloaded: only the personalisation builders use them.
+export const pinyon = Pinyon_Script({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-pinyon",
+  display: "swap",
+  preload: false,
+});
 export const parisienne = Parisienne({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-parisienne",
   display: "swap",
+  preload: false,
 });
 
 /** The lettering styles a customer can choose, in display order. */

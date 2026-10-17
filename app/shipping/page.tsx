@@ -1,24 +1,14 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { ProsePage } from "@/components/layout/ProsePage";
+import { ContactCard } from "@/components/layout/ContactCard";
+import { PAGES } from "@/data/pages";
 
 export const metadata: Metadata = {
   title: "Shipping",
-  description:
-    "Delivery timelines, packaging and tracking. All orders are prepaid — UPI, cards and netbanking accepted.",
+  description: "Making times, delivery across India and prepaid payment.",
+  alternates: { canonical: "/shipping" },
 };
 
-export default function ShippingPage() {
-  return (
-    <ChapterStub
-      numeral="—"
-      eyebrow="Delivery"
-      title={
-        <>
-          Wrapped by hand, <em className="italic">shipped across India</em>.
-        </>
-      }
-      intro="Delivery timelines, packaging and tracking. All orders are prepaid — UPI, cards and netbanking accepted."
-      phase={7}
-    />
-  );
+export default function Page() {
+  return <ProsePage page={PAGES.shipping} aside={<ContactCard />} />;
 }

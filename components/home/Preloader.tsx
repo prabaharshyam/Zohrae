@@ -82,7 +82,7 @@ export function Preloader() {
         <Logo variant="monogram" title="" className="size-24 text-glow drop-shadow-[0_0_18px_rgb(255_184_105/0.6)]" />
       </div>
       <div className="absolute inset-x-0 bottom-[14svh] flex flex-col items-center gap-6 px-6 text-center">
-        <p className="intro-choice text-sm text-moon/60 opacity-0">{copy.home.enterHint}</p>
+        <p className="text-sm text-moon/60">{copy.home.enterHint}</p>
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
           <button
             type="button"

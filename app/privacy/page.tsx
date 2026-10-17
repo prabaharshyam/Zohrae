@@ -1,23 +1,14 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { ProsePage } from "@/components/layout/ProsePage";
+import { ContactCard } from "@/components/layout/ContactCard";
+import { PAGES } from "@/data/pages";
 
 export const metadata: Metadata = {
   title: "Privacy",
-  description: "How we collect, use and protect your information.",
+  description: "What we collect, why, and your choices.",
+  alternates: { canonical: "/privacy" },
 };
 
-export default function PrivacyPage() {
-  return (
-    <ChapterStub
-      numeral="—"
-      eyebrow="Policy"
-      title={
-        <>
-          Your privacy, <em className="italic">respected</em>.
-        </>
-      }
-      intro="How we collect, use and protect your information."
-      phase={7}
-    />
-  );
+export default function Page() {
+  return <ProsePage page={PAGES.privacy} aside={<ContactCard />} />;
 }

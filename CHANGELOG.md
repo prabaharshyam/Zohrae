@@ -1,5 +1,34 @@
 # Changelog
 
+## Phase 7 — Ready for launch (17 Oct 2026)
+
+- **Every page is real now.**
+  - Shipping, Returns, Care, Privacy (written with India's DPDP Act in mind), Terms, About, Contact (a note that opens WhatsApp ready to send) and L'Atelier (the 3D making deck plus the studio story).
+  - A **Journal** with three articles: how to light a living room like a luxury hotel, why 2700K is the most flattering light, and what PLA honestly is.
+  - Business details (email, legal name, address, GSTIN, Instagram) appear only once they're set in Vercel, so nothing invented is ever shown.
+- **SEO:**
+  - `sitemap.xml` (every page, collection, product and article, with product images) and `robots.txt`;
+  - canonical URLs;
+  - structured data for Google: Organization, WebSite, Product with price and availability, BreadcrumbList, Article;
+  - **auto-generated share cards** for the site and every product (the lit photograph, the wordmark, name and price on a night ground).
+- **Cookie consent and analytics:**
+  - GA4 and the Meta Pixel load **only after "Accept"**;
+  - "Essential only" keeps the site exactly as it is, and "Cookie settings" in the footer reopens the choice;
+  - with no analytics configured there's no banner at all;
+  - events tracked: view item, add to bag, begin checkout.
+- **Security headers:** HSTS, no sniffing, same-origin framing, strict referrer and permissions policies.
+- **Audits (Lighthouse, mobile):**
+  - accessibility 100, best practices 100 and SEO 100 on the home, product, collection and journal pages;
+  - fixes:
+    - the intro's largest text now paints at once;
+    - the script fonts load only where they're used;
+    - an unused font subset is gone;
+    - collection cards no longer hide on first load;
+    - a heading-order fix.
+- **Guides:**
+  - **PHOTO-GUIDE.md**: how to shoot matched off/on pairs, cut-outs, showroom scenes, and where the switch goes;
+  - **DEPLOY.md**: every Vercel setting in one table, plus a launch checklist.
+
 ## Phase 6 — Delight (17 Oct 2026)
 
 - **Per-piece pricing for wedding pieces.**

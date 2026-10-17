@@ -1,24 +1,14 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { ProsePage } from "@/components/layout/ProsePage";
+import { ContactCard } from "@/components/layout/ContactCard";
+import { PAGES } from "@/data/pages";
 
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "Zohraé designs sculptural lamps and vessels in India — printed in small batches and finished by one pair of hands.",
+  description: "The Zohraé studio: sculptural light, made to order in India.",
+  alternates: { canonical: "/about" },
 };
 
-export default function AboutPage() {
-  return (
-    <ChapterStub
-      numeral="—"
-      eyebrow="The studio"
-      title={
-        <>
-          A small studio with <em className="italic">a warm heart</em>.
-        </>
-      }
-      intro="Zohraé designs sculptural lamps and vessels in India — printed in small batches and finished by one pair of hands."
-      phase={7}
-    />
-  );
+export default function Page() {
+  return <ProsePage page={PAGES.about} aside={<ContactCard />} />;
 }

@@ -1,23 +1,14 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { ProsePage } from "@/components/layout/ProsePage";
+import { ContactCard } from "@/components/layout/ContactCard";
+import { PAGES } from "@/data/pages";
 
 export const metadata: Metadata = {
   title: "Caring for your piece",
-  description: "Dusting, cleaning and bulb guidance for your Zohraé piece.",
+  description: "How to keep PLA lamps, vases and frames beautiful for years.",
+  alternates: { canonical: "/care" },
 };
 
-export default function CarePage() {
-  return (
-    <ChapterStub
-      numeral="—"
-      eyebrow="Care"
-      title={
-        <>
-          Made to last for years, <em className="italic">not seasons</em>.
-        </>
-      }
-      intro="Dusting, cleaning and bulb guidance for your Zohraé piece."
-      phase={7}
-    />
-  );
+export default function Page() {
+  return <ProsePage page={PAGES.care} aside={<ContactCard />} />;
 }
