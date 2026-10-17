@@ -23,15 +23,17 @@ export async function Footer() {
           <div className="max-w-xs">
             <Logo variant="full" title={copy.brand.name} className="w-52" />
             <p className="mt-6 text-sm text-fg-muted">{copy.brand.origin}.</p>
-            <a
-              href={whatsappHref(copy.footer.conciergeMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="label mt-6 inline-flex items-center gap-2 border-b border-line pb-1 transition-colors hover:text-accent-text"
-            >
-              <WhatsAppIcon width={16} height={16} />
-              {copy.footer.concierge}
-            </a>
+            {process.env.NEXT_PUBLIC_WHATSAPP_NUMBER && (
+              <a
+                href={whatsappHref(copy.footer.conciergeMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label mt-6 inline-flex items-center gap-2 border-b border-line pb-1 transition-colors hover:text-accent-text"
+              >
+                <WhatsAppIcon width={16} height={16} />
+                {copy.footer.concierge}
+              </a>
+            )}
           </div>
 
           {copy.footer.columns.map((col) => (
