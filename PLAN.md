@@ -117,7 +117,7 @@ BRIEF.md  PLAN.md  CHANGELOG.md  CREDITS.md  DEPLOY.md  PHOTO-GUIDE.md  SHOPIFY-
 [data-lights="on"] { --bg:var(--night); --fg:#F3E9D8; --fg-muted:#B8A894; --line:#3A2C20; }
 ```
 
-**Contrast check (AA):** espresso on ivory = 14.5:1 ✓. Warm ivory `#F3E9D8` on night = 16.3:1 ✓. Ochre on ivory = 2.9:1, so ochre is only for large display text, icons and button fills, never body text. Ochre buttons use **espresso text** (5.1:1 ✓).
+**Contrast check (AA):** espresso on ivory = 14.5:1 ✓. Warm ivory `#F3E9D8` on night = 16.3:1 ✓. Ochre on ivory = 2.9:1, which is just under the 3:1 needed even for large text. So ochre is used for decoration, hairlines and button fills only; ochre text on ivory gets a darker shade (`--ochre-deep:#9A6326`, 4.6:1). Ochre buttons use **espresso text** (5.1:1 ✓).
 
 ---
 
