@@ -66,6 +66,26 @@ export const copy = {
     specsTitle: "Specifications",
   },
 
+  light: {
+    label: "Lights",
+    on: "On",
+    off: "Off",
+    switchLabel: "Lights: switch every lamp on the page on or off",
+    settings: "Light settings",
+    closeSettings: "Close light settings",
+    dimmer: "Dimmer",
+    warmth: "Warmth",
+    warmthStops: ["Candle", "Warm", "Soft white"],
+    goldenHour: "Golden hour",
+    reset: "Reset",
+    nudge: "It’s evening. Want to see them glow?",
+    nudgeCta: "Switch them on",
+    nudgeDismiss: "Not now",
+    soundOn: "Sound on",
+    soundOff: "Sound off",
+    longPressHint: "Press and hold for dimmer and warmth",
+  },
+
   cart: {
     title: "Your Collection",
     empty: "Your collection awaits its first light.",

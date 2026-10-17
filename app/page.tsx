@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductImage } from "@/components/product/ProductImage";
 import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
 import { getProduct, getProducts } from "@/lib/commerce";
@@ -15,7 +15,6 @@ export default async function HomePage() {
     getProducts({ collection: "lumiere", limit: 4 }),
     getProducts({ collection: "vases-vessels", limit: 4 }),
   ]);
-  const heroImage = hero?.images[0];
 
   return (
     <>
@@ -40,21 +39,14 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {heroImage && (
-          <div className="relative order-1 mx-auto aspect-[3/4] w-full max-w-[260px] md:order-2 md:max-w-[480px]">
-            <div
-              aria-hidden
-              className="absolute inset-x-[8%] bottom-[4%] top-[10%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--champagne)_70%,transparent),transparent)]"
-            />
-            <Image
-              src={heroImage.url}
-              alt={heroImage.alt}
-              fill
-              preload
-              sizes="(min-width: 768px) 40vw, 90vw"
-              className="on-white feather object-cover object-[50%_68%]"
-            />
-          </div>
+        {hero && (
+          <ProductImage
+            product={hero}
+            bare
+            priority
+            sizes="(min-width: 768px) 40vw, 90vw"
+            className="order-1 mx-auto w-full max-w-[260px] md:order-2 md:max-w-[480px]"
+          />
         )}
       </section>
 

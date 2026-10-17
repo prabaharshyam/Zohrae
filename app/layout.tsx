@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Jost } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { LightSwitch } from "@/components/light/LightSwitch";
+import { NightAmbience } from "@/components/light/NightAmbience";
 import { copy } from "@/copy/en";
 import { getCollections } from "@/lib/commerce";
+import { LIGHT_BOOT_SCRIPT } from "@/lib/light/store";
 import { SmoothScroll } from "@/lib/motion/SmoothScroll";
 import "./globals.css";
 
@@ -44,7 +47,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     .map(({ handle, title, eyebrow }) => ({ handle, title, eyebrow }));
 
   return (
-    <html lang="en-IN" className={`${bodoni.variable} ${jost.variable}`} data-lights="off">
+    <html lang="en-IN" className={`${bodoni.variable} ${jost.variable}`} data-lights="off" suppressHydrationWarning>
+      <head>
+        {/* Applies a saved "lights on" before first paint, so night mode never flashes in. */}
+        <script dangerouslySetInnerHTML={{ __html: LIGHT_BOOT_SCRIPT }} />
+      </head>
       <body className="flex min-h-dvh flex-col antialiased">
         <SmoothScroll>
           <Header collections={collections} />
@@ -52,6 +59,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer />
+          <NightAmbience />
+          <LightSwitch />
         </SmoothScroll>
       </body>
     </html>

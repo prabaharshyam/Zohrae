@@ -2,6 +2,7 @@ import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { WORDMARK_ACCENT, WORDMARK_GLYPHS, WORDMARK_VIEWBOX } from "@/components/brand/wordmark-paths";
+import { SoundToggle } from "@/components/light/SoundToggle";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
 import { whatsappHref } from "@/lib/format";
@@ -86,6 +87,9 @@ export async function Footer() {
         <p>{copy.footer.rights(year)}</p>
         {gstin && <p>GSTIN {gstin}</p>}
         <ul className="flex gap-5">
+          <li>
+            <SoundToggle />
+          </li>
           {copy.footer.social.map((s) => (
             <li key={s.label}>
               <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-accent-text">

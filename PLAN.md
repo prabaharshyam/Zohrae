@@ -270,3 +270,11 @@ The owner rejected both earlier sublines and asked for a researched recommendati
 - **Rejected:** "Maison …" (implies multi-generation heritage a new studio can't claim); "Atelier de Lumière" (too close to the Atelier des Lumières, a well-known Paris digital-art museum); "Objets de Lumière" (an existing lighting collection by artist Thierry Dreyfus); long descriptive lines like "Luxury Home Decor Studio" (generic, and too long to show at small sizes).
 - At 15 characters it stays visible down to 140px wide (the auto-hide threshold moved from 240px to 140px).
 - "Luxury home decor" still appears in the page titles, meta descriptions and copy, where it helps search.
+
+---
+
+## 12. Phase 2 implementation notes (17 Oct 2026)
+
+- **Cutouts replaced by "dark room" frames:** at night each product frame is a darkened, warm version of the photo whose edges feather into the page. It keeps real shadows and is safe for white or clear shades. `scripts/analyze-products.mjs` still writes silhouette masks, which the procedural glow uses.
+- **Glow rendering:** layered CSS (opacity-only animation) instead of a WebGL shader; WebGL stays for the 3D scenes in Phase 3.
+- **Alignment:** the AI lit shot is placed so its lamp lands on the studio shot's lamp, using measured subject boxes (`data/mock/image-meta.json`). In Shopify this becomes part of the image metafields, or the script runs at build time.

@@ -1,5 +1,42 @@
 # Changelog
 
+## Phase 2 — The Lumière light switch (17 Oct 2026)
+
+### Built
+
+- **Floating rocker switch** (`components/light/LightSwitch.tsx`): ivory plate, brass screws and a rocker that tilts in 3D. The pilot light glows when it's on. It sits bottom-right on desktop and bottom-centre on phones, clear of the safe area. It's a real `role="switch"` with `aria-checked` and works from the keyboard. Haptic tick on supported phones.
+- **Settings panel:** press and hold the switch, or tap ⋯. It has a dimmer (10–100%), warmth from Candle 2200K through Warm 2700K to Soft white 3500K, a **Golden hour** preset and Reset.
+- **Night mode for the whole site:** ivory crossfades to night over 1.2s, text turns warm ivory, and a soft vignette appears. The choice is remembered, and an inline script applies a saved "lights on" before first paint, so night mode never flashes in.
+- **Every lamp lights up:**
+  - _With an AI lit shot_ (Aurelia, Sora, Nuvola): the shot is aligned exactly to the studio photo using measured subject boxes, so nothing jumps. Highlights bloom first, then mid-tones.
+  - _Without one_ (Onda, Ballerina): a procedural glow built from the studio photo itself. The shade is warmed and lit inside its own silhouette mask, so the ribs and pleats stay visible. Added on top: an inner bulb glow, a soft halo, and a light pool on the table.
+  - _Placeholders:_ a gentle glow behind the monogram.
+- **Filament warm-up:** each lamp switches on over 450–900ms with a fast rise, a slow settle and one tiny flicker at ~120ms. Lamps nearest the switch light first, so the light travels across the page. Switching off is a quick ember fade.
+- **Light spill:** each lit lamp throws a soft glow past its card onto the page around it.
+- **Atmosphere:** dust motes drift in the light of the lamps on screen, and on desktop a warm torch-like glow follows the cursor.
+- **Evening nudge:** after 7pm the switch pulses once with "It's evening. Want to see them glow?" (once per session).
+- **Optional click sound,** synthesised in the browser so there's no file to download. It's off by default; the Sound toggle is in the footer.
+- **`/dev/lights` tuner:** drag the bulb marker on each lamp's photo, set radius, intensity and light colour, compare the AI shot with the procedural glow, and copy the metafield values.
+- **`scripts/analyze-products.mjs`:** measures where each piece sits in every photo, for alignment, and writes the silhouette masks used by the glow. Run it again whenever photos change.
+- **Performance:** per-frame work is limited to opacity, plus one filter on AI lit shots during warm-up. Off-screen lamps switch instantly. Dust motes are capped at 60, pause when the tab is hidden, and are skipped on low-power devices.
+- **Reduced motion:** instant switching, no flicker, no dust motes, no cursor light.
+
+### Changed from the plan
+
+- **No background cutouts.** At night, product photos become a darkened, warm "room" whose edges feather into the page. It looks more natural than cut-outs, keeps the real shadows, and doesn't risk losing the edges of white or clear shades. (The owner had approved cutouts, so this is called out here.)
+- The glow is built with layered CSS on the GPU compositor instead of a WebGL shader. It looks equivalent on these photos and is cheaper on mid-range phones. WebGL is still used for the 3D hero in Phase 3.
+
+### Verified
+
+- Production build passes; typecheck and lint are clean.
+- Headless Chromium at 1440×900 and 390×844: switch on and off, settings panel, Golden hour, evening nudge (browser clock set to 8:15pm IST), state remembered across reloads, `/dev/lights`. No console errors, no horizontal overflow, and reduced motion switches instantly.
+
+### What I need from you
+
+- Nothing blocking. When Canva's AI credits reset on 1 November, or if you upgrade, I'll generate lit shots for Onda and Ballerina and the room scenes. They'll replace the procedural glow automatically.
+
+---
+
 ## Phase 1 — Foundation (17 Oct 2026)
 
 ### Built

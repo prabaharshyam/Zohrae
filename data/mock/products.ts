@@ -1,3 +1,4 @@
+import imageMeta from "./image-meta.json";
 import type { GlowConfig, ImageAsset, Product, ProductSpecs, ProductType } from "@/lib/commerce/types";
 
 /**
@@ -11,12 +12,15 @@ import type { GlowConfig, ImageAsset, Product, ProductSpecs, ProductType } from 
 
 const inr = (amount: number) => ({ amount, currencyCode: "INR" as const });
 
+const meta = imageMeta as Record<string, Pick<ImageAsset, "subject" | "mask">>;
+
 const photo = (file: string, width: number, height: number, alt: string): ImageAsset => ({
   url: `/products/samples/${file}`,
   width,
   height,
   alt,
   onWhite: true,
+  ...meta[`/products/samples/${file}`],
 });
 
 const generated = (file: string, width: number, height: number, alt: string): ImageAsset => ({
@@ -24,6 +28,7 @@ const generated = (file: string, width: number, height: number, alt: string): Im
   width,
   height,
   alt,
+  ...meta[`/products/generated/${file}`],
 });
 
 /** AI-generated companions to the studio shots, keyed by product handle. */

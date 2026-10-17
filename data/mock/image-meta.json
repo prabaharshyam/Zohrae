@@ -1,0 +1,71 @@
+{
+  "/products/samples/01-ochre-pleated-lamp.webp": {
+    "subject": {
+      "left": 0.094,
+      "right": 0.909,
+      "top": 0.221,
+      "bottom": 0.844
+    },
+    "mask": "/products/masks/01-ochre-pleated-lamp.png"
+  },
+  "/products/samples/02-white-twist-vessel.webp": {
+    "subject": {
+      "left": 0.206,
+      "right": 0.791,
+      "top": 0.322,
+      "bottom": 0.875
+    },
+    "mask": "/products/masks/02-white-twist-vessel.png"
+  },
+  "/products/samples/03-cloud-shade-orange-base.webp": {
+    "subject": {
+      "left": 0.181,
+      "right": 0.838,
+      "top": 0.195,
+      "bottom": 0.834
+    },
+    "mask": "/products/masks/03-cloud-shade-orange-base.png"
+  },
+  "/products/samples/04-wave-shade-terracotta-base.webp": {
+    "subject": {
+      "left": 0.163,
+      "right": 0.841,
+      "top": 0.225,
+      "bottom": 0.787
+    },
+    "mask": "/products/masks/04-wave-shade-terracotta-base.png"
+  },
+  "/products/samples/05-clear-ribbed-tripod.webp": {
+    "subject": {
+      "left": 0.109,
+      "right": 0.891,
+      "top": 0.218,
+      "bottom": 0.821
+    },
+    "mask": "/products/masks/05-clear-ribbed-tripod.png"
+  },
+  "/products/generated/aurelia_on.webp": {
+    "subject": {
+      "left": 0.084,
+      "right": 0.916,
+      "top": 0.216,
+      "bottom": 0.828
+    }
+  },
+  "/products/generated/nuvola_on.webp": {
+    "subject": {
+      "left": 0.169,
+      "right": 0.85,
+      "top": 0.188,
+      "bottom": 0.835
+    }
+  },
+  "/products/generated/sora_on.webp": {
+    "subject": {
+      "left": 0.191,
+      "right": 0.803,
+      "top": 0.308,
+      "bottom": 0.879
+    }
+  }
+}

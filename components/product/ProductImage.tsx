@@ -1,54 +1,44 @@
-import clsx from "clsx";
-import Image from "next/image";
-import { Logo } from "@/components/brand/Logo";
+import { LampImage } from "@/components/light/LampImage";
 import type { Product } from "@/lib/commerce/types";
+import { alignPlacement, coverPlacement } from "@/lib/light/geometry";
+import { lampGlow } from "@/lib/light/glow";
+
+const FRAME_ASPECT = 3 / 4;
 
 type Props = {
   product: Product;
   sizes: string;
   priority?: boolean;
+  /** Hero use: no frame background, feathered edges. */
+  bare?: boolean;
   className?: string;
 };
 
 /**
- * The product's hero shot in a 3:4 frame, or the brand placeholder when the
- * piece hasn't been photographed yet. White-backdrop studio shots fill the
- * frame (so their cast shadows end at the frame edge, not mid-card) and
- * multiply into the page colour.
+ * The product in a 3:4 frame, for day and night. Studio shots fill the frame
+ * (cast shadows end at the frame edge) and multiply into the page; the AI
+ * "lit" shot is aligned to the studio shot so switching on doesn't jump.
  */
-export function ProductImage({ product, sizes, priority, className }: Props) {
-  const image = product.images[0];
+export function ProductImage({ product, sizes, priority, bare, className }: Props) {
+  const off = product.images[0];
+  const offPlacement = off ? coverPlacement(off, FRAME_ASPECT) : undefined;
+  const on = off && product.imageOn ? product.imageOn : undefined;
+  const onPlacement = on && off && offPlacement ? alignPlacement(on, off, offPlacement, FRAME_ASPECT) : undefined;
+  const glow =
+    product.type === "Lamp" && product.glow ? lampGlow(product.glow, off, offPlacement, FRAME_ASPECT) : undefined;
 
   return (
-    <div className={clsx("relative aspect-[3/4] overflow-hidden bg-bg-raised", className)}>
-      {image ? (
-        <Image
-          src={image.url}
-          alt={image.alt}
-          fill
-          sizes={sizes}
-          loading={priority ? "eager" : undefined}
-          fetchPriority={priority ? "high" : undefined}
-          className={clsx(image.onWhite ? "on-white object-cover object-[50%_68%]" : "object-contain p-[6%]")}
-        />
-      ) : (
-        <Placeholder title={product.title} />
-      )}
-    </div>
-  );
-}
-
-function Placeholder({ title }: { title: string }) {
-  return (
-    <div
-      role="img"
-      aria-label={`${title} — photograph coming soon`}
-      className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_50%_38%,color-mix(in_oklab,var(--champagne)_55%,transparent),transparent_62%)]"
-    >
-      <div className="flex flex-col items-center gap-5 text-accent-text">
-        <Logo variant="monogram" title="" className="size-16 opacity-60" />
-        <span className="font-display text-2xl italic text-fg-muted">{title}</span>
-      </div>
-    </div>
+    <LampImage
+      title={product.title}
+      off={off}
+      offPlacement={offPlacement}
+      on={on}
+      onPlacement={onPlacement}
+      glow={glow}
+      sizes={sizes}
+      priority={priority}
+      bare={bare}
+      className={className}
+    />
   );
 }

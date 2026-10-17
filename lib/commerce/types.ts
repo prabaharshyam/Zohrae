@@ -19,6 +19,10 @@ export type ImageAsset = {
   alt: string;
   /** Shot on a white studio backdrop: blend into the page in day mode. */
   onWhite?: boolean;
+  /** Where the product sits in the image, as fractions (from scripts/analyze-products.mjs). */
+  subject?: { left: number; right: number; top: number; bottom: number };
+  /** Soft alpha mask of the product (white = product), same framing as the image. */
+  mask?: string;
 };
 
 export type ProductType = "Lamp" | "Vase" | "Planter" | "Decor" | "Custom Gift" | "Wedding";
