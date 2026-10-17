@@ -244,3 +244,17 @@ The brief's only true WebGL scene was the hero lamp. To make the site _fully_ 3D
 4. **Vases & Vessels:** procedural 3D vessels (twist, wave, fluted) that rotate with scroll and drag.
 5. **Why light is luxury:** a 2.5D room (layered photo planes with real-time light in a shader), so the lamps relight the room as you scroll.
 6. **Product pages:** a 3D/AR view whenever a GLB exists (phone LiDAR scans later).
+
+---
+
+## 10. Decision: AI-generated "lit" and lifestyle images (17 Oct 2026)
+
+Owner decision: **no photoshoots.** "Lamp on" images and lifestyle (in-the-room) images are AI-generated from the owner's real product photos, keeping each piece unchanged.
+
+- **Tool:** Canva AI image generation, with the owner's original photo as the reference image (imported from the live site), so the generated lamp is the owner's actual design.
+- **Per lamp:** `image_on` (same framing as the studio shot, lamp lit, room dimmed); `lifestyle_image` (styled room: bedroom / living room / studio / reading corner); `lifestyle_image_on` (same room at night) where it adds value.
+- **Light switch:** crossfades the studio shot to the AI "on" shot, with the procedural glow layered on top to drive the filament warm-up, flicker and light spill. The procedural glow stays as the fallback for any product without an "on" image yet.
+- **Quality bar:** every generated image is checked against the real piece (shape, rib/pleat pattern, colour, base). Anything that alters the product is regenerated, because product images that misrepresent the item can mislead buyers. Room scenes can be imaginative; the product cannot.
+- **Pilot (Aurelia):** lit studio shot and an evening bedroom scene generated successfully.
+- **Blocker:** this cloud environment's network blocks Canva's file servers, so full-resolution files can't be pulled into the repo automatically. Fix: allow `canva.com` / `*.canva.com` in the environment's network settings. Otherwise the owner downloads the files from Canva and sends them in chat.
+- PHOTO-GUIDE.md (Phase 7) becomes a short **image-generation guide** with the prompts used, so the owner can make images for new products the same way.
