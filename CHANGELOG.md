@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 3.7 — Spotlight chapters and the full collection (17 Oct 2026)
+
+- **Merchandising by tag** (the same tags drive Shopify later):
+  - the lamp tagged **signature** is the hero (Aurelia);
+  - up to five lamps tagged **featured** get a scrolling chapter (now Nuvola, Rosalie, Colonna and Coquille);
+  - the hero lamp is never repeated as the first chapter.
+- **II · The Lumière Collection:** a new grid on the dark ground, after the chapters, with every lamp as a card. Each card has its gold switch, and a "Lights off / on" pill lights them all. It shows up to eight lamps, then hands over to the collection page ("Explore all N lamps"), so adding lamps never makes the home page longer.
+- Section numerals renumbered to match.
+
 ## Phase 3.6 — Touch the light (17 Oct 2026)
 
 The owner pointed to lummar.studio and eldendesigns.com: click a lamp's own switch and that lamp lights; click again and it goes off.

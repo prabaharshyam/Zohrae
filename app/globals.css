@@ -37,7 +37,7 @@
   --fs-hero: clamp(3.25rem, 11vw, 11rem);
   --fs-giant: clamp(5.5rem, 21vw, 26rem);
   --fs-chapter: clamp(6rem, 26vw, 30rem);
-  --fs-stage-name: clamp(4rem, 11vw, 12rem);
+  --fs-stage-name: clamp(3.5rem, 9vw, 10rem);
   --fs-h1: clamp(2.5rem, 6vw, 5.5rem);
   --fs-h2: clamp(2rem, 4vw, 3.5rem);
   --fs-h3: clamp(1.5rem, 2.4vw, 2rem);
@@ -63,7 +63,8 @@
   }
 }
 
-[data-lights="on"] {
+[data-lights="on"],
+.on-night {
   --bg: var(--night);
   --bg-raised: #17120e;
   --fg: var(--moon);
@@ -672,4 +673,14 @@ canvas {
 }
 .chapter-name-stage {
   color: color-mix(in oklab, var(--moon) 82%, transparent);
+}
+
+/* Dark sections (the full collection) are always after dark: lit cut-outs throw light on the wall. */
+.on-night {
+  background: var(--bg);
+  color: var(--fg);
+}
+.on-night .lit-halo {
+  opacity: calc(var(--lamp) * var(--dim));
+  transition: none;
 }

@@ -7,6 +7,9 @@ import type { ImageAsset, Product, ProductSpecs, ProductType } from "@/lib/comme
  * a transparent cut-out pair for cards, a showroom "stage" pair for hero and
  * product pages, and a room scene. The light switch crossfades each pair.
  * The owner's original studio shots stay in the product gallery.
+ *
+ * Merchandising tags (the same tags drive Shopify later): "signature" is the
+ * home hero lamp; "featured" lamps get a scrolling chapter on the home page.
  */
 
 const inr = (amount: number) => ({ amount, currencyCode: "INR" as const });
@@ -177,7 +180,7 @@ const LAMPS: Seed[] = [
       "I wanted the warmth of an old silk shade without the fragility. The pleats are printed as one continuous line, so the light breathes evenly through every fold.",
     price: 4600,
     collections: ["lumiere"],
-    tags: ["bestseller"],
+    tags: ["bestseller", "signature"],
     photo: studio("01-ochre-pleated-lamp.webp", 940, 1672, "Aurelia, an ochre pleated lamp on a ribbed globe base"),
     specs: lampSpecs("Ø 30 × H 38 cm", "1.1 kg", "Matte ochre, hand-sanded"),
     handcraftHours: 26,
@@ -213,7 +216,7 @@ const LAMPS: Seed[] = [
       "Nuvola means cloud. I wanted something that made people smile first and sigh later, once the light came on.",
     price: 3800,
     collections: ["lumiere"],
-    tags: ["new"],
+    tags: ["new", "featured"],
     photo: studio(
       "03-cloud-shade-orange-base.webp",
       1023,
@@ -286,7 +289,7 @@ const LAMPS: Seed[] = [
       "I wanted the drama of a sculpture and the softness of a bedside lamp. The blush foot keeps it light on its feet, even when it glows.",
     price: 4800,
     collections: ["lumiere", "limited-editions"],
-    tags: ["limited"],
+    tags: ["limited", "featured"],
     specs: lampSpecs("Ø 26 × H 32 cm", "0.9 kg", "Porcelain white, blush base"),
     handcraftHours: 26,
     editionSize: 30,
@@ -304,6 +307,7 @@ const LAMPS: Seed[] = [
       "Crisp vertical pleats on a deep olive column. Colonna is architecture for the desk or console: quiet by day, a lantern of warm stripes after dark.",
     price: 3900,
     collections: ["lumiere"],
+    tags: ["featured"],
     specs: lampSpecs("Ø 16 × H 30 cm", "0.8 kg", "Ivory shade, olive column"),
     handcraftHours: 18,
     finishes: [
@@ -320,6 +324,7 @@ const LAMPS: Seed[] = [
       "Fluted like the inside of a shell, Coquille throws a scalloped halo of amber across the wall. A quiet show, every evening.",
     price: 3600,
     collections: ["lumiere"],
+    tags: ["featured"],
     specs: lampSpecs("Ø 24 × H 28 cm", "0.8 kg", "Pearl white"),
     handcraftHours: 18,
   },

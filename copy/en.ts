@@ -54,14 +54,21 @@ export const copy = {
     scrollCue: "Pull to begin",
 
     gallery: {
-      eyebrow: "I · The Lumière Collection",
-      title: "Eight ways to hold the light",
+      eyebrow: "I · In the spotlight",
+      title: "Lamps in the spotlight",
       body: "Each piece is printed as one continuous line, then sanded and finished by hand. Flip the switch to see them glow.",
       cta: "See every lamp",
     },
 
+    collection: {
+      eyebrow: "II · The Lumière Collection",
+      title: "Every lamp, one room",
+      body: "The whole collection, side by side. Touch the gold button on any base to light it, or light them all at once.",
+      cta: (n: number) => `Explore all ${n} lamps`,
+    },
+
     why: {
-      eyebrow: "II · Why light is the ultimate luxury",
+      eyebrow: "III · Why light is the ultimate luxury",
       beats: [
         {
           title: "The most beautiful homes aren't lit. They're layered.",
@@ -80,7 +87,7 @@ export const copy = {
     },
 
     atelier: {
-      eyebrow: "III · L'Atelier",
+      eyebrow: "IV · L'Atelier",
       title: "From thread to treasure",
       steps: [
         {
@@ -113,14 +120,14 @@ export const copy = {
     },
 
     vessels: {
-      eyebrow: "IV · Vases & Vessels",
+      eyebrow: "V · Vases & Vessels",
       title: "Quiet forms for living things",
       body: "Vases and planters from the same printer and the same hands: made to hold one stem, a whole armful, or nothing at all.",
       cta: "Explore vessels",
     },
 
     conscious: {
-      eyebrow: "V · Conscious luxury",
+      eyebrow: "VI · Conscious luxury",
       title: "Made from plants, made to last",
       stages: ["Grown", "Spun", "Sculpted"],
       points: [
@@ -150,7 +157,7 @@ export const copy = {
     ],
 
     room: {
-      eyebrow: "VI · Shop the room",
+      eyebrow: "VII · Shop the room",
       title: "See it where it lives",
       hotspot: (name: string) => `See ${name}`,
       viewPiece: "View the piece",
@@ -167,7 +174,7 @@ export const copy = {
     ],
 
     circle: {
-      eyebrow: "VII · The Zohraé Circle",
+      eyebrow: "VIII · The Zohraé Circle",
       title: "Be first to see new pieces",
       body: "Members get early access to limited editions, and a private welcome gift.",
       placeholder: "Your email",
