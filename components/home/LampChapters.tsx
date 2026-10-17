@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import { LitImage } from "@/components/light/LitImage";
 import { ProductStage } from "@/components/product/ProductImage";
-import { DepthTurn } from "@/components/three/DepthTurn";
 import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
 import type { Product } from "@/lib/commerce/types";
@@ -29,8 +29,8 @@ const FALLBACK = { bg: "#2A1D15", ink: "#F3E9D8" };
 
 /**
  * II · The Lumière Collection, as chapters. Each lamp fills the screen on its
- * own colour with its name set huge behind it; the lamp turns toward the
- * cursor (and with scroll). Chapters are sticky, so each new one rises over
+ * own colour with its name set huge behind it; the lamp drifts toward the
+ * cursor. Chapters are sticky, so each new one rises over
  * the last as a card that opens to full bleed while the one beneath recedes.
  */
 export function LampChapters({ lamps }: { lamps: Product[] }) {
@@ -92,6 +92,33 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
       ScrollTrigger.refresh();
       return () => splits.forEach((s) => s.revert());
     });
+
+    // The lamp drifts a little toward the cursor and sways. It's only ever
+    // moved flat, never turned in 3D, so the photograph can't distort.
+    mm.add(MQ.desktop, () => {
+      const offs = gsap.utils.toArray<HTMLElement>(".chapter", root).map((ch) => {
+        const float = ch.querySelector<HTMLElement>(".chapter-float");
+        if (!float) return () => {};
+        const x = gsap.quickTo(float, "x", { duration: 1.1, ease: "power3.out" });
+        const y = gsap.quickTo(float, "y", { duration: 1.1, ease: "power3.out" });
+        const r = gsap.quickTo(float, "rotation", { duration: 1.4, ease: "power3.out" });
+        const move = (e: PointerEvent) => {
+          const nx = e.clientX / innerWidth - 0.5;
+          const ny = e.clientY / innerHeight - 0.5;
+          x(nx * 28);
+          y(ny * 16);
+          r(nx * 2.5);
+        };
+        const leave = () => (x(0), y(0), r(0));
+        ch.addEventListener("pointermove", move);
+        ch.addEventListener("pointerleave", leave);
+        return () => {
+          ch.removeEventListener("pointermove", move);
+          ch.removeEventListener("pointerleave", leave);
+        };
+      });
+      return () => offs.forEach((off) => off());
+    });
   });
 
   return (
@@ -133,18 +160,19 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
               {p.stage ? (
                 <div className="flex-1" />
               ) : (
-                <div data-cursor="Turn" className="chapter-lamp chapter-lamp-fit relative z-10 mx-auto my-auto block">
-                  <span aria-hidden className="chapter-glow absolute inset-[8%] rounded-full" />
-                  <DepthTurn
-                    title={p.title}
-                    off={p.imageOff}
-                    on={p.imageOn}
-                    sizes="(min-width: 768px) 30vw, 70vw"
-                    frameClassName="aspect-[3/4]"
-                    turn={0.28}
-                    lampId={p.handle}
-                    ignite
-                  />
+                <div className="chapter-lamp chapter-lamp-fit relative z-10 mx-auto my-auto block">
+                  <div className="chapter-float relative">
+                    <span aria-hidden className="chapter-glow absolute inset-[8%] rounded-full" />
+                    <LitImage
+                      title={p.title}
+                      off={p.imageOff}
+                      on={p.imageOn}
+                      sizes="(min-width: 768px) 30vw, 70vw"
+                      frameClassName="aspect-[3/4]"
+                      lampId={p.handle}
+                      ignite
+                    />
+                  </div>
                 </div>
               )}
 

@@ -4,6 +4,7 @@ import { Logo } from "@/components/brand/Logo";
 import { CookieSettings } from "@/components/consent/Consent";
 import { SoundToggle } from "@/components/light/SoundToggle";
 import { business } from "@/lib/business";
+import { BackToTop } from "./BackToTop";
 import { FooterWordmark } from "./FooterWordmark";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
@@ -74,10 +75,16 @@ export async function Footer() {
         <FooterWordmark />
       </div>
 
-      <div className="gutter mx-auto flex max-w-[1600px] flex-col gap-2 pb-8 text-xs text-fg-muted md:flex-row md:justify-between">
-        <p>{copy.footer.rights(year)}</p>
-        {gstin && <p>GSTIN {gstin}</p>}
-        <ul className="flex gap-5">
+      {/* Right padding keeps the last row clear of the fixed light switch. */}
+      <div className="gutter mx-auto grid max-w-[1600px] gap-x-6 gap-y-4 pb-8 text-xs text-fg-muted md:grid-cols-[1fr_auto_1fr] md:items-center md:!pr-[calc(var(--gutter)+7rem)]">
+        <div className="space-y-2">
+          <p>{copy.footer.rights(year)}</p>
+          {gstin && <p>GSTIN {gstin}</p>}
+        </div>
+        <div className="max-md:order-first">
+          <BackToTop />
+        </div>
+        <ul className="flex gap-5 md:justify-end">
           <li>
             <SoundToggle />
           </li>

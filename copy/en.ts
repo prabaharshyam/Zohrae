@@ -355,6 +355,7 @@ export const copy = {
   },
 
   footer: {
+    backToTop: "Back to top",
     circleTitle: "The Zohraé Circle",
     circleBody: "Be first to see new pieces. Members get early access to limited editions.",
     circlePlaceholder: "Your email",

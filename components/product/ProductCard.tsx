@@ -6,7 +6,7 @@ import { HeartButton } from "@/components/shop/HeartButton";
 import { ProductImage } from "./ProductImage";
 
 /** Product card: photo (lamps keep their own switch), name, price, tagline, and a Dream Room heart. */
-export function ProductCard({ product, priority, turn }: { product: Product; priority?: boolean; turn?: boolean }) {
+export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
   const tags = [copy.product.handcrafted, product.editionSize ? copy.product.limited : null].filter(Boolean);
 
   // The title link stretches over the whole card, so the lamp's own switch
@@ -17,7 +17,6 @@ export function ProductCard({ product, priority, turn }: { product: Product; pri
       <ProductImage
         product={product}
         priority={priority}
-        turn={turn}
         sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
         className="pointer-events-none relative z-[11] transition-transform duration-700 ease-silk group-hover:-translate-y-1"
       />
