@@ -39,7 +39,11 @@ export function LitImage({ title, off, on, fit = "contain", sizes, priority, fra
       sizes={sizes}
       loading={priority ? "eager" : undefined}
       fetchPriority={priority ? "high" : undefined}
-      className={clsx(fit === "cover" ? "object-cover" : "object-contain", asset.onWhite && "on-white", cls)}
+      className={clsx(
+        fit === "cover" || asset.scene ? "object-cover" : "object-contain",
+        asset.onWhite && "on-white",
+        cls,
+      )}
     />
   );
 

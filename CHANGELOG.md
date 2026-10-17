@@ -1,5 +1,40 @@
 # Changelog
 
+## Phase 3.5 — The immersive redesign (17 Oct 2026)
+
+The owner felt the home page looked "average" and asked for something smooth, futuristic and insanely engaging: objects that turn with the cursor, reveal animations and hover sounds. The ivory editorial base and the photographic light switch stay; everything around them got bolder.
+
+- **Lamps that turn in 3D (`DepthTurn`).** Each lamp is still a real photograph, now drawn in WebGL and turning toward the cursor (and slowly with scroll):
+  - the cut-out's silhouette is read row by row as a surface of revolution, which gives a depth map for a finely tessellated plane;
+  - a fixed key light picks up the new angle as it turns;
+  - the lamp-off and lamp-on photos share the geometry, so the light switch still crossfades them mid-turn;
+  - WebGL contexts are created only near the screen, freed when far away, and stop drawing while covered;
+  - with reduced motion or no WebGL, the flat photo pair shows instead.
+- **Intro with a choice.** The filament intro now ends on _Enter with sound_ / _Enter in silence_, and the hero waits for the curtain.
+- **Interface sounds.** These are synthesised with Web Audio, so there's nothing to download:
+  - a glassy tick on hover;
+  - a soft tock on press;
+  - a breath of air when a new lamp chapter rises;
+  - a two-note chime on entering with sound.
+
+  Silent unless the visitor chose sound; the footer toggle still controls it.
+
+- **Custom cursor and magnetic buttons** (mouse and trackpad only):
+  - a dot and a ring in difference blend;
+  - the ring swells over anything clickable and shows labels like "Turn · View";
+  - filled and outlined buttons pull toward the cursor.
+- **I · Hero:** _Light, sculpted._ set enormous (solid italic over outline). Aurelia stands in front and turns toward the cursor. The letters rise in, and scrolling parts the two words like curtains while the lamp rises.
+- **II · The Lumière Collection, as chapters.** This replaces the sideways gallery:
+  - every lamp gets a full-screen chapter on its own bold colour (forest, terracotta, petrol, sand, plum, blush, saffron, midnight), with its name set huge behind it;
+  - chapters are sticky: each rises over the last as a rounded card that opens to full bleed, while the one beneath recedes into shadow;
+  - the header takes on each chapter's colour;
+  - after dark, every chapter deepens and the lamps glow.
+- **III · L'Atelier, rebuilt with photographs.** The code-built 3D lamp is gone; at step IV it was too bright and looked glitchy. Five AI-generated atelier scenes now carry the story (sketch, printing, hand finishing, tested in the dark, packaging). Each wipes up over the last with a slow scrubbed zoom, and the stack leans toward the cursor.
+- **Placeholder imagery** (AI-generated, to be replaced by the owner's photographs):
+  - transparent cut-outs for the four vases and two planters;
+  - styled photos for the four personalised gifts and four wedding pieces;
+  - the gifts and wedding teasers now use these photos.
+
 ## Phase 3 — The home page story (17 Oct 2026)
 
 The ivory editorial design is back (the owner preferred it), keeping the photographic light switch. The home page is now one continuous story:

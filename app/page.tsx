@@ -2,7 +2,7 @@ import { Atelier } from "@/components/home/Atelier";
 import { Circle } from "@/components/home/Circle";
 import { Conscious } from "@/components/home/Conscious";
 import { Hero } from "@/components/home/Hero";
-import { LumiereGallery } from "@/components/home/LumiereGallery";
+import { LampChapters } from "@/components/home/LampChapters";
 import { Preloader } from "@/components/home/Preloader";
 import { ShopTheRoom } from "@/components/home/ShopTheRoom";
 import { Teasers } from "@/components/home/Teasers";
@@ -23,15 +23,14 @@ export default async function HomePage() {
     getProducts({ collection: "vases-vessels" }),
     getProducts({ collection: "planters" }),
   ]);
-  const studio = hero?.images.find((i) => i.onWhite);
 
   return (
     <>
       <Preloader />
       {hero && <Hero product={hero} />}
-      <LumiereGallery lamps={lamps} />
+      <LampChapters lamps={lamps} />
       <WhyLight />
-      <Atelier poster={studio ?? { url: "/products/samples/01-ochre-pleated-lamp.webp", alt: "Aurelia" }} />
+      <Atelier />
       <Vessels products={[...vessels, ...planters]} />
       <Conscious />
       <Teasers />

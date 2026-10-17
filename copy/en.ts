@@ -41,6 +41,9 @@ export const copy = {
   home: {
     intro: "Shine Beyond!",
     skipIntro: "Skip intro",
+    enterSound: "Enter with sound",
+    enterSilent: "Enter in silence",
+    enterHint: "Best with sound: a quiet click, a soft glow.",
     heroEyebrow: "Lumière · Fatto a mano in India",
     heroLines: ["Light,", "sculpted."],
     heroTagline: "Shine Beyond!",

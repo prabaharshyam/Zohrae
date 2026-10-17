@@ -293,3 +293,13 @@ Supersedes §5, §10 and §12. The owner wants the light switch to look like the
 - **No invented social proof:** the reviews marquee is replaced by true brand facts until real reviews exist.
 - **No fake lighting moods:** the "Morning / Golden hour / Midnight" photo-grading switcher on Shop the room was dropped; filter-graded photos read as artificial.
 - **Sustainability stats:** "100% plant-based filament" is avoided (pigments and additives); copy says "plant-based PLA".
+
+## 15. Phase 3.5: immersive redesign (17 Oct 2026)
+
+The owner asked for a "very smooth, ultra futuristic, insanely engaging 3D" site, with a reference video of objects turning with the cursor in front of giant type on bold colour.
+
+- **Why a depth-mapped photo, not a 3D model:** the lamps' realism comes from photographs, and we have no scanned models. Treating the cut-out silhouette as a surface of revolution suits these lamps, which are all turned forms. It gives a convincing ±25° turn with the real photo and the real lit photo, at a fraction of a model's weight. If the owner commissions true 3D scans later (glTF), `DepthTurn` is the one component to swap.
+- **Why sticky chapters, not a pinned timeline:** native `position: sticky` keeps the stack working with reduced motion and on slow phones. GSAP only adds the scrubbed card-opening and receding effects.
+- **Sound is opt-in:** browsers block audio before a gesture, and luxury shoppers browse in offices. The intro asks once, and the footer toggle changes it any time.
+- **Atelier:** photographs replace the procedural lamp, which looked artificial (owner feedback).
+- **Images:** generated in Canva (AI), exported through the working design "Zohraé — website image exports". The owner will replace them with originals at the end.

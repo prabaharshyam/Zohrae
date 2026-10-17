@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { LitImage } from "@/components/light/LitImage";
+import { ENTER_EVENT } from "@/components/home/Preloader";
+import { DepthTurn } from "@/components/three/DepthTurn";
 import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
 import type { Product } from "@/lib/commerce/types";
@@ -9,54 +10,86 @@ import { gsap, SplitText } from "@/lib/motion/gsap";
 import { useLenis } from "@/lib/motion/SmoothScroll";
 import { MQ, useGsap } from "@/lib/motion/useGsap";
 
-/** I · Hero: the signature lamp as a real photograph that lights with the switch. */
+/**
+ * I · Hero: giant type with the signature lamp standing in front of it, a
+ * real photograph that turns toward the cursor. Scrolling parts the words
+ * like curtains while the lamp rises and turns to face you.
+ */
 export function Hero({ product }: { product: Product }) {
   const ref = useRef<HTMLElement>(null);
   const lenis = useLenis();
 
   useGsap(ref, (mm, root) => {
     mm.add(MQ.motion, () => {
-      // If the first-visit intro is playing, let it finish first.
-      const delay = document.documentElement.classList.contains("intro-seen") ? 0.1 : 1.65;
-      const split = SplitText.create(root.querySelector("h1"), { type: "lines", mask: "lines" });
-      gsap
-        .timeline({ delay })
-        .from(split.lines, { yPercent: 110, duration: 1.1, stagger: 0.12, ease: "expo.out" })
-        .from(".hero-fade", { y: 24, opacity: 0, duration: 0.9, stagger: 0.08 }, "<0.35")
-        .from(".hero-lamp", { opacity: 0, y: 30, scale: 0.97, duration: 1.4, ease: "expo.out" }, 0.1);
+      const lines = gsap.utils.toArray<HTMLElement>(".hero-word", root);
+      const splits = lines.map((l) => SplitText.create(l, { type: "chars", mask: "chars" }));
+      const intro = gsap
+        .timeline({ paused: true })
+        .from(
+          splits.map((s) => s.chars),
+          { yPercent: 115, duration: 1.3, stagger: 0.035, ease: "expo.out" },
+        )
+        .from(".hero-lamp", { opacity: 0, y: 80, scale: 0.9, duration: 1.6, ease: "expo.out" }, 0.15)
+        .from(".hero-fade", { y: 24, opacity: 0, duration: 0.9, stagger: 0.08 }, 0.6);
+      // Wait for the visitor to step through the intro on a first visit.
+      const play = () => intro.play();
+      if (document.documentElement.classList.contains("intro-seen") || !document.querySelector(".preloader")) {
+        gsap.delayedCall(0.1, play);
+      } else window.addEventListener(ENTER_EVENT, play, { once: true });
 
-      // Scroll: the lamp drifts slower than the words.
-      gsap.to(".hero-lamp", {
-        yPercent: -10,
-        ease: "none",
-        scrollTrigger: { trigger: root, start: "top top", end: "bottom top", scrub: true },
-      });
-      gsap.to(".hero-copy", {
-        yPercent: -14,
-        opacity: 0.2,
-        ease: "none",
-        scrollTrigger: { trigger: root, start: "top top", end: "bottom top", scrub: true },
-      });
-      return () => split.revert();
+      const scrub = { trigger: root, start: "top top", end: "bottom top", scrub: true };
+      gsap.to(lines[0], { xPercent: -22, ease: "none", scrollTrigger: scrub });
+      gsap.to(lines[1], { xPercent: 22, ease: "none", scrollTrigger: scrub });
+      gsap.to(".hero-lamp", { yPercent: -18, scale: 1.12, ease: "none", scrollTrigger: scrub });
+      gsap.to(".hero-meta", { opacity: 0, y: -30, ease: "none", scrollTrigger: { ...scrub, end: "40% top" } });
+      return () => {
+        window.removeEventListener(ENTER_EVENT, play);
+        splits.forEach((s) => s.revert());
+      };
     });
   });
 
   return (
     <section
       ref={ref}
-      className="gutter relative mx-auto grid min-h-[100svh] max-w-[1600px] items-end gap-8 pb-28 pt-[calc(var(--header-h)+3vh)] md:grid-cols-[1.2fr_1fr] md:items-center md:pb-20"
+      className="hero relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-[var(--header-h)]"
     >
-      <div className="hero-copy relative z-10 order-2 md:order-1">
-        <p className="hero-fade label text-fg-muted">{copy.home.heroEyebrow}</p>
-        <h1 className="font-display mt-6 text-[length:var(--fs-hero)]">
-          <span className="block italic">{copy.home.heroLines[0]}</span>
-          <span className="block">{copy.home.heroLines[1]}</span>
-        </h1>
-        <p className="hero-fade font-display mt-6 text-[length:var(--fs-h3)] italic text-accent-text">
+      {/* Giant words, behind the lamp */}
+      <h1
+        className="font-display pointer-events-none absolute inset-x-0 top-[calc(var(--header-h)+4svh)] z-0 select-none text-center leading-[0.82] tracking-[-0.03em] md:top-[calc(var(--header-h)+2svh)]"
+        aria-label={copy.home.heroLines.join(" ")}
+      >
+        <span className="hero-word block text-[length:var(--fs-giant)] italic">{copy.home.heroLines[0]}</span>
+        <span className="hero-word hero-word-outline block text-[length:var(--fs-giant)]">
+          {copy.home.heroLines[1]}
+        </span>
+      </h1>
+
+      <div className="hero-lamp relative z-10 mx-auto mt-[14svh] w-[min(78vw,340px)] md:mt-[6svh] md:w-[min(34vw,470px)]">
+        <div
+          aria-hidden
+          className="absolute inset-[4%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--champagne)_80%,transparent),transparent)] [[data-lights=on]_&]:bg-[radial-gradient(closest-side,rgb(var(--glow-rgb)/0.24),transparent)]"
+        />
+        <DepthTurn
+          title={product.title}
+          off={product.imageOff}
+          on={product.imageOn}
+          priority
+          sizes="(min-width: 768px) 34vw, 78vw"
+          frameClassName="aspect-[3/4]"
+          className="cursor-grab"
+        />
+      </div>
+
+      <div className="hero-meta gutter relative z-20 mx-auto mt-auto grid w-full max-w-[1600px] gap-6 pb-10 md:grid-cols-[1fr_auto_1fr] md:items-end md:pb-12">
+        <div className="hero-fade max-w-sm">
+          <p className="label text-fg-muted">{copy.home.heroEyebrow}</p>
+          <p className="mt-3 text-sm text-fg-muted md:text-base">{copy.home.heroSub}</p>
+        </div>
+        <p className="hero-fade font-display hidden text-center text-2xl italic text-accent-text md:block">
           {copy.home.heroTagline}
         </p>
-        <p className="hero-fade mt-6 max-w-md text-fg-muted">{copy.home.heroSub}</p>
-        <div className="hero-fade mt-10 flex flex-col gap-3 sm:flex-row">
+        <div className="hero-fade flex flex-col gap-3 sm:flex-row md:justify-end">
           <ButtonLink href="/collections/lumiere" arrow>
             {copy.home.heroPrimaryCta}
           </ButtonLink>
@@ -64,21 +97,6 @@ export function Hero({ product }: { product: Product }) {
             {copy.home.heroGhostCta}
           </ButtonLink>
         </div>
-      </div>
-
-      <div className="hero-lamp relative order-1 mx-auto w-full max-w-[280px] md:order-2 md:max-w-[500px]">
-        <div
-          aria-hidden
-          className="absolute inset-[6%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--champagne)_75%,transparent),transparent)] [[data-lights=on]_&]:bg-[radial-gradient(closest-side,rgb(var(--glow-rgb)/0.2),transparent)]"
-        />
-        <LitImage
-          title={product.title}
-          off={product.imageOff}
-          on={product.imageOn}
-          priority
-          sizes="(min-width: 768px) 40vw, 70vw"
-          frameClassName="aspect-[3/4]"
-        />
       </div>
 
       <PullChain
@@ -122,7 +140,7 @@ function PullChain({ onPull }: { onPull: () => void }) {
         );
         setTimeout(onPull, 200);
       }}
-      className="group absolute bottom-0 left-[var(--gutter)] hidden flex-col items-center md:flex"
+      className="group absolute top-[var(--header-h)] right-[var(--gutter)] z-20 hidden flex-col items-center md:flex"
       aria-label={copy.home.scrollCue}
     >
       <span className="chain flex origin-top flex-col items-center">

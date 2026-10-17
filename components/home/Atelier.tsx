@@ -1,71 +1,73 @@
 "use client";
 
 import clsx from "clsx";
-import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
 import { gsap } from "@/lib/motion/gsap";
 import { MQ, useGsap } from "@/lib/motion/useGsap";
 
-const AtelierScene = dynamic(() => import("./AtelierScene"), { ssr: false });
 const ROMAN = ["I", "II", "III", "IV", "V"];
 
-function canUse3d() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  try {
-    const c = document.createElement("canvas");
-    return Boolean(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
+/** One photograph per step, in the order of copy.home.atelier.steps. */
+const SCENES = [
+  { src: "/atelier/sketch.webp", alt: "A hand sketching lamp shapes in pencil on a wooden desk" },
+  { src: "/atelier/print.webp", alt: "A 3D printer nozzle laying a glowing thread of ochre PLA" },
+  { src: "/atelier/finish.webp", alt: "An artisan hand-finishing a ribbed white lampshade" },
+  { src: "/atelier/dark.webp", alt: "A pleated lamp glowing amber in a dark workshop" },
+  { src: "/atelier/pack.webp", alt: "A lamp wrapped in tissue inside an ochre keepsake box" },
+];
 
 /**
- * IV · L'Atelier. Pinned; scrolling walks through five steps while a 3D
- * lamp is sketched, printed layer by layer, finished, lit and boxed.
- * Reduced motion or no WebGL: the owner's studio photograph instead.
+ * III · L'Atelier. Pinned; scrolling walks through five steps, each a
+ * photograph that wipes up over the last while slowly settling (a scrubbed
+ * Ken Burns), and leans toward the cursor. Step IV dims the whole room.
  */
-export function Atelier({ poster }: { poster: { url: string; alt: string } }) {
+export function Atelier() {
   const ref = useRef<HTMLElement>(null);
-  const progress = useRef(0);
   const [step, setStep] = useState(0);
-  const [threeD, setThreeD] = useState<boolean | null>(null);
-  const [active, setActive] = useState(false);
   const t = copy.home.atelier;
-
-  // Decide on 3D after mount, and only render frames while the section is near the viewport.
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const ok = canUse3d();
-    const io = new IntersectionObserver(
-      ([e]) => {
-        setActive(e.isIntersecting);
-        if (e.isIntersecting) setThreeD((v) => v ?? ok);
-      },
-      { rootMargin: "120% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
 
   useGsap(ref, (mm, root) => {
     mm.add(MQ.motion, () => {
-      gsap.timeline({
+      const frames = gsap.utils.toArray<HTMLElement>(".atelier-frame", root);
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
         scrollTrigger: {
           trigger: root,
           start: "top top",
-          end: "+=380%",
+          end: "+=400%",
           pin: true,
-          scrub: true,
-          onUpdate: (st) => {
-            progress.current = st.progress;
-            setStep(Math.min(4, Math.floor(st.progress * 5)));
-          },
+          scrub: 0.8,
+          onUpdate: (st) => setStep(Math.min(4, Math.floor(st.progress * 5))),
         },
       });
+      // Five equal windows, one per step: each photo wipes up just before its
+      // window and settles from 1.18 to 1 across it.
+      frames.forEach((frame, i) => {
+        const img = frame.querySelector("img");
+        const start = Math.max(0, i - 0.4);
+        tl.fromTo(img, { scale: 1.18 }, { scale: 1, duration: i + 1 - start }, start);
+        if (i > 0)
+          tl.fromTo(
+            frame,
+            { clipPath: "inset(100% 0% 0% 0%)" },
+            { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4 },
+            start,
+          );
+      });
+
+      // The whole stack leans toward the cursor.
+      const stack = root.querySelector<HTMLElement>(".atelier-stack")!;
+      const rx = gsap.quickTo(stack, "rotationX", { duration: 0.8, ease: "power3.out" });
+      const ry = gsap.quickTo(stack, "rotationY", { duration: 0.8, ease: "power3.out" });
+      const move = (e: PointerEvent) => {
+        ry((e.clientX / window.innerWidth - 0.5) * 8);
+        rx(-(e.clientY / window.innerHeight - 0.5) * 6);
+      };
+      window.addEventListener("pointermove", move);
+      return () => window.removeEventListener("pointermove", move);
     });
     // Count-up stats.
     mm.add(MQ.motion, () => {
@@ -127,20 +129,27 @@ export function Atelier({ poster }: { poster: { url: string; alt: string } }) {
           </div>
         </div>
 
-        <div className="relative min-h-0 md:order-2 md:h-[78svh]">
-          {threeD ? (
-            <AtelierScene progress={progress} active={active} />
-          ) : (
-            threeD === false && (
-              <Image
-                src={poster.url}
-                alt={poster.alt}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="on-white object-contain"
-              />
-            )
-          )}
+        <div className="relative min-h-0 [perspective:1200px] md:order-2 md:h-[70svh]">
+          <div className="atelier-stack relative size-full overflow-hidden rounded-[2px] bg-night shadow-[0_40px_80px_-30px_rgb(0_0_0/0.45)]">
+            {SCENES.map((s, i) => (
+              <div
+                key={s.src}
+                className="atelier-frame absolute inset-0 overflow-hidden"
+                style={i > 0 ? { clipPath: "inset(100% 0% 0% 0%)" } : undefined}
+              >
+                <Image
+                  src={s.src}
+                  alt={s.alt}
+                  fill
+                  sizes="(min-width: 768px) 55vw, 100vw"
+                  className="object-cover will-change-transform"
+                />
+              </div>
+            ))}
+            <span className="numeral absolute bottom-4 left-5 text-sm text-moon/80 not-italic" aria-hidden>
+              {ROMAN[step]} / V
+            </span>
+          </div>
         </div>
 
         <dl className="grid grid-cols-3 gap-4 border-t border-line pt-4 md:absolute md:inset-x-[var(--gutter)] md:bottom-8 md:pt-6">

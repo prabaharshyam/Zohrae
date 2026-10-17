@@ -14,7 +14,7 @@ const styles: Record<Variant, string> = {
 
 type Props = ComponentProps<typeof Link> & { variant?: Variant; arrow?: boolean };
 
-/** Link styled as a CTA. Magnetic hover arrives with the delight layer (Phase 6). */
+/** Link styled as a CTA; filled and outlined buttons are magnetic (see Interactions). */
 export function ButtonLink({ variant = "primary", arrow, className, children, ...props }: Props) {
   return (
     <Link
@@ -23,6 +23,7 @@ export function ButtonLink({ variant = "primary", arrow, className, children, ..
         styles[variant],
         className,
       )}
+      data-magnetic={variant === "text" ? undefined : ""}
       {...props}
     >
       {children}

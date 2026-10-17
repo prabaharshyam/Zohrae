@@ -22,6 +22,34 @@ export function Header({ collections }: { collections: NavCollection[] }) {
   const collectionsRef = useRef<HTMLLIElement>(null);
   const cartCount = 0; // Cart arrives in Phase 4.
 
+  // Over a section marked data-header-tone (the coloured lamp chapters), the
+  // header takes on that section's own ground and ink instead of ivory.
+  const [tone, setTone] = useState<{ bg: string; fg: string } | null>(null);
+  useEffect(() => {
+    let raf = 0;
+    const probe = () => {
+      raf = 0;
+      const hit = document
+        .elementsFromPoint(window.innerWidth / 2, 40)
+        .find((el) => el instanceof HTMLElement && el.dataset.headerTone !== undefined);
+      if (!hit) return setTone((t) => (t ? null : t));
+      const cs = getComputedStyle(hit);
+      setTone((t) =>
+        t?.bg === cs.backgroundColor && t.fg === cs.color ? t : { bg: cs.backgroundColor, fg: cs.color },
+      );
+    };
+    const schedule = () => (raf ||= requestAnimationFrame(probe));
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    const mo = new MutationObserver(schedule); // the light switch recolours chapters
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-lights"] });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      mo.disconnect();
+    };
+  }, []);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -86,6 +114,11 @@ export function Header({ collections }: { collections: NavCollection[] }) {
             ? "h-16 bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] shadow-[0_1px_0_var(--line)] backdrop-blur-md md:h-[68px]"
             : "h-[var(--header-h)]",
         )}
+        style={
+          tone && !menuOpen
+            ? ({ "--bg": tone.bg, "--fg": tone.fg, "--line": "transparent", color: tone.fg } as React.CSSProperties)
+            : undefined
+        }
       >
         <div className="gutter mx-auto grid h-full max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4">
           {/* Left: menu (mobile) / primary nav (desktop) */}

@@ -81,6 +81,27 @@ function withGallery(media: ReturnType<typeof lampMedia>, photo?: ImageAsset) {
   return { ...media, images: photo ? [...media.images, photo] : media.images };
 }
 
+/**
+ * Placeholder imagery for everything that isn't a lamp (AI-generated, to be
+ * replaced by the owner's photography): vessels get a transparent cut-out,
+ * gifts and wedding pieces a styled photo.
+ */
+function placeholderMedia(seed: Seed): Partial<Product> & { images: ImageAsset[] } {
+  const src = (file: string) => `/products/${seed.handle}/${file}`;
+  if (seed.type === "Vase" || seed.type === "Planter") {
+    const cutout = { url: src("cutout.webp"), width: 768, height: 1028, alt: `${seed.title}, ${seed.tagline}` };
+    return { images: [cutout], imageOff: cutout };
+  }
+  const photo = {
+    url: src("photo.webp"),
+    width: 816,
+    height: 1092,
+    alt: `${seed.title}, ${seed.tagline}`,
+    scene: true,
+  };
+  return { images: [photo], imageOff: photo };
+}
+
 function product(seed: Seed): Product {
   const finishes = seed.finishes ?? [{ name: "As shown", swatch: "#E8D3A8" }];
   const variants = finishes.map((f, i) => ({
@@ -105,7 +126,7 @@ function product(seed: Seed): Product {
     availableForSale: seed.available ?? true,
     tags: seed.tags ?? [],
     collections: seed.collections,
-    ...withGallery(lampMedia(seed.handle, seed.title), seed.photo),
+    ...withGallery(seed.type === "Lamp" ? lampMedia(seed.handle, seed.title) : placeholderMedia(seed), seed.photo),
     specs: seed.specs ?? {},
     handcraftHours: seed.handcraftHours,
     editionSize: seed.editionSize,

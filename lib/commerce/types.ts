@@ -19,6 +19,8 @@ export type ImageAsset = {
   alt: string;
   /** Shot on a white studio backdrop: blend into the page in day mode. */
   onWhite?: boolean;
+  /** A full styled photograph (not a cut-out): fill the frame. */
+  scene?: boolean;
 };
 
 export type ProductType = "Lamp" | "Vase" | "Planter" | "Decor" | "Custom Gift" | "Wedding";
