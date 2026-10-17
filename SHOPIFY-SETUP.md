@@ -89,7 +89,51 @@ To place a switch, open the photo and divide the switch's pixel position by the 
 
 Any other photos go in the product's normal **Media**; they appear in the product gallery.
 
-## 5. Check it
+## 5. Personalised products
+
+Add one more product metafield, `zohrae.personalise` (JSON), to switch on the live builder. Examples:
+
+```json
+{
+  "kind": "tumbler",
+  "text": { "label": "Name", "placeholder": "Aanya", "max": 12 },
+  "lettering": true,
+  "inks": [
+    { "name": "Gold foil", "hex": "#C9A24E" },
+    { "name": "Noir", "hex": "#1C1714" }
+  ],
+  "leadDays": 3
+}
+```
+
+```json
+{
+  "kind": "badge",
+  "roles": ["Bride", "Groom", "Bridesmaid"],
+  "text": { "label": "Name on the badge", "placeholder": "Anika", "max": 14, "optional": true },
+  "leadDays": 7,
+  "bulk": true
+}
+```
+
+| Field             | What it does                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| `kind`            | which preview: `tumbler`, `glass`, `coasters`, `tray`, `badge`, `badge-set`, `magnet`, `magnet-set`, `frame` |
+| `text`, `subtext` | the fields the customer types (label, placeholder, max length, optional)                                     |
+| `lettering`       | offer Script / Calligraphy / Classic / Modern                                                                |
+| `inks`            | ink or foil colours                                                                                          |
+| `photo`           | the customer adds a photograph                                                                               |
+| `roles`           | wedding roles to choose from                                                                                 |
+| `leadDays`        | days to make, used by the "Need it by" check                                                                 |
+| `bulk`            | show the WhatsApp concierge for large orders                                                                 |
+
+Every choice arrives on the Shopify order as a **line item property**: Name, Lettering, Ink, Role, Photo, Needed by.
+
+**Wedding sets:** use the option name `Set` (e.g. `Set of 6`, `25 magnets`), with each variant priced separately for tiered pricing.
+
+**Customer photos:** add a free Cloudinary account and set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` in Vercel. Photos then upload straight away, and the order carries a link to the full-resolution file. Without Cloudinary, the order notes that the photo will be collected on WhatsApp.
+
+## 6. Check it
 
 - Open `/collections/lumiere`: your lamps, with prices from Shopify.
 - Open a product, pick options, then **Add to Collection** and **Proceed to secure checkout**. Shopify's checkout should open with the right items.

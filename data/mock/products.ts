@@ -1,4 +1,4 @@
-import type { ImageAsset, Product, ProductSpecs, ProductType } from "@/lib/commerce/types";
+import type { ImageAsset, Personalise, Product, ProductSpecs, ProductType } from "@/lib/commerce/types";
 
 /**
  * Placeholder catalogue, written in the house voice. Prices are tax-inclusive INR.
@@ -102,6 +102,9 @@ type Seed = {
   finishes?: { name: string; swatch: string }[];
   /** Sizes with their own price (art frames: A3 · A2 · A1). `price` is then the smallest. */
   sizes?: { name: string; price: number }[];
+  /** Label for the sizes option (default "Size"; wedding sets use "Set"). */
+  sizeLabel?: string;
+  personalise?: Personalise;
   available?: boolean;
 };
 
@@ -141,7 +144,7 @@ function product(seed: Seed): Product {
       availableForSale: seed.available ?? true,
       price: inr(size.price),
       selectedOptions: [
-        ...(size.name ? [{ name: "Size", value: size.name }] : []),
+        ...(size.name ? [{ name: seed.sizeLabel ?? "Size", value: size.name }] : []),
         { name: seed.type === "Art Frame" ? "Frame" : "Finish", value: f.name },
       ],
       swatch: f.swatch,
@@ -159,7 +162,7 @@ function product(seed: Seed): Product {
     priceRange: { min: inr(Math.min(...prices)), max: inr(Math.max(...prices)) },
     variants,
     options: [
-      ...(seed.sizes ? [{ name: "Size", values: seed.sizes.map((s) => s.name) }] : []),
+      ...(seed.sizes ? [{ name: seed.sizeLabel ?? "Size", values: seed.sizes.map((s) => s.name) }] : []),
       { name: seed.type === "Art Frame" ? "Frame" : "Finish", values: finishes.map((f) => f.name) },
     ],
     availableForSale: seed.available ?? true,
@@ -167,6 +170,7 @@ function product(seed: Seed): Product {
     collections: seed.collections,
     ...withGallery(seed.type === "Lamp" ? lampMedia(seed.handle, seed.title) : placeholderMedia(seed), seed.photo),
     specs: seed.specs ?? {},
+    personalise: seed.personalise,
     handcraftHours: seed.handcraftHours,
     editionSize: seed.editionSize,
   };
@@ -420,6 +424,24 @@ const GIFTS: Seed[] = [
       "A double-walled tumbler finished with a hand-applied name decal. Choose the font, colour and placement.",
     price: 1499,
     collections: ["personalised-gifts", "gifts-under-2000"],
+    finishes: [
+      { name: "Ivory", swatch: "#EFE8DC" },
+      { name: "Blush", swatch: "#E7C3BC" },
+      { name: "Sage", swatch: "#AEB89C" },
+      { name: "Noir", swatch: "#2A2522" },
+    ],
+    personalise: {
+      kind: "tumbler",
+      text: { label: "Name", placeholder: "Aanya", max: 12 },
+      lettering: true,
+      inks: [
+        { name: "Gold foil", hex: "#C9A24E" },
+        { name: "Rose gold", hex: "#C98B7A" },
+        { name: "Ivory", hex: "#F4EEE2" },
+        { name: "Noir", hex: "#1C1714" },
+      ],
+      leadDays: 3,
+    },
   },
   {
     handle: "festive-juice-tumbler",
@@ -430,6 +452,16 @@ const GIFTS: Seed[] = [
       "A glass tumbler with a festive motif and a name of your choice. Perfect for Christmas mornings and Diwali evenings.",
     price: 899,
     collections: ["personalised-gifts", "gifts-under-2000"],
+    personalise: {
+      kind: "glass",
+      text: { label: "Name", placeholder: "Kabir", max: 12 },
+      lettering: true,
+      inks: [
+        { name: "Frost white", hex: "#F7F4EE" },
+        { name: "Gold foil", hex: "#D8B25C" },
+      ],
+      leadDays: 3,
+    },
   },
   {
     handle: "personalised-coaster-set",
@@ -439,6 +471,16 @@ const GIFTS: Seed[] = [
     description: "A set of four coasters finished with your initials or a short word. Wrapped and ready to give.",
     price: 1199,
     collections: ["personalised-gifts", "gifts-under-2000"],
+    personalise: {
+      kind: "coasters",
+      text: { label: "Initials or a short word", placeholder: "S&R", max: 6 },
+      lettering: true,
+      inks: [
+        { name: "Gold foil", hex: "#C9A24E" },
+        { name: "Noir", hex: "#1C1714" },
+      ],
+      leadDays: 4,
+    },
   },
   {
     handle: "monogram-serving-tray",
@@ -448,6 +490,17 @@ const GIFTS: Seed[] = [
     description: "A serving tray finished with a monogram or family name, for chai, cocktails and everything between.",
     price: 1999,
     collections: ["personalised-gifts", "gifts-under-2000"],
+    personalise: {
+      kind: "tray",
+      text: { label: "Family name", placeholder: "The Mehtas", max: 16 },
+      subtext: { label: "Est. year", placeholder: "2019", max: 4, optional: true },
+      lettering: true,
+      inks: [
+        { name: "Gold foil", hex: "#B8913F" },
+        { name: "Noir", hex: "#1C1714" },
+      ],
+      leadDays: 5,
+    },
   },
 ];
 
@@ -487,6 +540,11 @@ const FRAMES: Seed[] = [
     collections: ["art-frames", "personalised-gifts"],
     tags: ["custom"],
     specs: frameSpecs("Your image, printed on archival fine-art paper"),
+    personalise: {
+      kind: "frame",
+      photo: true,
+      leadDays: 5,
+    },
   },
   {
     handle: "arches-art-frame",
@@ -540,6 +598,30 @@ const WEDDING: Seed[] = [
       "A luxury badge for each role in the wedding party — Bride, Groom, Bridesmaid, Groomsman, Cousin, Family — with names in gold.",
     price: 249,
     collections: ["wedding-atelier"],
+    finishes: [
+      { name: "Ivory ribbon", swatch: "#F1E8D8" },
+      { name: "Blush ribbon", swatch: "#E3B5AE" },
+      { name: "Sage ribbon", swatch: "#A9B597" },
+      { name: "Maroon ribbon", swatch: "#6E1F2B" },
+    ],
+    personalise: {
+      kind: "badge",
+      roles: [
+        "Bride",
+        "Groom",
+        "Bride's Squad",
+        "Groom's Squad",
+        "Bridesmaid",
+        "Groomsman",
+        "Mother of the Bride",
+        "Father of the Groom",
+        "Cousin",
+        "Family",
+      ],
+      text: { label: "Name on the badge", placeholder: "Anika", max: 14, optional: true },
+      leadDays: 7,
+      bulk: true,
+    },
   },
   {
     handle: "wedding-party-badge-set",
@@ -550,6 +632,26 @@ const WEDDING: Seed[] = [
       "A coordinated set of role badges for the wedding party. Build it role by role and preview every badge.",
     price: 2999,
     collections: ["wedding-atelier"],
+    sizes: [
+      { name: "Set of 6", price: 1399 },
+      { name: "Set of 12", price: 2599 },
+      { name: "Set of 24", price: 4799 },
+    ],
+    sizeLabel: "Set",
+    finishes: [
+      { name: "Ivory ribbon", swatch: "#F1E8D8" },
+      { name: "Blush ribbon", swatch: "#E3B5AE" },
+      { name: "Sage ribbon", swatch: "#A9B597" },
+      { name: "Maroon ribbon", swatch: "#6E1F2B" },
+    ],
+    personalise: {
+      kind: "badge-set",
+      roles: ["Bride", "Groom", "Bridesmaid", "Groomsman", "Cousin", "Family"],
+      text: { label: "The couple", placeholder: "Riya & Arjun", max: 22 },
+      subtext: { label: "Wedding date", placeholder: "12.02.2027", max: 12, optional: true },
+      leadDays: 10,
+      bulk: true,
+    },
   },
   {
     handle: "wedding-photo-magnet",
@@ -560,6 +662,12 @@ const WEDDING: Seed[] = [
       "Upload a photo from your wedding and we'll craft it into a premium fridge magnet with a soft gold edge.",
     price: 349,
     collections: ["wedding-atelier"],
+    personalise: {
+      kind: "magnet",
+      photo: true,
+      text: { label: "Caption", placeholder: "Riya & Arjun · 12.02.27", max: 28, optional: true },
+      leadDays: 5,
+    },
   },
   {
     handle: "return-gift-magnets",
@@ -570,6 +678,25 @@ const WEDDING: Seed[] = [
       "Personalised fridge magnets for your guests, sold in sets of 25 with tiered pricing for larger weddings.",
     price: 4499,
     collections: ["wedding-atelier"],
+    sizes: [
+      { name: "25 magnets", price: 4499 },
+      { name: "50 magnets", price: 8499 },
+      { name: "100 magnets", price: 15999 },
+      { name: "200 magnets", price: 29999 },
+    ],
+    sizeLabel: "Set",
+    finishes: [
+      { name: "Gold classic", swatch: "#C9A24E" },
+      { name: "Marigold", swatch: "#E9A23B" },
+      { name: "Rose garden", swatch: "#D9A3A0" },
+    ],
+    personalise: {
+      kind: "magnet-set",
+      text: { label: "The couple", placeholder: "Riya & Arjun", max: 22 },
+      subtext: { label: "Wedding date", placeholder: "12.02.2027", max: 12 },
+      leadDays: 14,
+      bulk: true,
+    },
   },
 ];
 

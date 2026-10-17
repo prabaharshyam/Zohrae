@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PersonalisedProduct } from "@/components/personalise/PersonalisedProduct";
 import { ProductCard } from "@/components/product/ProductCard";
 import { BuyBox } from "@/components/shop/BuyBox";
 import { Gallery } from "@/components/shop/Gallery";
@@ -30,55 +31,69 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
     .filter((p) => p.handle !== product.handle)
     .slice(0, 4);
 
+  const header = (
+    <>
+      <p className="label text-fg-muted">
+        {product.type}
+        {product.editionSize ? ` · ${copy.product.limited} · ${product.editionSize}` : ""}
+      </p>
+      <h1 className="font-display mt-4 text-[length:var(--fs-h1)]">{product.title}</h1>
+      <p className="font-display mt-4 text-xl italic text-fg-muted">{product.tagline}</p>
+    </>
+  );
+  const details = (
+    <>
+      <p className="mt-10 max-w-prose">{product.description}</p>
+
+      {product.story && (
+        <section className="mt-12 border-t border-line pt-8">
+          <h2 data-no-reveal className="label text-fg-muted">
+            {copy.product.storyTitle}
+          </h2>
+          <p className="font-display mt-4 text-xl italic leading-snug">“{product.story}”</p>
+        </section>
+      )}
+
+      {specs.length > 0 && (
+        <section className="mt-12 border-t border-line pt-8">
+          <h2 data-no-reveal className="label text-fg-muted">
+            {copy.product.specsTitle}
+          </h2>
+          <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-8 gap-y-3 text-sm">
+            {specs.map(([key, value]) => (
+              <div key={key} className="contents">
+                <dt className="capitalize text-fg-muted">{key.replace(/([A-Z])/g, " $1")}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
+
+      <ul className="label mt-12 grid grid-cols-2 gap-3 border-t border-line pt-8 text-[10px] text-fg-muted">
+        {copy.trust.items.map((t) => (
+          <li key={t}>✦ {t}</li>
+        ))}
+      </ul>
+    </>
+  );
+
   return (
     <>
-      <div className="gutter mx-auto grid max-w-[1600px] gap-10 pt-[calc(var(--header-h)+3rem)] md:grid-cols-[1.3fr_1fr] md:gap-16">
-        <Gallery product={product} />
-
-        <div className="md:sticky md:top-28 md:self-start">
-          <p className="label text-fg-muted">
-            {product.type}
-            {product.editionSize ? ` · ${copy.product.limited} · ${product.editionSize}` : ""}
-          </p>
-          <h1 className="font-display mt-4 text-[length:var(--fs-h1)]">{product.title}</h1>
-          <p className="font-display mt-4 text-xl italic text-fg-muted">{product.tagline}</p>
-          <div className="mt-8">
-            <BuyBox product={product} />
+      {product.personalise ? (
+        <PersonalisedProduct product={product} header={header} details={details} />
+      ) : (
+        <div className="gutter mx-auto grid max-w-[1600px] gap-10 pt-[calc(var(--header-h)+3rem)] md:grid-cols-[1.3fr_1fr] md:gap-16">
+          <Gallery product={product} />
+          <div className="md:sticky md:top-28 md:self-start">
+            {header}
+            <div className="mt-8">
+              <BuyBox product={product} />
+            </div>
+            {details}
           </div>
-          <p className="mt-10 max-w-prose">{product.description}</p>
-
-          {product.story && (
-            <section className="mt-12 border-t border-line pt-8">
-              <h2 data-no-reveal className="label text-fg-muted">
-                {copy.product.storyTitle}
-              </h2>
-              <p className="font-display mt-4 text-xl italic leading-snug">“{product.story}”</p>
-            </section>
-          )}
-
-          {specs.length > 0 && (
-            <section className="mt-12 border-t border-line pt-8">
-              <h2 data-no-reveal className="label text-fg-muted">
-                {copy.product.specsTitle}
-              </h2>
-              <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-8 gap-y-3 text-sm">
-                {specs.map(([key, value]) => (
-                  <div key={key} className="contents">
-                    <dt className="capitalize text-fg-muted">{key.replace(/([A-Z])/g, " $1")}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          )}
-
-          <ul className="label mt-12 grid grid-cols-2 gap-3 border-t border-line pt-8 text-[10px] text-fg-muted">
-            {copy.trust.items.map((t) => (
-              <li key={t}>✦ {t}</li>
-            ))}
-          </ul>
         </div>
-      </div>
+      )}
 
       {related.length > 0 && (
         <section className="gutter mx-auto mt-32 max-w-[1600px] pb-24">

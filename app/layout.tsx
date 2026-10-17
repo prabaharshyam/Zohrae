@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Jost } from "next/font/google";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Interactions } from "@/components/delight/Interactions";
 import { MotionDirector } from "@/components/delight/MotionDirector";
+import { bodoni, jost, parisienne, pinyon } from "@/app/fonts";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { LightSwitch } from "@/components/light/LightSwitch";
@@ -11,20 +11,6 @@ import { getCollections } from "@/lib/commerce";
 import { INTRO_BOOT_SCRIPT, LIGHT_BOOT_SCRIPT } from "@/lib/boot-scripts";
 import { SmoothScroll } from "@/lib/motion/SmoothScroll";
 import "./globals.css";
-
-const bodoni = Bodoni_Moda({
-  variable: "--font-bodoni",
-  subsets: ["latin", "latin-ext"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  display: "swap",
-});
-
-const jost = Jost({
-  variable: "--font-jost",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
@@ -49,7 +35,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     .map(({ handle, title, eyebrow }) => ({ handle, title, eyebrow }));
 
   return (
-    <html lang="en-IN" className={`${bodoni.variable} ${jost.variable}`} data-lights="off" suppressHydrationWarning>
+    <html
+      lang="en-IN"
+      className={`${bodoni.variable} ${jost.variable} ${pinyon.variable} ${parisienne.variable}`}
+      data-lights="off"
+      suppressHydrationWarning
+    >
       <head>
         {/* Before first paint: apply a saved "lights on", and skip the intro for returning visitors. */}
         <script dangerouslySetInnerHTML={{ __html: LIGHT_BOOT_SCRIPT + INTRO_BOOT_SCRIPT }} />

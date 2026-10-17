@@ -285,6 +285,50 @@ export const copy = {
     none: "Nothing here at that price. Try another filter.",
   },
 
+  personalise: {
+    title: "Make it yours",
+    preview: "Live preview",
+    photos: "Photographs",
+    lettering: "Lettering",
+    ink: "Ink",
+    role: "Role",
+    photo: "Your photograph",
+    photoHint: "A clear, well-lit JPG or PNG, up to 15 MB. We check every photo before printing.",
+    choosePhoto: "Choose a photo",
+    changePhoto: "Change photo",
+    uploading: "Uploading…",
+    uploaded: "Photo received.",
+    whatsappPhoto:
+      "We'll collect the full-resolution photo on WhatsApp after you order, so nothing is lost to compression.",
+    neededBy: "Need it by",
+    neededByHint: (days: number) => `We make it in about ${days} days, then 2–4 days to reach you.`,
+    tight: "That's tight. Message us and we'll do our best to make it in time.",
+    missingText: (label: string) => `Please add the ${label.toLowerCase()} so we can make it.`,
+    missingPhoto: "Please choose a photograph first.",
+    bulkTitle: "Planning for a big day?",
+    bulkBody: "For more than 200 pieces, custom roles or a design matched to your invitation, talk to the atelier.",
+    bulkCta: "Plan it on WhatsApp",
+    proofNote: "We send a digital proof on WhatsApp before we make anything.",
+    whatsappHello: (title: string) => `Hello Zohraé! I'd like to talk about ${title}.`,
+  },
+
+  madeFor: {
+    steps: [
+      { title: "Type it", body: "A name, initials, a date or a role. Choose the lettering and the ink." },
+      { title: "See it, live", body: "The piece redraws as you type, so you know exactly what you'll receive." },
+      {
+        title: "We make it by hand",
+        body: "A digital proof on WhatsApp first, then it's finished by hand and boxed to be kept.",
+      },
+    ],
+    conciergeEyebrow: "The wedding concierge",
+    conciergeTitle: "Two hundred guests? Matching your invitation?",
+    conciergeBody:
+      "Tell us the date, the colours and the numbers. We'll design the badges, magnets and return gifts as one family, and send a proof before anything is made.",
+    conciergeCta: "Plan it on WhatsApp",
+    conciergeHello: "Hello Zohraé! We're planning a wedding and would love help with badges, magnets and return gifts.",
+  },
+
   dreamRoom: {
     eyebrow: "Your Dream Room",
     title: "The pieces you're dreaming of",

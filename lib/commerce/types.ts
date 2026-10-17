@@ -79,8 +79,32 @@ export type Product = {
   modelUsdz?: string;
 
   specs: ProductSpecs;
+  personalise?: Personalise;
   handcraftHours?: number;
   editionSize?: number;
+};
+
+/** How a product is personalised on its page (metafield `personalise`, JSON). */
+export type PersonaliseKind =
+  "tumbler" | "glass" | "coasters" | "tray" | "badge" | "badge-set" | "magnet" | "magnet-set" | "frame";
+export type Personalise = {
+  kind: PersonaliseKind;
+  /** The main line of text (a name, initials, a family name). */
+  text?: { label: string; placeholder: string; max: number; optional?: boolean };
+  /** A second, smaller line (a year, a date). */
+  subtext?: { label: string; placeholder: string; max: number; optional?: boolean };
+  /** Offer the lettering styles (Script, Calligraphy, Classic, Modern). */
+  lettering?: boolean;
+  /** Ink or foil colours for the lettering. */
+  inks?: { name: string; hex: string }[];
+  /** The customer sends a photograph. */
+  photo?: boolean;
+  /** Wedding roles to choose from (badges). */
+  roles?: string[];
+  /** Days to make before dispatch, for the "Need it by" check. */
+  leadDays: number;
+  /** Large orders: show the WhatsApp concierge. */
+  bulk?: boolean;
 };
 
 export type Collection = {

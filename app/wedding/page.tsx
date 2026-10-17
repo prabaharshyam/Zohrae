@@ -1,24 +1,30 @@
 import type { Metadata } from "next";
-import { ChapterStub } from "@/components/layout/ChapterStub";
+import { MadeForLanding } from "@/components/personalise/MadeForLanding";
+import { getProducts } from "@/lib/commerce";
 
 export const metadata: Metadata = {
   title: "Wedding Atelier",
   description:
-    "Role badges for the whole wedding party, photo magnets and return gifts for every guest — designed with you, made by hand.",
+    "Role badges for the whole wedding party, photo magnets and return gifts for every guest, designed with you and made by hand.",
 };
 
-export default function WeddingPage() {
+export default async function WeddingPage() {
+  const products = await getProducts({ collection: "wedding-atelier" });
   return (
-    <ChapterStub
-      numeral="VI"
-      eyebrow="Matrimonio"
+    <MadeForLanding
+      eyebrow="VI · Matrimonio"
       title={
         <>
-          Couture keepsakes for <em className="italic">the most beautiful day</em>.
+          For the bride, the groom, <em className="italic">and everyone who loves them</em>.
         </>
       }
-      intro="Role badges for the whole wedding party, photo magnets and return gifts for every guest — designed with you, made by hand."
-      phase={5}
+      intro="Couture badges for every role in the wedding party, photo magnets of your favourite frame, and keepsakes for every guest who came."
+      image={{
+        url: "/products/wedding-party-badge-set/photo.webp",
+        alt: "Ivory and gold wedding role badges on blush silk",
+      }}
+      products={products}
+      concierge
     />
   );
 }

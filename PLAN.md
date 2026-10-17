@@ -320,3 +320,16 @@ References: lummar.studio (registered photo states, an invisible button over eac
 - **Wishlist is device-local** (no account needed). It can sync to Shopify customer metafields later if accounts are added.
 - **Still to come in this phase:** live Shopify data, which needs the Storefront token (see SHOPIFY-SETUP.md).
 - **Moved to later phases:** the lifestyle hover reveal on cards, and the PIN-code delivery estimate (Phase 6).
+
+## 18. Phase 5 decisions (17 Oct 2026)
+
+- **Previews are rendered, not mocked up:**
+  - names on cylinders use a canvas column re-sample (an arcsine mapping);
+  - flat pieces use positioned lettering on blank product photography;
+  - badges and magnets are SVG.
+
+  Every one is a true preview of what's typed, sharp at any size.
+
+- **Personalisation is configured per product** (`zohrae.personalise`), so new personalised products need no code.
+- **Photos:** stored in Cloudinary (signed server-side upload). Without it, the order is flagged for a WhatsApp photo hand-off, so no customer is blocked.
+- **Imagery:** Pinterest images belong to their photographers and can't be reused commercially. Free-licence libraries (Unsplash, Pexels) need an API key to search from here. Until then, images are generated with specific product-photography direction, and an Unsplash key from the owner would add real stock photography.

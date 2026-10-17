@@ -26,6 +26,7 @@ const PRODUCT_METAFIELDS = [
   "finish",
   "bulb_type",
   "cable_length",
+  "personalise",
 ];
 
 const IMAGE = `url width height altText`;
@@ -90,6 +91,14 @@ function parsePoint(v?: string): [number, number] | undefined {
   }
 }
 
+function parseJson<T>(v?: string): T | undefined {
+  try {
+    return v ? (JSON.parse(v) as T) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function toProduct(p: ShopProduct): Product {
   const meta = Object.fromEntries(p.metafields.filter(Boolean).map((m) => [m!.key, m!]));
   const text = (k: string) => meta[k]?.value || undefined;
@@ -138,6 +147,7 @@ function toProduct(p: ShopProduct): Product {
       bulbType: text("bulb_type"),
       cableLength: text("cable_length"),
     },
+    personalise: parseJson<Product["personalise"]>(text("personalise")),
     handcraftHours: text("handcraft_hours") ? Number(text("handcraft_hours")) : undefined,
     editionSize: text("edition_size") ? Number(text("edition_size")) : undefined,
   };

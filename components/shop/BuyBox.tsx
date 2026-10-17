@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { useMemo, useState } from "react";
 import { copy } from "@/copy/en";
-import { cart } from "@/lib/cart/store";
+import { cart, type CartAttribute } from "@/lib/cart/store";
 import type { Product, ProductVariant } from "@/lib/commerce/types";
 import { toast } from "@/lib/delight/fireflies";
 import { formatPrice } from "@/lib/format";
@@ -32,11 +32,42 @@ function flyToBag(from: DOMRect) {
     .fromTo(bag, { scale: 1 }, { scale: 1.25, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, 0.85);
 }
 
+export const initialOptions = (product: Product) =>
+  Object.fromEntries((product.variants[0]?.selectedOptions ?? []).map((o) => [o.name, o.value]));
+
+type Props = {
+  product: Product;
+  /** Controlled options (personalised products share them with the live preview). */
+  selected?: Record<string, string>;
+  onSelectedChange?: (next: Record<string, string>) => void;
+  /** Personalisation fields, shown between the options and the button. */
+  children?: React.ReactNode;
+  /** Line-item properties: the name, lettering, photo, date. */
+  attributes?: CartAttribute[];
+  /** Return a message to stop the add (e.g. a missing name). */
+  validate?: () => string | null;
+  /** The image the bag shows (e.g. a rendered preview). */
+  bagImage?: () => { url: string; alt: string } | undefined;
+};
+
 /** Option pickers, price, quantity and "Add to Collection" for one product. */
-export function BuyBox({ product }: { product: Product }) {
-  const [selected, setSelected] = useState<Record<string, string>>(() =>
-    Object.fromEntries((product.variants[0]?.selectedOptions ?? []).map((o) => [o.name, o.value])),
-  );
+export function BuyBox({
+  product,
+  selected: controlled,
+  onSelectedChange,
+  children,
+  attributes,
+  validate,
+  bagImage,
+}: Props) {
+  const [own, setOwn] = useState<Record<string, string>>(() => initialOptions(product));
+  const selected = controlled ?? own;
+  const setSelected = (fn: (s: Record<string, string>) => Record<string, string>) => {
+    const next = fn(selected);
+    setOwn(next);
+    onSelectedChange?.(next);
+  };
+  const [problem, setProblem] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const variant: ProductVariant | undefined = useMemo(
     () => product.variants.find((v) => v.selectedOptions.every((o) => selected[o.name] === o.value)),
@@ -47,7 +78,10 @@ export function BuyBox({ product }: { product: Product }) {
 
   const add = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!variant) return;
-    const image = product.imageOff ?? product.images[0];
+    const message = validate?.() ?? null;
+    setProblem(message);
+    if (message) return;
+    const image = bagImage?.() ?? product.imageOff ?? product.images[0];
     cart.add({
       variantId: variant.id,
       handle: product.handle,
@@ -56,6 +90,7 @@ export function BuyBox({ product }: { product: Product }) {
       price: variant.price.amount,
       image: image && { url: image.url, alt: image.alt },
       quantity,
+      attributes: attributes?.filter((a) => a.value),
     });
     flyToBag(e.currentTarget.getBoundingClientRect());
     toast(copy.product.added);
@@ -105,6 +140,13 @@ export function BuyBox({ product }: { product: Product }) {
         </fieldset>
       ))}
 
+      {children}
+
+      {problem && (
+        <p role="alert" className="mt-6 text-sm text-[#a5432f]">
+          {problem}
+        </p>
+      )}
       <div className="mt-8 flex gap-3">
         <div className="flex h-14 items-center border border-line" role="group" aria-label={copy.product.quantity}>
           <button

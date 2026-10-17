@@ -1,5 +1,26 @@
 # Changelog
 
+## Phase 5 — Make it yours (17 Oct 2026)
+
+Every personalised piece now has a **live builder**. The preview redraws as you type, and every choice travels into the bag and onto the Shopify order as line-item properties.
+
+- **Tumbler:** the name wraps around the cylinder (it compresses toward the edges, bows with the curve and dims as it turns from the light). There are four lettering styles (Script, Calligraphy, Classic, Modern), gold foil, rose gold, ivory or noir ink, and the tumbler colour (ivory, blush, sage, noir) is tinted live on a real photograph.
+- **Festive juice tumbler:** frost-white or gold lettering wrapped on the glass.
+- **Coaster set:** initials appear on each of the four travertine coasters.
+- **Monogram tray:** the family name and an optional "Est." year, centred on the tray.
+- **Couture wedding badge:** drawn as sharp vector art. It has a gold rosette, the role in script (long roles wrap onto two lines), an optional name, and the ribbon colour (ivory, blush, sage or maroon).
+- **Wedding party badge set:** six matching role badges with the couple's names. Sets of 6, 12 or 24, with tiered prices.
+- **Return-gift magnets:** the couple and the date in three designs (gold classic, marigold, rose garden). 25, 50, 100 or 200 magnets, with tiered prices.
+- **Wedding photo magnet:** add your photo and an optional caption, previewed as a gold-edged magnet on a fridge door.
+- **Your Art, Framed:** add your photo and see it mounted in the chosen frame (oak, black or gold), scaled true to A3, A2 or A1.
+- **Photo upload:** goes to Cloudinary when it's configured; otherwise the order notes that the photo will be collected on WhatsApp.
+- **Need it by:** a date field checks the making time plus delivery, and offers WhatsApp if it's tight.
+- **Proofs and big orders:** a note promises a digital proof on WhatsApp before anything is made. Wedding pieces show a concierge panel for big or bespoke orders.
+- **On phones:** the preview stays pinned above the fields, so you watch the name appear as you type.
+- **/personalised and /wedding** are now full pages: a photographic opening, three steps (type it · see it, live · we make it by hand), the pieces with filters, and a wedding concierge band.
+- **New base photography:** a blank tumbler (cut out for live tinting), coasters, a tray and a juice glass, generated with high-end product-photography art direction.
+- **Light switch:** on phones it now sits in the bottom-left corner, clear of the buttons.
+
 ## Phase 4 — The shop (17 Oct 2026)
 
 - **Art Wall Frames** (new collection, `/collections/art-frames`):
