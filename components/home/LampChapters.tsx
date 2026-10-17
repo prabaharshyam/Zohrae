@@ -133,10 +133,7 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
               {p.stage ? (
                 <div className="flex-1" />
               ) : (
-                <div
-                  data-cursor="Turn"
-                  className="chapter-lamp relative z-10 mx-auto my-auto block w-[min(70vw,330px)] md:w-[min(30vw,420px)]"
-                >
+                <div data-cursor="Turn" className="chapter-lamp chapter-lamp-fit relative z-10 mx-auto my-auto block">
                   <span aria-hidden className="chapter-glow absolute inset-[8%] rounded-full" />
                   <DepthTurn
                     title={p.title}
@@ -152,12 +149,13 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
               )}
 
               <footer className="gutter relative z-10 mx-auto grid w-full max-w-[1600px] gap-4 pb-8 md:grid-cols-2 md:items-end md:pb-10">
-                <div className="max-w-md">
+                {/* Room on the right for the fixed light switch. */}
+                <div className="max-w-md max-md:pr-32">
                   <h2 className="font-display text-3xl md:text-5xl">{p.title}</h2>
                   <p className="mt-2 text-sm opacity-80 md:text-base">{p.tagline}</p>
                   <p className="label mt-4 text-[10px] opacity-60">{copy.light.touchHint}</p>
                 </div>
-                <div className="flex items-center gap-6 md:justify-end">
+                <div className="flex items-center gap-5 pr-32 md:justify-end md:gap-6 md:pr-28">
                   <p className="font-display text-2xl">{formatPrice(p.priceRange.min)}</p>
                   <ButtonLink href={`/products/${p.handle}`} variant="ghost" arrow>
                     Discover

@@ -591,6 +591,16 @@ canvas {
 .chapter-name {
   color: color-mix(in oklab, var(--ink) 55%, transparent);
 }
+/* Sized by the screen's height as well as its width, so the name, price and
+   button below the lamp stay in view on short laptop screens. */
+.chapter-lamp-fit {
+  width: max(150px, min(70vw, 330px, (100svh - 22rem) * 0.75));
+}
+@media (min-width: 768px) {
+  .chapter-lamp-fit {
+    width: max(150px, min(30vw, 420px, (100svh - 19rem) * 0.75));
+  }
+}
 .chapter-glow {
   background: radial-gradient(closest-side, color-mix(in oklab, var(--chap) 30%, transparent), transparent);
   transition: background 0.8s;
