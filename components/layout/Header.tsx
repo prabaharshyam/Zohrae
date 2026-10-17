@@ -109,9 +109,9 @@ export function Header({ collections }: { collections: NavCollection[] }) {
 
       <header
         className={clsx(
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,height,box-shadow,backdrop-filter] duration-500 ease-silk",
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,height,box-shadow] duration-500 ease-silk",
           solid
-            ? "h-16 bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] shadow-[0_1px_0_var(--line)] backdrop-blur-md md:h-[68px]"
+            ? "h-16 bg-[color-mix(in_oklab,var(--bg)_94%,transparent)] shadow-[0_1px_0_var(--line)] md:h-[68px]"
             : "h-[var(--header-h)]",
         )}
         style={

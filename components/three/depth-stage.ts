@@ -183,6 +183,7 @@ export async function createDepthStage(el: HTMLElement, opts: { off: string; on?
   const lit = el.querySelector<HTMLElement>(".lit");
   const root = document.documentElement;
 
+  let dirty = true;
   const resize = () => {
     const r = el.getBoundingClientRect();
     if (!r.width || !r.height) return;
@@ -194,6 +195,7 @@ export async function createDepthStage(el: HTMLElement, opts: { off: string; on?
     const dist = (fitH * 0.5) / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     camera.position.set(0, 0, dist + 0.15);
     camera.updateProjectionMatrix();
+    dirty = true;
   };
   const ro = new ResizeObserver(resize);
   ro.observe(el);
@@ -213,6 +215,7 @@ export async function createDepthStage(el: HTMLElement, opts: { off: string; on?
   const rot = { x: 0, y: 0 };
   let frame = 0;
   let covered = false;
+  let lastLamp = -1;
   const tick = (now: number) => {
     raf = requestAnimationFrame(tick);
     const dt = Math.min(0.05, (now - last) / 1000);
@@ -238,6 +241,19 @@ export async function createDepthStage(el: HTMLElement, opts: { off: string; on?
     const lamp = Number(lit?.style.getPropertyValue("--lamp") || 0);
     const dim = Number(root.style.getPropertyValue("--dim") || 1);
     material.uniforms.uLamp.value = lamp * (0.3 + 0.7 * dim);
+    // Draw only when something moved: a resting lamp costs nothing.
+    const u = material.uniforms.uLamp.value as number;
+    if (
+      !dirty &&
+      Math.abs(rot.y - mesh.userData.ry) < 1e-4 &&
+      Math.abs(rot.x - mesh.userData.rx) < 1e-4 &&
+      u === lastLamp
+    )
+      return;
+    dirty = false;
+    lastLamp = u;
+    mesh.userData.rx = rot.x;
+    mesh.userData.ry = rot.y;
     renderer.render(scene, camera);
   };
   raf = requestAnimationFrame(tick);

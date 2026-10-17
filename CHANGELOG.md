@@ -1,5 +1,44 @@
 # Changelog
 
+## Phase 3.8 — Motion, 3D and small surprises (17 Oct 2026)
+
+Owner feedback: the site wasn't smooth; lamps already looked lit with the room lights on; beyond the lights there was too little animation or 3D; Coquille's AI image looked hallucinated; two layout bugs.
+
+**Lamps light as you scroll, always.** A lamp that should be lit but is still below the fold now waits in the dark and switches on (catch, blink, hold) as it scrolls into view. This holds even with the room lights on.
+
+**3D and motion**
+
+- **Hero:** the dark showroom opens like an iris from the lamp itself as it lights, and the headline letters flip upright in 3D.
+- **Section headings** across the site flip up word by word in 3D as they enter.
+- **Revealing blocks** rise and tip upright, like cards lifted onto a table.
+- **Lamp chapters:** each lamp's name stands up letter by letter as its chapter arrives.
+- **L'Atelier:** now a 3D deck. Each photo flips down onto the stack like a page hinged at its top, while the one beneath sinks into the dark.
+- **Vases and planters** turn in 3D toward the cursor (the same real-photo depth turn as the lamps).
+- **Product cards** lean toward the cursor in 3D and catch a sheen of light where it points.
+- **Photos** (gifts, weddings, shop the room) wipe up into view while settling from a zoom.
+- **The values marquee** leans with your scroll speed and springs back.
+- **A glowing filament** along the top edge fills as you scroll.
+- **A warm torch glow** follows the cursor in dark rooms (the collection grid, and the chapters without a stage photo).
+
+**Joy**
+
+- **Domino wave:** "Lights on" in a grid lights the lamps one after another, and fireflies drift up from the switch.
+- **Easter egg:** tap any lamp's gold button five times quickly and it winks back with a note and a few fireflies.
+
+**Smoother**
+
+- The warmth filter on lit photos only runs once the warmth slider has moved off 2700K.
+- The header no longer uses a backdrop blur.
+- The cursor no longer uses a blend mode.
+- Chapter reveals use a plain clip (no rounded clipping).
+- Turning lamps skip redraws when nothing has moved.
+
+**Fixes**
+
+- **Spotlight:** Ballerina replaces Coquille, whose lit photo doesn't match its unlit one.
+- **Conscious luxury:** a fourth stage, _Kept_ (the keepsake box), completes the row, with labels revealed alongside each drawing.
+- **L'Atelier:** the stats sit under the text, so the photo no longer covers them.
+
 ## Phase 3.7 — Spotlight chapters and the full collection (17 Oct 2026)
 
 - **Merchandising by tag** (the same tags drive Shopify later):

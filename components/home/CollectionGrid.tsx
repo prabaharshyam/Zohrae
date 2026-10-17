@@ -18,8 +18,8 @@ export function CollectionGrid({ lamps }: { lamps: Product[] }) {
   const t = copy.home.collection;
   const shown = lamps.slice(0, LIMIT);
   return (
-    <section id="collection" data-header-tone className="on-night relative py-24 md:py-36">
-      <Reveal className="gutter mx-auto max-w-[1600px]">
+    <section id="collection" data-header-tone data-torch className="on-night relative py-24 md:py-36">
+      <Reveal className="gutter relative z-[1] mx-auto max-w-[1600px]">
         <div className="reveal-item flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-xl">
             <p className="label text-fg-muted">{t.eyebrow}</p>

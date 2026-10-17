@@ -38,12 +38,31 @@ export function Hero({ product }: { product: Product }) {
 
   useGsap(ref, (mm, root) => {
     mm.add(MQ.motion, () => {
-      const split = SplitText.create(root.querySelector("h1"), { type: "lines", mask: "lines" });
+      const split = SplitText.create(root.querySelector("h1"), { type: "lines,chars", mask: "lines" });
+      // The room opens like an iris from the lamp itself, then the words flip up letter by letter.
+      const [fx] = product.stage?.off.switchAt ?? [0.5];
+      const at = `at ${(fx * 100).toFixed(0)}% 45%`;
       const intro = gsap
         .timeline({ paused: true })
-        .from(".hero-scene", { scale: 1.12, opacity: 0, duration: 2.2, ease: "expo.out" })
-        .from(split.lines, { yPercent: 110, duration: 1.2, stagger: 0.1, ease: "expo.out" }, 0.3)
-        .from(".hero-fade", { y: 24, opacity: 0, duration: 0.9, stagger: 0.08 }, 0.7);
+        .fromTo(
+          ".hero-scene",
+          { clipPath: `circle(0% ${at})`, scale: 1.15 },
+          { clipPath: `circle(150% ${at})`, scale: 1, duration: 2.4, ease: "expo.inOut" },
+        )
+        .from(
+          split.chars,
+          {
+            yPercent: 120,
+            rotationX: -90,
+            transformOrigin: "50% 100% -20px",
+            transformPerspective: 500,
+            duration: 1.2,
+            stagger: 0.03,
+            ease: "expo.out",
+          },
+          0.9,
+        )
+        .from(".hero-fade", { y: 24, opacity: 0, duration: 0.9, stagger: 0.08 }, 1.3);
       const play = () => intro.play();
       if (document.documentElement.classList.contains("intro-seen") || !document.querySelector(".preloader")) {
         gsap.delayedCall(0.1, play);
@@ -60,7 +79,7 @@ export function Hero({ product }: { product: Product }) {
       window.addEventListener("pointermove", move, { passive: true });
 
       const scrub = { trigger: root, start: "top top", end: "bottom top", scrub: true };
-      gsap.to(".hero-scene", { scale: 1.1, yPercent: 6, ease: "none", scrollTrigger: scrub });
+      gsap.to(".hero-drift", { scale: 1.1, ease: "none", scrollTrigger: scrub });
       gsap.to(".hero-copy", { yPercent: -25, opacity: 0, ease: "none", scrollTrigger: { ...scrub, end: "60% top" } });
       return () => {
         window.removeEventListener(ENTER_EVENT, play);

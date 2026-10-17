@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/motion/gsap";
 import { hoverSound, tapSound } from "@/lib/sound/ui";
 
@@ -17,6 +17,22 @@ export function Interactions() {
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  // Toasts: a short line, a few seconds, then gone.
+  useEffect(() => {
+    let t = 0;
+    const show = (e: Event) => {
+      setMessage((e as CustomEvent<string>).detail);
+      clearTimeout(t);
+      t = window.setTimeout(() => setMessage(null), 3200);
+    };
+    window.addEventListener("zohrae:toast", show);
+    return () => {
+      window.removeEventListener("zohrae:toast", show);
+      clearTimeout(t);
+    };
+  }, []);
 
   // Sounds work everywhere, including touch.
   useEffect(() => {
@@ -104,11 +120,16 @@ export function Interactions() {
   }, []);
 
   return (
-    <div aria-hidden className="cursor-layer">
-      <div ref={ring} className="cursor-ring">
-        <span ref={label} className="cursor-text label" />
+    <>
+      <p role="status" aria-live="polite" className={message ? "toast" : "sr-only"}>
+        {message}
+      </p>
+      <div aria-hidden className="cursor-layer">
+        <div ref={ring} className="cursor-ring">
+          <span ref={label} className="cursor-text label" />
+        </div>
+        <div ref={dot} className="cursor-dot" />
       </div>
-      <div ref={dot} className="cursor-dot" />
-    </div>
+    </>
   );
 }

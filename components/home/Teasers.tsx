@@ -20,13 +20,15 @@ export function Teasers() {
               (i === 0 ? "teaser-gifts" : "teaser-wedding")
             }
           >
-            <Image
-              src={PHOTOS[i]}
-              alt=""
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover transition-transform duration-[1.6s] ease-silk group-hover:scale-105"
-            />
+            <span data-reveal-media className="absolute inset-0 overflow-hidden">
+              <Image
+                src={PHOTOS[i]}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-[1.6s] ease-silk group-hover:scale-105"
+              />
+            </span>
             <span aria-hidden className="teaser-scrim absolute inset-0" />
             <span className="relative">
               <span className="label block text-fg-muted">{t.eyebrow}</span>

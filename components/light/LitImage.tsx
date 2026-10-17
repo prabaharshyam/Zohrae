@@ -6,6 +6,7 @@ import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } fr
 import { Logo } from "@/components/brand/Logo";
 import { copy } from "@/copy/en";
 import type { ImageAsset } from "@/lib/commerce/types";
+import { fireflies, toast } from "@/lib/delight/fireflies";
 import { lamps } from "@/lib/light/lamps";
 import { playClick } from "@/lib/light/sound";
 import { light } from "@/lib/light/store";
@@ -140,6 +141,7 @@ function TouchSwitch({
 }) {
   // Its own frame-sized layer to measure: the parent's ref isn't attached yet when this mounts.
   const frame = useRef<HTMLSpanElement>(null);
+  const taps = useRef<number[]>([]);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const isOn = useSyncExternalStore(
     (cb) => {
@@ -181,6 +183,15 @@ function TouchSwitch({
             e.stopPropagation();
             lamps.toggle(id);
             if (light.get().sound) playClick(lamps.isOn(id));
+            // Five quick taps: a little wink back.
+            const now = performance.now();
+            taps.current = [...taps.current.filter((t) => now - t < 2500), now];
+            if (taps.current.length >= 5) {
+              taps.current = [];
+              toast(copy.light.winks[Math.floor(Math.random() * copy.light.winks.length)]);
+              const r = e.currentTarget.getBoundingClientRect();
+              fireflies(r.left + r.width / 2, r.top + r.height / 2, 14);
+            }
           }}
         >
           <span aria-hidden className="lamp-touch-dot" />

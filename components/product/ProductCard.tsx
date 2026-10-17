@@ -8,17 +8,18 @@ import { ProductImage } from "./ProductImage";
  * Phase 1 card: image, name, tagline, price. Hover lifestyle reveal, tilt,
  * quick-add and wishlist arrive in Phase 4.
  */
-export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
+export function ProductCard({ product, priority, turn }: { product: Product; priority?: boolean; turn?: boolean }) {
   const tags = [copy.product.handcrafted, product.editionSize ? copy.product.limited : null].filter(Boolean);
 
   // The title link stretches over the whole card, so the lamp's own switch
   // (a button) can sit on the photo without being nested inside a link. The
   // photo sits above the link but lets clicks through; only its switch catches them.
   return (
-    <article className="group relative">
+    <article data-tilt className="group relative">
       <ProductImage
         product={product}
         priority={priority}
+        turn={turn}
         sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
         className="pointer-events-none relative z-[11] transition-transform duration-700 ease-silk group-hover:-translate-y-1"
       />

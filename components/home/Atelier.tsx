@@ -43,19 +43,21 @@ export function Atelier() {
           onUpdate: (st) => setStep(Math.min(4, Math.floor(st.progress * 5))),
         },
       });
-      // Five equal windows, one per step: each photo wipes up just before its
-      // window and settles from 1.18 to 1 across it.
+      // Five equal windows, one per step. Each photo flips down onto the deck
+      // like a page hinged at its top edge, while the one beneath sinks back
+      // into the dark; inside, the photo settles from 1.18 to 1.
       frames.forEach((frame, i) => {
         const img = frame.querySelector("img");
-        const start = Math.max(0, i - 0.4);
+        const start = Math.max(0, i - 0.45);
         tl.fromTo(img, { scale: 1.18 }, { scale: 1, duration: i + 1 - start }, start);
-        if (i > 0)
+        if (i > 0) {
           tl.fromTo(
             frame,
-            { clipPath: "inset(100% 0% 0% 0%)" },
-            { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4 },
+            { rotationX: 100, opacity: 0, transformOrigin: "50% 0%", z: 60 },
+            { rotationX: 0, opacity: 1, z: 0, duration: 0.45, ease: "power2.out" },
             start,
-          );
+          ).to(frames[i - 1], { z: -160, opacity: 0.25, duration: 0.45, ease: "power1.in" }, start);
+        }
       });
 
       // The whole stack leans toward the cursor.
@@ -127,15 +129,32 @@ export function Atelier() {
               </div>
             ))}
           </div>
+
+          <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-line pt-4 md:mt-12 md:pt-6">
+            {t.stats.map((s) => (
+              <div key={s.label}>
+                <dt className="sr-only">{s.label}</dt>
+                <dd>
+                  <span className="font-display text-3xl md:text-4xl">
+                    <span className="stat-value" data-value={s.value}>
+                      {s.value}
+                    </span>
+                    {s.suffix}
+                  </span>
+                  <span className="mt-1 block text-xs text-fg-muted md:text-sm">{s.label}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        <div className="relative min-h-0 [perspective:1200px] md:order-2 md:h-[70svh]">
-          <div className="atelier-stack relative size-full overflow-hidden rounded-[2px] bg-night shadow-[0_40px_80px_-30px_rgb(0_0_0/0.45)]">
+        <div className="relative min-h-0 [perspective:1200px] md:order-2 md:h-[min(72svh,720px)]">
+          <div className="atelier-stack relative size-full [perspective:1600px] [transform-style:preserve-3d]">
             {SCENES.map((s, i) => (
               <div
                 key={s.src}
-                className="atelier-frame absolute inset-0 overflow-hidden"
-                style={i > 0 ? { clipPath: "inset(100% 0% 0% 0%)" } : undefined}
+                className="atelier-frame absolute inset-0 overflow-hidden rounded-[2px] bg-night shadow-[0_40px_80px_-30px_rgb(0_0_0/0.5)] [backface-visibility:hidden]"
+                style={i > 0 ? { opacity: 0 } : undefined}
               >
                 <Image
                   src={s.src}
@@ -151,23 +170,6 @@ export function Atelier() {
             </span>
           </div>
         </div>
-
-        <dl className="grid grid-cols-3 gap-4 border-t border-line pt-4 md:absolute md:inset-x-[var(--gutter)] md:bottom-8 md:pt-6">
-          {t.stats.map((s) => (
-            <div key={s.label}>
-              <dt className="sr-only">{s.label}</dt>
-              <dd>
-                <span className="font-display text-3xl md:text-5xl">
-                  <span className="stat-value" data-value={s.value}>
-                    {s.value}
-                  </span>
-                  {s.suffix}
-                </span>
-                <span className="mt-1 block text-xs text-fg-muted md:text-sm">{s.label}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
       <div className="gutter mx-auto max-w-[1600px] pb-4 md:hidden">
         <ButtonLink href="/atelier" variant="text" arrow>

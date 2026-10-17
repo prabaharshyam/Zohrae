@@ -21,7 +21,7 @@ export function Vessels({ products }: { products: Product[] }) {
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:gap-x-8">
           {products.map((p, i) => (
             <div key={p.id} className={i % 2 === 1 ? "reveal-item md:mt-24" : "reveal-item"}>
-              <ProductCard product={p} />
+              <ProductCard product={p} turn />
             </div>
           ))}
         </div>

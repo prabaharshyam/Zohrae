@@ -18,7 +18,8 @@ function seed(el: HTMLElement) {
  * - The lamp's own switch (or its first-sight ignition): catch, blink, hold.
  * - Off: a short ember fade.
  * - While lit and on screen, now and then a short bzz (idle life).
- * Off-screen lamps and reduced-motion visitors skip the animation.
+ * Lamps that should be lit but are off-screen wait dark and light on arrival;
+ * reduced-motion visitors skip the animation.
  */
 export function useLampLevel(ref: React.RefObject<HTMLElement | null>, enabled: boolean, id?: string) {
   useEffect(() => {
@@ -33,12 +34,29 @@ export function useLampLevel(ref: React.RefObject<HTMLElement | null>, enabled: 
       level = v;
       el.style.setProperty("--lamp", v.toFixed(3));
     };
-    write(level);
     const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const visible = () => {
       const r = el.getBoundingClientRect();
       return r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
     };
+    // A lit lamp that's still below the fold waits in the dark and switches on
+    // as it scrolls into view, so even with the room lights on, lamps light up as you go.
+    let waiting = false;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting || !waiting) return;
+        waiting = false;
+        if (on) window.setTimeout(() => on && run(ignition, IGNITION_MS), 120 + seed(el) * 260);
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    const wait = () => {
+      waiting = true;
+      write(0);
+    };
+    if (on && !visible() && !reduced()) wait();
+    else write(level);
     const run = (fn: (t: number) => number, duration: number) => {
       cancelAnimationFrame(raf);
       const t0 = performance.now();
@@ -69,7 +87,8 @@ export function useLampLevel(ref: React.RefObject<HTMLElement | null>, enabled: 
       cancelAnimationFrame(raf);
       clearTimeout(timer);
       armIdle();
-      if (!visible() || reduced()) return write(on ? 1 : 0);
+      if (reduced()) return write(on ? 1 : 0);
+      if (!visible()) return on ? wait() : ((waiting = false), write(0));
       const { cause } = lamps.last();
       if (!on) {
         const from = level;
@@ -86,6 +105,7 @@ export function useLampLevel(ref: React.RefObject<HTMLElement | null>, enabled: 
 
     return () => {
       unsubscribe();
+      io.disconnect();
       cancelAnimationFrame(raf);
       clearTimeout(timer);
       clearTimeout(idleTimer);

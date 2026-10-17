@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Jost } from "next/font/google";
 import { Interactions } from "@/components/delight/Interactions";
+import { MotionDirector } from "@/components/delight/MotionDirector";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { LightSwitch } from "@/components/light/LightSwitch";
@@ -61,6 +62,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <LightSwitch />
           <Interactions />
+          <MotionDirector />
         </SmoothScroll>
       </body>
     </html>

@@ -20,10 +20,14 @@ export function Reveal({
   const ref = useRef<HTMLDivElement>(null);
   useGsap(ref, (mm, root) => {
     mm.add(MQ.motion, () => {
+      // Items rise and tip upright, like cards lifted onto a table.
       gsap.from(root.querySelectorAll(".reveal-item"), {
-        y: 40,
+        y: 60,
+        rotationX: 24,
+        transformOrigin: "50% 100%",
+        transformPerspective: 1000,
         opacity: 0,
-        duration: 1,
+        duration: 1.2,
         ease: "expo.out",
         stagger,
         scrollTrigger: { trigger: root, start: "top 80%", once: true },

@@ -129,11 +129,12 @@ export const copy = {
     conscious: {
       eyebrow: "VI · Conscious luxury",
       title: "Made from plants, made to last",
-      stages: ["Grown", "Spun", "Sculpted"],
+      stages: ["Grown", "Spun", "Sculpted", "Kept"],
       points: [
         "Printed in PLA, a plant-based bioplastic made from renewable sources like corn starch or sugarcane, rather than petroleum.",
         "Made to order in small batches, so there's no warehouse of unsold stock.",
         "Designed to last for years, not seasons.",
+        "Packed by hand in a keepsake box that's made to be kept, too.",
       ],
       note: "PLA is a bioplastic. It breaks down only in industrial composting, so we design every piece to be kept.",
       cta: "How we make it",
@@ -219,6 +220,12 @@ export const copy = {
     nudge: "It’s evening. Want to see them glow?",
     nudgeCta: "Switch them on",
     nudgeDismiss: "Not now",
+    winks: [
+      "Easy there. Every lamp is finished by one pair of hands.",
+      "It likes you too.",
+      "Disco mode isn't on the menu. Yet.",
+      "You've found the lamp whisperer setting.",
+    ],
     gridOff: "Lights off",
     gridOn: "Lights on",
     touchOn: "Light it",

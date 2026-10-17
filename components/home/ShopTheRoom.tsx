@@ -64,7 +64,11 @@ export function ShopTheRoom({ products }: { products: Product[] }) {
         </div>
       </div>
 
-      <div role="tabpanel" className="relative mt-10 aspect-[4/5] overflow-hidden bg-bg-raised md:aspect-[16/10]">
+      <div
+        role="tabpanel"
+        data-reveal-media
+        className="relative mt-10 aspect-[4/5] overflow-hidden bg-bg-raised md:aspect-[16/10]"
+      >
         {rooms.map((p, i) => (
           <Image
             key={p.handle}

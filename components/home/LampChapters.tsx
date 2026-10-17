@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { copy } from "@/copy/en";
 import type { Product } from "@/lib/commerce/types";
 import { formatPrice } from "@/lib/format";
-import { gsap, ScrollTrigger } from "@/lib/motion/gsap";
+import { gsap, ScrollTrigger, SplitText } from "@/lib/motion/gsap";
 import { MQ, useGsap } from "@/lib/motion/useGsap";
 import { whooshSound } from "@/lib/sound/ui";
 
@@ -40,10 +40,26 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
   useGsap(ref, (mm, root) => {
     mm.add(MQ.motion, () => {
       const chapters = gsap.utils.toArray<HTMLElement>(".chapter", root);
+      const splits: SplitText[] = [];
       chapters.forEach((ch, i) => {
         const inner = ch.querySelector(".chapter-inner");
-        const name = ch.querySelector(".chapter-name");
+        const name = ch.querySelector<HTMLElement>(".chapter-name");
         const lamp = ch.querySelector(".chapter-lamp");
+        // The name's letters stand up one by one in 3D as the chapter arrives.
+        if (name) {
+          const split = SplitText.create(name, { type: "chars" });
+          splits.push(split);
+          gsap.from(split.chars, {
+            rotationX: -100,
+            yPercent: 40,
+            opacity: 0,
+            transformOrigin: "50% 100% -40px",
+            transformPerspective: 800,
+            stagger: 0.06,
+            ease: "power2.out",
+            scrollTrigger: { trigger: ch, start: i ? "top 85%" : "top 95%", end: i ? "top 5%" : "top 30%", scrub: 0.6 },
+          });
+        }
         if (i > 0) {
           gsap
             .timeline({
@@ -55,12 +71,7 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
                 onEnter: () => whooshSound(),
               },
             })
-            .fromTo(
-              inner,
-              { clipPath: "inset(12% 6% 0% 6% round 28px)" },
-              { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "none" },
-            )
-            .fromTo(name, { yPercent: 60 }, { yPercent: 0, ease: "none" }, 0)
+            .fromTo(inner, { clipPath: "inset(12% 6% 0% 6%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "none" })
             .fromTo(lamp, { yPercent: 30, scale: 0.85 }, { yPercent: 0, scale: 1, ease: "none" }, 0);
         }
         // As the next chapter rises, this one recedes into the dark.
@@ -79,6 +90,7 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
         }
       });
       ScrollTrigger.refresh();
+      return () => splits.forEach((s) => s.revert());
     });
   });
 
@@ -92,7 +104,11 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
             className="chapter sticky top-0 h-svh overflow-hidden bg-night"
             style={{ "--chap": c.bg, "--ink": c.ink } as React.CSSProperties}
           >
-            <div data-header-tone className="chapter-inner chapter-ground relative flex h-full flex-col">
+            <div
+              data-header-tone
+              data-torch={p.stage ? undefined : ""}
+              className="chapter-inner chapter-ground relative flex h-full flex-col"
+            >
               {p.stage ? (
                 <StageScene product={p} />
               ) : (

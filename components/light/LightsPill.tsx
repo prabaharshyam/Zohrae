@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { useSyncExternalStore } from "react";
 import { copy } from "@/copy/en";
+import { fireflies } from "@/lib/delight/fireflies";
 import { lamps } from "@/lib/light/lamps";
 import { playClick } from "@/lib/light/sound";
 import { light } from "@/lib/light/store";
@@ -16,7 +17,7 @@ const subscribe = (cb: () => void) => {
   };
 };
 
-/** "Lights off / on" for one grid of lamps: lights every lamp in it, or puts them all out. */
+/** "Lights off / on" for one grid of lamps: lights every lamp in it (in a wave, with fireflies), or puts them all out. */
 export function LightsPill({ handles }: { handles: string[] }) {
   const key = handles.join(",");
   const allOn = useSyncExternalStore(
@@ -31,9 +32,15 @@ export function LightsPill({ handles }: { handles: string[] }) {
       role="switch"
       aria-checked={allOn}
       data-silent
-      onClick={() => {
-        handles.forEach((h) => lamps.set(h, !allOn));
-        if (light.get().sound) playClick(!allOn);
+      onClick={(e) => {
+        const next = !allOn;
+        // A domino: lamps catch one after another across the grid.
+        handles.forEach((h, i) => window.setTimeout(() => lamps.set(h, next), i * 110));
+        if (light.get().sound) playClick(next);
+        if (next) {
+          const r = e.currentTarget.getBoundingClientRect();
+          fireflies(r.left + r.width / 2, r.top + r.height / 2);
+        }
       }}
       className={clsx(
         "label inline-flex h-10 items-center gap-3 rounded-full border px-4 text-[10px] transition-colors duration-500",

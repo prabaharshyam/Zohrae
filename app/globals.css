@@ -195,7 +195,9 @@ canvas {
 }
 .lit-on {
   opacity: calc(var(--lamp) * (0.3 + 0.7 * var(--dim)));
-  /* Warmth: 2700K is the photographed colour; warmer adds amber, cooler pulls saturation. */
+}
+/* Warmth: 2700K is the photographed colour; warmer adds amber, cooler pulls saturation. */
+[data-tint] .lit-on {
   filter: sepia(max(0, calc((var(--candle) - 0.6) * 0.55))) saturate(calc(1 + (var(--candle) - 0.6) * 0.5));
 }
 /* DepthTurn: once the WebGL twin is drawing, hide the flat photos (the halo stays). */
@@ -509,14 +511,14 @@ canvas {
   z-index: 90;
   pointer-events: none;
   border-radius: 999px;
-  mix-blend-mode: difference;
   transition: opacity 0.3s;
 }
 .cursor-dot {
   width: 6px;
   height: 6px;
   margin: -3px 0 0 -3px;
-  background: #fff;
+  background: var(--glow);
+  box-shadow: 0 0 8px rgb(255 184 105 / 0.8);
 }
 .cursor-ring {
   width: 38px;
@@ -530,18 +532,20 @@ canvas {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  border: 1px solid #fff;
+  border: 1px solid rgb(192 130 58 / 0.85);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12);
   transition:
     transform 0.5s var(--ease-silk),
     background-color 0.4s;
 }
 .cursor-hover .cursor-ring::before {
   transform: scale(1.7);
-  background: rgb(255 255 255 / 0.12);
+  background: rgb(255 184 105 / 0.12);
 }
 .cursor-label .cursor-ring::before {
   transform: scale(2.6);
-  background: #fff;
+  background: var(--glow);
+  border-color: var(--glow);
 }
 .cursor-down .cursor-ring::before {
   transform: scale(0.8);
@@ -549,7 +553,7 @@ canvas {
 .cursor-text {
   position: relative;
   font-size: 9px;
-  color: #000;
+  color: var(--night);
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s;
@@ -583,7 +587,6 @@ canvas {
   color: color-mix(in oklab, var(--ink) 40%, var(--moon));
   --fg-muted: color-mix(in oklab, var(--moon) 70%, transparent);
   transition: background-color 0.8s var(--ease-silk);
-  will-change: clip-path, transform;
 }
 .chapter-name {
   color: color-mix(in oklab, var(--ink) 55%, transparent);
@@ -683,4 +686,90 @@ canvas {
 .on-night .lit-halo {
   opacity: calc(var(--lamp) * var(--dim));
   transition: none;
+}
+
+/* ─── Delight layer ───────────────────────────────────────── */
+/* Scroll progress as a warming filament along the top edge. */
+.scroll-filament {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 80;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #7a4f1e, var(--ochre) 40%, var(--glow));
+  box-shadow: 0 0 10px rgb(255 184 105 / 0.7);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-filament {
+    display: none;
+  }
+}
+/* Tilting cards catch a sheen of light where the cursor is. */
+[data-tilt] {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+[data-tilt]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 236 200 / 0.18), transparent 45%);
+  transition: opacity 0.5s;
+}
+[data-tilt]:hover::after {
+  opacity: 1;
+}
+/* A warm hand-held glow following the cursor in dark rooms. */
+[data-torch] {
+  --tx: 50%;
+  --ty: -400px;
+}
+[data-torch]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(520px circle at var(--tx) var(--ty), rgb(255 184 105 / 0.09), transparent 70%);
+}
+.firefly-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 85;
+  pointer-events: none;
+}
+.firefly {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 999px;
+  background: #ffe3a8;
+  box-shadow:
+    0 0 6px 2px rgb(255 184 105 / 0.9),
+    0 0 16px 4px rgb(255 184 105 / 0.35);
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 120px;
+  z-index: 86;
+  translate: -50% 0;
+  max-width: min(92vw, 420px);
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgb(14 11 9 / 0.92);
+  color: var(--moon);
+  border: 1px solid rgb(255 184 105 / 0.35);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  font-size: 0.875rem;
+  text-align: center;
+  pointer-events: none;
 }

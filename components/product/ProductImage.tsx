@@ -1,4 +1,5 @@
 import { LitImage } from "@/components/light/LitImage";
+import { DepthTurn } from "@/components/three/DepthTurn";
 import type { Product } from "@/lib/commerce/types";
 
 type Props = {
@@ -8,12 +9,15 @@ type Props = {
   className?: string;
   /** Light up by itself the first time it's seen. */
   ignite?: boolean;
+  /** Turn in 3D toward the cursor (cut-outs only). */
+  turn?: boolean;
 };
 
 /** Card image: the product cut-out in a 3:4 frame; lamps light with the room switch or their own gold button. */
-export function ProductImage({ product, sizes, priority, className, ignite }: Props) {
+export function ProductImage({ product, sizes, priority, className, ignite, turn }: Props) {
+  const Frame = turn && product.imageOff ? DepthTurn : LitImage;
   return (
-    <LitImage
+    <Frame
       title={product.title}
       off={product.imageOff ?? product.images[0]}
       on={product.imageOn}

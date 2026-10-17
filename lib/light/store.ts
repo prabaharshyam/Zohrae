@@ -57,6 +57,10 @@ function apply() {
   root.style.setProperty("--dim", String(state.dim));
   root.style.setProperty("--glow-rgb", kelvinToCssRgb(state.kelvin));
   root.style.setProperty("--candle", ((KELVIN.max - state.kelvin) / (KELVIN.max - KELVIN.min)).toFixed(3));
+  // Only tint the lit photos when the warmth slider has moved off the photographed 2700K:
+  // a CSS filter on every lit photo costs frames while lamps fade.
+  if (Math.abs(state.kelvin - KELVIN.warm) > 60) root.dataset.tint = "";
+  else delete root.dataset.tint;
 }
 
 function set(patch: Partial<LightState>) {
