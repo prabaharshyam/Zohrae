@@ -171,7 +171,7 @@ function Results({ ranked, answers, onRestart }: { ranked: Product[]; answers: A
       <p className="label text-fg-muted">{t.resultEyebrow}</p>
       <div className="mt-6 grid items-center gap-10 md:grid-cols-[1fr_1fr] md:gap-16">
         <div ref={flip} className="on-night relative overflow-hidden" style={{ transformStyle: "preserve-3d" }}>
-          <ProductImage product={winner} sizes="(min-width: 768px) 45vw, 100vw" ignite turn />
+          <ProductImage product={winner} sizes="(min-width: 768px) 45vw, 100vw" ignite />
         </div>
         <div>
           <h2 data-no-reveal className="font-display text-[length:var(--fs-h1)] leading-none">

@@ -144,7 +144,7 @@ export function LampChapters({ lamps }: { lamps: Product[] }) {
                     on={p.imageOn}
                     sizes="(min-width: 768px) 30vw, 70vw"
                     frameClassName="aspect-[3/4]"
-                    turn={0.5}
+                    turn={0.28}
                     lampId={p.handle}
                     ignite
                   />

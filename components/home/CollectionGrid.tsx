@@ -32,7 +32,7 @@ export function CollectionGrid({ lamps }: { lamps: Product[] }) {
         <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-x-8 md:gap-y-16">
           {shown.map((p) => (
             <div key={p.id} className="reveal-item">
-              <ProductCard product={p} turn />
+              <ProductCard product={p} />
             </div>
           ))}
         </div>

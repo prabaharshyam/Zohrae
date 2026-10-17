@@ -170,7 +170,7 @@ export async function createDepthStage(el: HTMLElement, opts: { off: string; on?
       uHasOn: { value: onImg ? 1 : 0 },
       uLamp: { value: 0 },
       uDepth: { value: depth },
-      uDepthScale: { value: planeW * 0.9 },
+      uDepthScale: { value: planeW * 0.55 }, // shallow: enough to read as round, never to stretch
       uPlaneW: { value: planeW },
       uTexel: { value: new THREE.Vector2(1 / GRID.x, 1 / GRID.y) },
     },

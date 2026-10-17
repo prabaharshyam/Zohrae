@@ -106,8 +106,8 @@ export function MotionDirector() {
         const x = (e.clientX - r.left) / r.width;
         const y = (e.clientY - r.top) / r.height;
         gsap.to(card, {
-          rotationY: (x - 0.5) * 14,
-          rotationX: -(y - 0.5) * 12,
+          rotationY: (x - 0.5) * 6,
+          rotationX: -(y - 0.5) * 5,
           transformPerspective: 900,
           duration: 0.5,
           ease: "power3.out",

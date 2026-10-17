@@ -175,6 +175,7 @@ export const copy = {
     room: {
       eyebrow: "VIII · Shop the room",
       title: "See it where it lives",
+      body: "Real rooms, real evenings. Choose a room, then tap the glowing point on the lamp.",
       hotspot: (name: string) => `See ${name}`,
       viewPiece: "View the piece",
       close: "Close",

@@ -1,5 +1,11 @@
 # Changelog
 
+## Fixes after review (17 Oct 2026)
+
+- **No more stretched products on hover.** The 3D turn treats every lamp as a perfectly round form, so twisted and asymmetric lamps (Sora, Onda) warped as they turned. It's now off on product cards, product pages, vessels and the Light Finder, where a gentler tilt and sheen remain. It stays only on the large spotlight lamps, with half the depth and a smaller turn.
+- **Shop the room fits one screen.** Rooms are a numbered list beside the photograph, and the photo shows at its own 4:5 proportion, never taller than the screen. It's no longer cropped and enlarged across the full width, so it's sharp. Rooms cross-fade with a slow settle.
+- **The footer wordmark is alive again.** The gold fill was measured before the pinned chapters above it had taken their space, so it was already full by the time you arrived. It now fills as you reach the end, then a band of light sweeps across the letters every few seconds, a warm glow follows the cursor over them, and the É's accent gives a little bob.
+
 ## Phase 7 — Ready for launch (17 Oct 2026)
 
 - **Every page is real now.**
