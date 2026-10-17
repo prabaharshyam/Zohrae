@@ -72,6 +72,7 @@ export function CartContents({ onNavigate, page }: { onNavigate?: () => void; pa
       setMessage(null);
       const res = await startCheckout(
         state.lines.map(({ variantId, quantity, attributes }) => ({ variantId, quantity, attributes })),
+        state.gift,
       );
       if ("url" in res) window.location.href = res.url;
       else setMessage(res.error === "preview" ? copy.cart.preview : copy.cart.failed);
@@ -122,6 +123,38 @@ export function CartContents({ onNavigate, page }: { onNavigate?: () => void; pa
             </div>
             <p className="mt-2 text-xs text-fg-muted">{copy.cart.shippingNote}</p>
             <p className="mt-1 text-xs text-fg-muted">{copy.cart.giftNote}</p>
+            <div className="mt-5 border-t border-line pt-5">
+              <label className="flex cursor-pointer items-center justify-between gap-4">
+                <span className="label text-[10px]">{copy.cart.giftToggle}</span>
+                <input
+                  type="checkbox"
+                  role="switch"
+                  checked={state.gift.on}
+                  onChange={(e) => cart.setGift({ on: e.target.checked })}
+                  className="peer sr-only"
+                />
+                <span
+                  aria-hidden
+                  className="relative h-5 w-9 rounded-full bg-line transition-colors peer-checked:bg-ochre after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-bg after:transition-transform peer-checked:after:translate-x-4"
+                />
+              </label>
+              {state.gift.on && (
+                <div className="mt-3">
+                  <p className="text-xs text-fg-muted">{copy.cart.giftHint}</p>
+                  <label className="mt-3 block">
+                    <span className="sr-only">{copy.cart.giftMessage}</span>
+                    <textarea
+                      value={state.gift.message}
+                      maxLength={250}
+                      rows={3}
+                      placeholder={copy.cart.giftPlaceholder}
+                      onChange={(e) => cart.setGift({ message: e.target.value })}
+                      className="font-display w-full resize-none border border-line bg-transparent p-3 text-lg italic outline-none focus:border-ochre"
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
             <button
               type="button"
               onClick={checkout}

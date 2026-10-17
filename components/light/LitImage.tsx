@@ -97,7 +97,11 @@ export function LitImage({
   );
 
   return (
-    <div ref={ref} className={clsx("lit relative overflow-hidden", frameClassName, className)}>
+    <div
+      ref={ref}
+      data-lamp-id={on ? lampId : undefined}
+      className={clsx("lit relative overflow-hidden", frameClassName, className)}
+    >
       {off ? (
         <>
           {fit === "contain" && on && <div className="lit-halo absolute inset-0" aria-hidden />}

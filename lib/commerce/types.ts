@@ -80,6 +80,8 @@ export type Product = {
 
   specs: ProductSpecs;
   personalise?: Personalise;
+  /** Priced per piece (wedding badges, magnets): "₹149 / piece", with a minimum quantity. */
+  unit?: { label: "piece"; min: number };
   handcraftHours?: number;
   editionSize?: number;
 };

@@ -129,7 +129,7 @@ Add one more product metafield, `zohrae.personalise` (JSON), to switch on the li
 
 Every choice arrives on the Shopify order as a **line item property**: Name, Lettering, Ink, Role, Photo, Needed by.
 
-**Wedding sets:** use the option name `Set` (e.g. `Set of 6`, `25 magnets`), with each variant priced separately for tiered pricing.
+**Sold by the piece** (wedding badges, return-gift magnets): price the variant per piece (e.g. ₹149) and add the product metafield `zohrae.min_quantity` (integer, e.g. 25). The site shows "₹149 / piece" with a note that the price may vary with quantity, and a WhatsApp link for larger orders.
 
 **Customer photos:** add a free Cloudinary account and set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` in Vercel. Photos then upload straight away, and the order carries a link to the full-resolution file. Without Cloudinary, the order notes that the photo will be collected on WhatsApp.
 

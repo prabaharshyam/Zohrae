@@ -168,7 +168,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           </div>
 
           {/* Centre: wordmark */}
-          <Link href="/" aria-label={copy.nav.home} className="block">
+          <Link href="/" aria-label={copy.nav.home} data-easter className="block">
             <Logo
               variant="mark"
               title=""

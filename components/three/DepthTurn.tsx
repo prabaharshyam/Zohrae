@@ -68,7 +68,8 @@ export function DepthTurn({ turn = 0.42, className, ...lit }: Props) {
 
   return (
     <div ref={wrap} className={clsx("depth-turn relative", ready && "is-ready", className)}>
-      <LitImage {...lit} />
+      {/* When the wrapper fills its frame, so does the photo (galleries). */}
+      <LitImage {...lit} className={className?.includes("size-full") ? "size-full" : undefined} />
     </div>
   );
 }

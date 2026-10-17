@@ -102,8 +102,10 @@ type Seed = {
   finishes?: { name: string; swatch: string }[];
   /** Sizes with their own price (art frames: A3 · A2 · A1). `price` is then the smallest. */
   sizes?: { name: string; price: number }[];
-  /** Label for the sizes option (default "Size"; wedding sets use "Set"). */
+  /** Label for the sizes option (default "Size"). */
   sizeLabel?: string;
+  /** Sold by the piece, with a minimum (wedding badges, magnets). */
+  perPiece?: { min: number };
   personalise?: Personalise;
   available?: boolean;
 };
@@ -171,6 +173,7 @@ function product(seed: Seed): Product {
     ...withGallery(seed.type === "Lamp" ? lampMedia(seed.handle, seed.title) : placeholderMedia(seed), seed.photo),
     specs: seed.specs ?? {},
     personalise: seed.personalise,
+    unit: seed.perPiece ? { label: "piece", min: seed.perPiece.min } : undefined,
     handcraftHours: seed.handcraftHours,
     editionSize: seed.editionSize,
   };
@@ -597,6 +600,7 @@ const WEDDING: Seed[] = [
     description:
       "A luxury badge for each role in the wedding party — Bride, Groom, Bridesmaid, Groomsman, Cousin, Family — with names in gold.",
     price: 249,
+    perPiece: { min: 1 },
     collections: ["wedding-atelier"],
     finishes: [
       { name: "Ivory ribbon", swatch: "#F1E8D8" },
@@ -630,14 +634,9 @@ const WEDDING: Seed[] = [
     tagline: "The whole celebration, matched in one design.",
     description:
       "A coordinated set of role badges for the wedding party. Build it role by role and preview every badge.",
-    price: 2999,
+    price: 149,
+    perPiece: { min: 6 },
     collections: ["wedding-atelier"],
-    sizes: [
-      { name: "Set of 6", price: 1399 },
-      { name: "Set of 12", price: 2599 },
-      { name: "Set of 24", price: 4799 },
-    ],
-    sizeLabel: "Set",
     finishes: [
       { name: "Ivory ribbon", swatch: "#F1E8D8" },
       { name: "Blush ribbon", swatch: "#E3B5AE" },
@@ -661,6 +660,7 @@ const WEDDING: Seed[] = [
     description:
       "Upload a photo from your wedding and we'll craft it into a premium fridge magnet with a soft gold edge.",
     price: 349,
+    perPiece: { min: 1 },
     collections: ["wedding-atelier"],
     personalise: {
       kind: "magnet",
@@ -675,16 +675,10 @@ const WEDDING: Seed[] = [
     type: "Wedding",
     tagline: "A keepsake for every guest who came.",
     description:
-      "Personalised fridge magnets for your guests, sold in sets of 25 with tiered pricing for larger weddings.",
-    price: 4499,
+      "Personalised fridge magnets for every guest, with your names and the date. Order as many as you need, from 25.",
+    price: 149,
+    perPiece: { min: 25 },
     collections: ["wedding-atelier"],
-    sizes: [
-      { name: "25 magnets", price: 4499 },
-      { name: "50 magnets", price: 8499 },
-      { name: "100 magnets", price: 15999 },
-      { name: "200 magnets", price: 29999 },
-    ],
-    sizeLabel: "Set",
     finishes: [
       { name: "Gold classic", swatch: "#C9A24E" },
       { name: "Marigold", swatch: "#E9A23B" },

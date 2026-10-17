@@ -27,6 +27,7 @@ const PRODUCT_METAFIELDS = [
   "bulb_type",
   "cable_length",
   "personalise",
+  "min_quantity",
 ];
 
 const IMAGE = `url width height altText`;
@@ -148,6 +149,7 @@ function toProduct(p: ShopProduct): Product {
       cableLength: text("cable_length"),
     },
     personalise: parseJson<Product["personalise"]>(text("personalise")),
+    unit: text("min_quantity") ? { label: "piece", min: Number(text("min_quantity")) } : undefined,
     handcraftHours: text("handcraft_hours") ? Number(text("handcraft_hours")) : undefined,
     editionSize: text("edition_size") ? Number(text("edition_size")) : undefined,
   };
@@ -215,12 +217,14 @@ export const shopifyCommerce: Commerce = {
 /** Create a Shopify cart from the bag and return its hosted checkout URL. */
 export async function createCheckout(
   lines: { variantId: string; quantity: number; attributes?: { key: string; value: string }[] }[],
+  gift?: { note: string; attributes: { key: string; value: string }[] },
 ) {
   const d = await storefront<{
     cartCreate: { cart: { checkoutUrl: string } | null; userErrors: { message: string }[] };
   }>(`mutation($input: CartInput!) { cartCreate(input: $input) { cart { checkoutUrl } userErrors { message } } }`, {
     input: {
       lines: lines.map((l) => ({ merchandiseId: l.variantId, quantity: l.quantity, attributes: l.attributes ?? [] })),
+      ...(gift ? { note: gift.note, attributes: gift.attributes } : {}),
     },
   });
   if (!d.cartCreate.cart) throw new Error(d.cartCreate.userErrors.map((e) => e.message).join("; ") || "No cart");

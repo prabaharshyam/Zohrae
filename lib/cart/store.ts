@@ -19,12 +19,17 @@ export type CartLine = {
   price: number;
   image?: { url: string; alt: string };
   quantity: number;
+  /** Sold by the piece with a minimum (wedding magnets: 25). */
+  minQuantity?: number;
   attributes?: CartAttribute[];
 };
-type CartState = { lines: CartLine[]; open: boolean; ready: boolean };
+export type Gift = { on: boolean; message: string };
+type CartState = { lines: CartLine[]; open: boolean; ready: boolean; gift: Gift };
 
 const KEY = "zohrae:cart";
-const EMPTY: CartState = { lines: [], open: false, ready: false };
+const MAX = 999;
+const GIFT_KEY = "zohrae:gift";
+const EMPTY: CartState = { lines: [], open: false, ready: false, gift: { on: false, message: "" } };
 let state: CartState = EMPTY;
 let loaded = false;
 const listeners = new Set<() => void>();
@@ -34,7 +39,14 @@ function load() {
   loaded = true;
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) ?? "[]");
-    state = { lines: Array.isArray(saved) ? saved : [], open: false, ready: true };
+    const gift = JSON.parse(localStorage.getItem(GIFT_KEY) ?? "null");
+    state = {
+      lines: Array.isArray(saved) ? saved : [],
+      open: false,
+      ready: true,
+      gift:
+        gift && typeof gift === "object" ? { on: Boolean(gift.on), message: String(gift.message ?? "") } : EMPTY.gift,
+    };
   } catch {
     state = { ...EMPTY, ready: true };
   }
@@ -43,9 +55,10 @@ function load() {
 function set(patch: Partial<CartState>) {
   load();
   state = { ...state, ...patch };
-  if (patch.lines) {
+  if (patch.lines || patch.gift) {
     try {
       localStorage.setItem(KEY, JSON.stringify(state.lines));
+      localStorage.setItem(GIFT_KEY, JSON.stringify(state.gift));
     } catch {
       // Not persisted; the bag still works for this visit.
     }
@@ -74,7 +87,7 @@ export const cart = {
     const quantity = line.quantity ?? 1;
     set({
       lines: existing
-        ? lines.map((l) => (l.id === id ? { ...l, quantity: Math.min(20, l.quantity + quantity) } : l))
+        ? lines.map((l) => (l.id === id ? { ...l, quantity: Math.min(MAX, l.quantity + quantity) } : l))
         : [...lines, { ...line, id, quantity }],
     });
   },
@@ -84,7 +97,13 @@ export const cart = {
       lines:
         quantity <= 0
           ? lines.filter((l) => l.id !== id)
-          : lines.map((l) => (l.id === id ? { ...l, quantity: Math.min(20, quantity) } : l)),
+          : lines.map((l) =>
+              l.id === id
+                ? quantity < (l.minQuantity ?? 1)
+                  ? l // below the minimum: "Remove" takes it out instead
+                  : { ...l, quantity: Math.min(MAX, quantity) }
+                : l,
+            ),
     });
   },
   remove(id: string) {
@@ -95,6 +114,9 @@ export const cart = {
   },
   open() {
     set({ open: true });
+  },
+  setGift(gift: Partial<Gift>) {
+    set({ gift: { ...cart.get().gift, ...gift } });
   },
   close() {
     set({ open: false });

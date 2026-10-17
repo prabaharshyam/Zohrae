@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/motion/gsap";
+import { celebrate } from "@/lib/delight/celebrate";
 import { hoverSound, tapSound } from "@/lib/sound/ui";
 
 const INTERACTIVE = "a, button, [role='button'], input, select, textarea, label, summary, [data-cursor]";
@@ -18,6 +19,45 @@ export function Interactions() {
   const ring = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
   const [message, setMessage] = useState<string | null>(null);
+
+  // The secret switch: type "shine", or press and hold the logo.
+  useEffect(() => {
+    let typed = "";
+    let hold = 0;
+    let fired = false;
+    const key = (e: KeyboardEvent) => {
+      if ((e.target as HTMLElement).closest?.("input, textarea, select, [contenteditable]")) return;
+      typed = (typed + e.key.toLowerCase()).slice(-5);
+      if (typed === "shine") celebrate();
+    };
+    const down = (e: PointerEvent) => {
+      if (!(e.target as Element).closest?.("[data-easter]")) return;
+      fired = false;
+      hold = window.setTimeout(() => {
+        fired = true;
+        celebrate();
+      }, 700);
+    };
+    const up = () => clearTimeout(hold);
+    const click = (e: MouseEvent) => {
+      if (fired && (e.target as Element).closest?.("[data-easter]")) {
+        e.preventDefault();
+        fired = false;
+      }
+    };
+    window.addEventListener("keydown", key);
+    document.addEventListener("pointerdown", down);
+    document.addEventListener("pointerup", up);
+    document.addEventListener("pointercancel", up);
+    document.addEventListener("click", click, true);
+    return () => {
+      window.removeEventListener("keydown", key);
+      document.removeEventListener("pointerdown", down);
+      document.removeEventListener("pointerup", up);
+      document.removeEventListener("pointercancel", up);
+      document.removeEventListener("click", click, true);
+    };
+  }, []);
 
   // Toasts: a short line, a few seconds, then gone.
   useEffect(() => {

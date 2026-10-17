@@ -40,7 +40,7 @@ export function Gallery({ product }: { product: Product }) {
             className={clsx(shown.onWhite ? "on-white object-contain" : "object-cover")}
           />
         ) : (
-          <ProductStage product={product} priority sizes="(min-width: 768px) 55vw, 100vw" className="size-full" />
+          <ProductStage product={product} priority sizes="(min-width: 768px) 55vw, 100vw" className="size-full" turn />
         )}
       </div>
       {extras.length > 0 && (

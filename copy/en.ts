@@ -41,6 +41,7 @@ export const copy = {
   home: {
     intro: "Shine Beyond!",
     skipIntro: "Skip intro",
+    easterEgg: "Shine Beyond! ✦ You found the secret switch.",
     enterSound: "Enter with sound",
     enterSilent: "Enter in silence",
     enterHint: "Best with sound: a quiet click, a soft glow.",
@@ -206,6 +207,9 @@ export const copy = {
   product: {
     addToCart: "Add to Collection",
     quantity: "Quantity",
+    perPieceNote: (min: number) => `${min > 1 ? `From ${min} pieces. ` : ""}Based on the quantity, the price may vary.`,
+    contactUs: "Contact us for more information",
+    totalFor: (n: number) => `${n} pieces:`,
     related: "Pieces that keep it company",
     shipsIn: "Made to order · ships in 5–7 days",
     buyNow: "Buy now",
@@ -269,6 +273,10 @@ export const copy = {
       "This is a preview of the store: checkout opens once the shop is connected. Your selection is saved on this device.",
     failed: "Checkout couldn't open just now. Please try again in a moment.",
     giftNote: "Every piece arrives in our keepsake box.",
+    giftToggle: "This is a gift",
+    giftHint: "We'll leave prices off the packing slip and write your message on a card by hand.",
+    giftMessage: "Your message for the card",
+    giftPlaceholder: "Happy housewarming, Meera. May every evening be golden.",
   },
 
   shop: {
@@ -393,8 +401,97 @@ export const copy = {
     backHome: "Return home",
   },
 
+  finder: {
+    step: (n: number, of: number) => `Question ${n} of ${of}`,
+    back: "Back",
+    resultEyebrow: "Your light",
+    resultTitle: (name: string) => `Meet ${name}.`,
+    meet: (name: string) => `Discover ${name}`,
+    again: "Start again",
+    alsoTitle: "Two more that would love your room",
+    questions: [
+      {
+        title: "Where will it live?",
+        options: [
+          {
+            id: "living",
+            label: "The living room",
+            hint: "Where evenings happen",
+            because: "It's made to hold a room full of people in warm light.",
+          },
+          {
+            id: "bedroom",
+            label: "The bedroom",
+            hint: "The last light you see",
+            because: "Its glow is soft enough for the last page of a book.",
+          },
+          {
+            id: "study",
+            label: "A desk or study",
+            hint: "Focus, with feeling",
+            because: "It brings warmth to a desk without glare.",
+          },
+          {
+            id: "console",
+            label: "A console or entryway",
+            hint: "The first impression",
+            because: "It's sculptural enough to greet a guest on its own.",
+          },
+        ],
+      },
+      {
+        title: "How should the light feel?",
+        options: [
+          {
+            id: "cosy",
+            label: "Honey-warm and cosy",
+            hint: "A slow evening",
+            because: "The light turns gold through every pleat.",
+          },
+          {
+            id: "soft",
+            label: "Soft and calm",
+            hint: "Barely there",
+            because: "The light is diffused and gentle, never bright.",
+          },
+          {
+            id: "sculptural",
+            label: "A statement",
+            hint: "The piece people ask about",
+            because: "By day it's a sculpture, by night it's the room's centrepiece.",
+          },
+          {
+            id: "architectural",
+            label: "Clean and architectural",
+            hint: "Lines that order the light",
+            because: "Crisp lines throw the light in quiet stripes.",
+          },
+        ],
+      },
+      {
+        title: "Which feels most like you?",
+        options: [
+          { id: "classic", label: "Classic and warm", hint: "Wood, brass, linen", because: "" },
+          { id: "modern", label: "Modern and minimal", hint: "Less, but better", because: "" },
+          { id: "playful", label: "A little playful", hint: "Colour and curves", because: "" },
+          { id: "organic", label: "Natural and organic", hint: "Stone, plants, texture", because: "" },
+        ],
+      },
+      {
+        title: "And the budget?",
+        options: [
+          { id: "under4", label: "Under ₹4,000", hint: "A beautiful start", because: "" },
+          { id: "under5", label: "Under ₹5,000", hint: "The full collection", because: "" },
+          { id: "any", label: "The right one, whatever it costs", hint: "Love at first light", because: "" },
+          { id: "gift", label: "It's a gift", hint: "We'll wrap it to be remembered", because: "" },
+        ],
+      },
+    ],
+  },
+
   notFound: {
     title: "This page has gone dark",
     body: "Let us light your way.",
+    pull: "Pull the chain",
   },
 } as const;

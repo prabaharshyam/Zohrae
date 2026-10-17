@@ -79,7 +79,15 @@ export function Hero({ product }: { product: Product }) {
       window.addEventListener("pointermove", move, { passive: true });
 
       const scrub = { trigger: root, start: "top top", end: "bottom top", scrub: true };
-      gsap.to(".hero-drift", { scale: 1.1, ease: "none", scrollTrigger: scrub });
+      // Scrolling away, the camera rises: the room tilts back and settles closer.
+      gsap.to(".hero-drift", {
+        scale: 1.12,
+        rotationX: 14,
+        transformPerspective: 1100,
+        transformOrigin: "50% 100%",
+        ease: "none",
+        scrollTrigger: scrub,
+      });
       gsap.to(".hero-copy", { yPercent: -25, opacity: 0, ease: "none", scrollTrigger: { ...scrub, end: "60% top" } });
       return () => {
         window.removeEventListener(ENTER_EVENT, play);

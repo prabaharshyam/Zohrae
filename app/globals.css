@@ -810,3 +810,16 @@ canvas {
     radial-gradient(90% 70% at 70% 25%, rgb(var(--glow-rgb) / 0.1), transparent 60%),
     color-mix(in oklab, #3a2c20 40%, var(--bg));
 }
+/* Page transition: a filament sweeping across the top edge. */
+.page-sweep {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 81;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ochre) 30%, #fff1cf 70%, var(--glow));
+  box-shadow: 0 0 16px rgb(255 184 105 / 0.8);
+}

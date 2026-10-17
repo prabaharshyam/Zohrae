@@ -37,6 +37,7 @@ export function ProductCard({ product, priority, turn }: { product: Product; pri
             <span className="text-fg-muted">{copy.product.from} </span>
           )}
           {formatPrice(product.priceRange.min)}
+          {product.unit && <span className="text-fg-muted"> / {product.unit.label}</span>}
         </p>
       </div>
       <p className="mt-2 line-clamp-2 text-sm text-fg-muted">{product.tagline}</p>

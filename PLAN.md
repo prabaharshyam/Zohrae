@@ -333,3 +333,10 @@ References: lummar.studio (registered photo states, an invisible button over eac
 - **Personalisation is configured per product** (`zohrae.personalise`), so new personalised products need no code.
 - **Photos:** stored in Cloudinary (signed server-side upload). Without it, the order is flagged for a WhatsApp photo hand-off, so no customer is blocked.
 - **Imagery:** Pinterest images belong to their photographers and can't be reused commercially. Free-licence libraries (Unsplash, Pexels) need an API key to search from here. Until then, images are generated with specific product-photography direction, and an Unsplash key from the owner would add real stock photography.
+
+## 19. Phase 6 decisions (17 Oct 2026)
+
+- **Wedding pieces are priced per piece** (owner's choice), with "the price may vary with quantity" and a contact link instead of tiers. On Shopify: per-piece variants plus `zohrae.min_quantity`.
+- **No exit-intent pop-up.** It works against a calm, luxury feel, and the Circle mailing list isn't live yet. Better: a quiet Circle prompt after a second visit, once the list is connected.
+- **Page transitions use `template.tsx`** (an entrance on each navigation) rather than a page-blocking cover, so pages are never held back.
+- **The Light Finder scores lamps** from a small profile map. New lamps join automatically, scored on price until they get a profile.

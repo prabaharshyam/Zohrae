@@ -32,9 +32,18 @@ export function ProductImage({ product, sizes, priority, className, ignite, turn
 }
 
 /** Showroom scene for heroes and product pages; falls back to the cut-out pair. */
-export function ProductStage({ product, sizes, priority, className, ignite }: Props) {
+export function ProductStage({ product, sizes, priority, className, ignite, turn }: Props) {
   if (!product.stage)
-    return <ProductImage product={product} sizes={sizes} priority={priority} className={className} ignite={ignite} />;
+    return (
+      <ProductImage
+        product={product}
+        sizes={sizes}
+        priority={priority}
+        className={className}
+        ignite={ignite}
+        turn={turn}
+      />
+    );
   return (
     <LitImage
       title={product.title}

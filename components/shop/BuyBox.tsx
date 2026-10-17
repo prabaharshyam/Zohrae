@@ -6,7 +6,7 @@ import { copy } from "@/copy/en";
 import { cart, type CartAttribute } from "@/lib/cart/store";
 import type { Product, ProductVariant } from "@/lib/commerce/types";
 import { toast } from "@/lib/delight/fireflies";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, whatsappHref } from "@/lib/format";
 import { gsap } from "@/lib/motion/gsap";
 import { HeartButton } from "./HeartButton";
 
@@ -68,7 +68,10 @@ export function BuyBox({
     onSelectedChange?.(next);
   };
   const [problem, setProblem] = useState<string | null>(null);
-  const [quantity, setQuantity] = useState(1);
+  const min = product.unit?.min ?? 1;
+  const max = product.unit ? 999 : 20;
+  const [quantity, setQuantity] = useState(min);
+  const clamp = (n: number) => Math.max(min, Math.min(max, Math.floor(n) || min));
   const variant: ProductVariant | undefined = useMemo(
     () => product.variants.find((v) => v.selectedOptions.every((o) => selected[o.name] === o.value)),
     [product.variants, selected],
@@ -78,6 +81,7 @@ export function BuyBox({
 
   const add = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!variant) return;
+    if (quantity < min) setQuantity(min);
     const message = validate?.() ?? null;
     setProblem(message);
     if (message) return;
@@ -90,6 +94,7 @@ export function BuyBox({
       price: variant.price.amount,
       image: image && { url: image.url, alt: image.alt },
       quantity,
+      minQuantity: min,
       attributes: attributes?.filter((a) => a.value),
     });
     flyToBag(e.currentTarget.getBoundingClientRect());
@@ -104,8 +109,22 @@ export function BuyBox({
         {variant?.compareAtPrice && (
           <s className="ml-3 text-base text-fg-muted">{formatPrice(variant.compareAtPrice)}</s>
         )}
+        {product.unit && <span className="text-base text-fg-muted"> / {product.unit.label}</span>}
         <span className="label ml-3 text-[10px] text-fg-muted">{copy.product.priceNote}</span>
       </p>
+      {product.unit && (
+        <p className="mt-3 text-sm text-fg-muted">
+          {copy.product.perPieceNote(min)}{" "}
+          <a
+            href={whatsappHref(copy.personalise.whatsappHello(product.title))}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-b border-current text-fg"
+          >
+            {copy.product.contactUs}
+          </a>
+        </p>
+      )}
 
       {visibleOptions.map((option) => (
         <fieldset key={option.name} className="mt-8">
@@ -152,18 +171,32 @@ export function BuyBox({
           <button
             type="button"
             aria-label={copy.cart.decrease}
-            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            onClick={() => setQuantity((q) => clamp(q - 1))}
             className="grid h-full w-11 place-items-center"
           >
             −
           </button>
-          <span className="w-8 text-center" aria-live="polite">
-            {quantity}
-          </span>
+          {product.unit ? (
+            <input
+              type="number"
+              inputMode="numeric"
+              min={min}
+              max={max}
+              value={quantity}
+              aria-label={copy.product.quantity}
+              onChange={(e) => setQuantity(Number(e.target.value) || 0)}
+              onBlur={() => setQuantity((q) => clamp(q))}
+              className="w-14 bg-transparent text-center outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+            />
+          ) : (
+            <span className="w-8 text-center" aria-live="polite">
+              {quantity}
+            </span>
+          )}
           <button
             type="button"
             aria-label={copy.cart.increase}
-            onClick={() => setQuantity((q) => Math.min(20, q + 1))}
+            onClick={() => setQuantity((q) => clamp(q + 1))}
             className="grid h-full w-11 place-items-center"
           >
             +
@@ -180,6 +213,14 @@ export function BuyBox({
         </button>
         <HeartButton handle={product.handle} title={product.title} className="size-14 border border-line" />
       </div>
+      {product.unit && variant && quantity > 1 && (
+        <p className="mt-4 text-sm">
+          {copy.product.totalFor(quantity)}{" "}
+          <span className="font-display text-lg">
+            {formatPrice({ ...variant.price, amount: variant.price.amount * clamp(quantity) })}
+          </span>
+        </p>
+      )}
       <p className="mt-4 text-sm text-fg-muted">{copy.product.shipsIn}</p>
     </div>
   );

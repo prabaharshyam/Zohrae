@@ -1,5 +1,25 @@
 # Changelog
 
+## Phase 6 — Delight (17 Oct 2026)
+
+- **Per-piece pricing for wedding pieces.**
+  - Badge sets and return-gift magnets show "₹149 / piece", the couture badge ₹249 / piece and the photo magnet ₹349 / piece.
+  - Below: "Based on the quantity, the price may vary. Contact us for more information" (WhatsApp).
+  - Customers type any quantity (minimum 6 badges and 25 magnets), and the running total shows under the button.
+  - All prices remain samples until the final pricing pass.
+- **Light Finder** (`/light-finder`): four questions (where it will live, how the light should feel, your style, budget).
+  - Each answer turns the page over in 3D.
+  - The last answer releases fireflies.
+  - The result card flips over in 3D, the lamp lights itself and turns toward the cursor, with a reason in plain words and two more suggestions.
+- **The 404 is a dark room.** A bare bulb hangs from a brass pull-chain; click or pull it down and the filament catches, flickers and blooms, then the way home appears.
+- **Page transitions:** every navigation rises in softly while a gold filament sweeps across the top of the screen.
+- **The secret switch:** type "shine" anywhere (or press and hold the logo). Every lamp on the page lights in a wave, fireflies rise, a chime plays, and a note says "Shine Beyond!".
+- **Gift mode in the bag:** "This is a gift" adds a handwritten-card message and asks for prices to be left off the packing slip. Both travel to Shopify's checkout (cart note and attributes).
+- **More 3D:**
+  - the hero room tilts back as you scroll away, like a camera rising;
+  - lamps on product pages turn in 3D toward the cursor;
+  - the home collection grid's lamps turn too.
+
 ## Phase 5 — Make it yours (17 Oct 2026)
 
 Every personalised piece now has a **live builder**. The preview redraws as you type, and every choice travels into the bag and onto the Shopify order as line-item properties.
