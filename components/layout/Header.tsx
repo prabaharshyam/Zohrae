@@ -188,7 +188,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
               <HeartIcon />
               {saved > 0 && <span aria-hidden className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-ochre" />}
             </IconLink>
-            <IconLink href="/about" label={copy.nav.account} className="hidden md:grid">
+            <IconLink href="/account" label={copy.nav.account} className="hidden md:grid">
               <UserIcon />
             </IconLink>
             <Link
@@ -290,6 +290,11 @@ function MobileMenu({ id, open, collections }: { id: string; open: boolean; coll
           <li>
             <Link href="/light-finder" className="block py-1">
               {copy.home.heroGhostCta}
+            </Link>
+          </li>
+          <li>
+            <Link href="/account" className="block py-1">
+              {copy.nav.account}
             </Link>
           </li>
         </ul>

@@ -354,6 +354,15 @@ export const copy = {
     prepaidOnly: "Prepaid orders only",
   },
 
+  accountPage: {
+    eyebrow: "Your account",
+    title: "Your orders, in one place",
+    intro:
+      "Accounts open with our launch: sign in with a one-time code sent to your email to see every order, follow its delivery and keep your addresses. Until then, we'll gladly look up any order for you.",
+    cta: "Ask about my order",
+    whatsappMessage: "Hello Zohraé, could you help me with my order? My order number is ",
+    shippingLink: "Shipping & delivery",
+  },
   footer: {
     backToTop: "Back to top",
     circleTitle: "The Zohraé Circle",

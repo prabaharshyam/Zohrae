@@ -28,17 +28,15 @@ From now on, every phase pushed to GitHub appears on that link automatically.
 
 ---
 
-## Part 2 — Your own domain from GoDaddy (later, at launch)
+## Part 2 — Your own domain (zohrae.in)
 
-1. In Vercel: open the project → **Settings → Domains** → type your domain (e.g. `zohrae.com`) → **Add**. Also add `www.zohrae.com` when asked.
-2. Vercel shows the DNS records it needs. Typically:
+See **GO-LIVE.md**: pointing zohrae.in at Vercel, putting Shopify's checkout on `shop.zohrae.in` and customer accounts on `account.zohrae.in`.
 
-   | Type  | Name  | Value                  |
-   | ----- | ----- | ---------------------- |
-   | A     | `@`   | `76.76.21.21`          |
-   | CNAME | `www` | `cname.vercel-dns.com` |
+----- | ----- | ---------------------- |
+| A | `@` | `76.76.21.21` |
+| CNAME | `www` | `cname.vercel-dns.com` |
 
-   Always use the exact values Vercel shows you.
+Always use the exact values Vercel shows you.
 
 3. In GoDaddy: **My Products → (your domain) → DNS → Manage DNS**.
    - Edit the existing **A** record named `@` and set it to the value from Vercel. Delete any other A records for `@` (for example GoDaddy's "Parked" record).
@@ -65,11 +63,11 @@ Full Shopify setup (metafields, checkout branding, the `shop.` checkout subdomai
 
 Add these in Vercel whenever you have them. The site hides each feature until its value is set:
 
-| Key                           | Example              | What it does                              |
-| ----------------------------- | -------------------- | ----------------------------------------- |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | `919876543210`       | WhatsApp concierge (country code, no `+`) |
-| `NEXT_PUBLIC_GSTIN`           | `29ABCDE1234F1Z5`    | Shows GSTIN in the footer                 |
-| `NEXT_PUBLIC_SITE_URL`        | `https://zohrae.com` | Correct links in social previews          |
+| Key                           | Example             | What it does                              |
+| ----------------------------- | ------------------- | ----------------------------------------- |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | `919876543210`      | WhatsApp concierge (country code, no `+`) |
+| `NEXT_PUBLIC_GSTIN`           | `29ABCDE1234F1Z5`   | Shows GSTIN in the footer                 |
+| `NEXT_PUBLIC_SITE_URL`        | `https://zohrae.in` | Correct links in social previews          |
 
 After changing a variable, open **Deployments**, click **⋯** on the latest one and choose **Redeploy**.
 
@@ -79,19 +77,20 @@ After changing a variable, open **Deployments**, click **⋯** on the latest one
 
 Vercel → the project → **Settings → Environment Variables**. Each one switches something on; leave a row empty and that part simply stays hidden.
 
-| Variable                                                               | What it does                                                                                   |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`                                                 | Your final address, e.g. `https://zohrae.com` (used for the sitemap, share images and Google). |
-| `USE_MOCK_DATA`                                                        | `false` once Shopify is connected.                                                             |
-| `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_STOREFRONT_TOKEN`                     | Live products, prices and checkout (SHOPIFY-SETUP.md).                                         |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER`                                          | WhatsApp concierge, e.g. `919606221205`.                                                       |
-| `NEXT_PUBLIC_CONTACT_EMAIL`                                            | Shown on Contact, policies and footer.                                                         |
-| `NEXT_PUBLIC_LEGAL_NAME`, `NEXT_PUBLIC_BUSINESS_ADDRESS`               | Your registered business name and address (shown on policy pages).                             |
-| `NEXT_PUBLIC_GSTIN`                                                    | Shown in the footer.                                                                           |
-| `NEXT_PUBLIC_INSTAGRAM_URL`                                            | Instagram link in the footer and for Google.                                                   |
-| `NEXT_PUBLIC_GA_ID`                                                    | Google Analytics 4 measurement ID (`G-…`). Turns on the cookie banner.                         |
-| `NEXT_PUBLIC_META_PIXEL_ID`                                            | Meta (Facebook/Instagram) Pixel ID. Turns on the cookie banner.                                |
-| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Customer photo uploads (magnets, framed art).                                                  |
+| Variable                                                               | What it does                                                                                  |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                                                 | Your final address, e.g. `https://zohrae.in` (used for the sitemap, share images and Google). |
+| `USE_MOCK_DATA`                                                        | `false` once Shopify is connected.                                                            |
+| `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_STOREFRONT_TOKEN`                     | Live products, prices and checkout (SHOPIFY-SETUP.md).                                        |
+| `NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL`                                      | Customer accounts, e.g. `https://account.zohrae.in` (GO-LIVE.md §3).                          |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER`                                          | WhatsApp concierge, e.g. `919606221205`.                                                      |
+| `NEXT_PUBLIC_CONTACT_EMAIL`                                            | Shown on Contact, policies and footer.                                                        |
+| `NEXT_PUBLIC_LEGAL_NAME`, `NEXT_PUBLIC_BUSINESS_ADDRESS`               | Your registered business name and address (shown on policy pages).                            |
+| `NEXT_PUBLIC_GSTIN`                                                    | Shown in the footer.                                                                          |
+| `NEXT_PUBLIC_INSTAGRAM_URL`                                            | Instagram link in the footer and for Google.                                                  |
+| `NEXT_PUBLIC_GA_ID`                                                    | Google Analytics 4 measurement ID (`G-…`). Turns on the cookie banner.                        |
+| `NEXT_PUBLIC_META_PIXEL_ID`                                            | Meta (Facebook/Instagram) Pixel ID. Turns on the cookie banner.                               |
+| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Customer photo uploads (magnets, framed art).                                                 |
 
 ### Before announcing the launch
 
