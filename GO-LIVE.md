@@ -15,6 +15,16 @@ Shopify stays your back office: products, stock, orders, payments, shipping, cus
 
 ---
 
+## Before you start: zohrae.in currently runs your Shopify store
+
+As of 17 Oct 2026, GoDaddy points `zohrae.in` (A record `23.227.38.32`) and `www` (CNAME `shops.myshopify.com`) at Shopify. Pointing them at Vercel takes the old Shopify storefront off zohrae.in at once. So do it in this order:
+
+1. **Move Shopify to `shop.zohrae.in` first.** GoDaddy → DNS → add **CNAME** `shop` → `shops.myshopify.com`. Shopify → **Settings → Domains → Connect existing domain** → `shop.zohrae.in` → make it **primary**. The old store and checkout keep working there.
+2. **Connect Shopify to the new site** (step 2 below) and check products, cart and checkout on `zohrae-five.vercel.app`.
+3. **Then switch zohrae.in** (step 1 below): change the `@` A record and the `www` CNAME in GoDaddy to the values Vercel shows. In Shopify → Settings → Domains, remove `zohrae.in` and `www.zohrae.in`.
+
+Vercel has made `www.zohrae.in` the main address (zohrae.in redirects to it). That's fine: set `NEXT_PUBLIC_SITE_URL` to `https://www.zohrae.in`. To have the bare `zohrae.in` as the main address instead, click **Edit** on `zohrae.in` in Vercel and remove the redirect, then set the redirect on `www`.
+
 ## 1. Point zohrae.in at the website (about 15 minutes, then up to a few hours for DNS)
 
 1. **Vercel** → the project → **Settings → Domains** → add `zohrae.in`. When it offers to add `www.zohrae.in` as a redirect, accept.
