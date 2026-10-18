@@ -365,6 +365,8 @@ export const copy = {
   },
   footer: {
     backToTop: "Back to top",
+    instagram: "Zohraé on Instagram",
+    instagramHandle: "@zohrae.in",
     circleTitle: "The Zohraé Circle",
     circleBody: "Be first to see new pieces. Members get early access to limited editions.",
     circlePlaceholder: "Your email",
@@ -404,7 +406,6 @@ export const copy = {
     ],
     concierge: "WhatsApp concierge",
     conciergeMessage: "Hello Zohraé, I'd love help choosing a lamp.",
-    social: [{ label: "Instagram", href: "https://instagram.com/" }],
     rights: (year: number) => `© ${year} Zohraé. All rights reserved.`,
   },
 

@@ -6,7 +6,7 @@ import { SoundToggle } from "@/components/light/SoundToggle";
 import { business } from "@/lib/business";
 import { BackToTop } from "./BackToTop";
 import { FooterWordmark } from "./FooterWordmark";
-import { WhatsAppIcon } from "@/components/ui/icons";
+import { InstagramIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { copy } from "@/copy/en";
 import { whatsappHref } from "@/lib/format";
 
@@ -36,6 +36,23 @@ export async function Footer() {
               >
                 <WhatsAppIcon width={16} height={16} />
                 {copy.footer.concierge}
+              </a>
+            )}
+            {business.instagram && (
+              <a
+                href={business.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={copy.footer.instagram}
+                className="group mt-6 flex w-fit items-center gap-3 text-sm text-fg-muted transition-colors hover:text-accent-text"
+              >
+                <span className="grid size-11 place-items-center rounded-full border border-line transition-colors duration-500 group-hover:border-accent-text">
+                  <InstagramIcon className="transition-transform duration-500 ease-silk group-hover:scale-110" />
+                </span>
+                <span>
+                  <span className="sr-only">Instagram </span>
+                  {copy.footer.instagramHandle}
+                </span>
               </a>
             )}
           </div>
@@ -91,13 +108,6 @@ export async function Footer() {
           <li>
             <CookieSettings />
           </li>
-          {(business.instagram ? [{ label: "Instagram", href: business.instagram }] : []).map((s) => (
-            <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-accent-text">
-                {s.label}
-              </a>
-            </li>
-          ))}
         </ul>
       </div>
     </footer>

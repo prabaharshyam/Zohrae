@@ -10,5 +10,5 @@ export const business = {
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   gstin: process.env.NEXT_PUBLIC_GSTIN || "",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || copy.contact.whatsapp,
-  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "",
+  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/zohrae.in/",
 };

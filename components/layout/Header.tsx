@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
-import { BagIcon, CloseIcon, HeartIcon, MenuIcon, SearchIcon, UserIcon } from "@/components/ui/icons";
+import { BagIcon, CloseIcon, HeartIcon, InstagramIcon, MenuIcon, SearchIcon, UserIcon } from "@/components/ui/icons";
+import { business } from "@/lib/business";
 import { copy } from "@/copy/en";
 import { cart, cartCount, useCart } from "@/lib/cart/store";
 import { useWishlist } from "@/lib/wishlist/store";
@@ -298,8 +299,19 @@ function MobileMenu({ id, open, collections }: { id: string; open: boolean; coll
             </Link>
           </li>
         </ul>
-        <div className="mt-auto pt-12">
+        <div className="mt-auto flex items-end justify-between gap-6 pt-12">
           <Logo variant="full" title="" className="w-48 opacity-80" />
+          {business.instagram && (
+            <a
+              href={business.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={copy.footer.instagram}
+              className="grid size-11 shrink-0 place-items-center rounded-full border border-line"
+            >
+              <InstagramIcon />
+            </a>
+          )}
         </div>
       </nav>
     </div>
