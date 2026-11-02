@@ -64,7 +64,7 @@ Follow **SHOPIFY-SETUP.md** (token, collections, products, metafields). In short
    <script>location.replace("https://zohrae.in" + location.pathname);</script>
    ```
 
-5. **Payments:** Settings → Payments → enable Razorpay, PayU or another Indian gateway for UPI, cards and netbanking.
+5. **Payments:** connect **Cashfree** as the payment provider in Shopify (Settings → Payments). Full steps, test mode and go-live checks are in **PAYMENTS.md**.
 6. Redeploy, then place a small real order and refund it.
 
 ## 3. Customer accounts

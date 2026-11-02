@@ -23,7 +23,7 @@ Go to Vercel → the project → **Settings → Environment Variables** (Product
 | `SHOPIFY_STOREFRONT_TOKEN` | the public access token |
 | `USE_MOCK_DATA`            | `false`                 |
 
-Redeploy. The site now reads from Shopify, and "Proceed to secure checkout" opens Shopify's hosted checkout. That checkout handles UPI, cards and netbanking through Razorpay, PayU or Shopify Payments, whichever you've enabled.
+Redeploy. The site now reads from Shopify, and "Proceed to secure checkout" opens Shopify's hosted checkout. That checkout takes UPI, cards, netbanking and wallets through **Cashfree**, connected in Shopify (see PAYMENTS.md).
 
 ## 3. Collections
 

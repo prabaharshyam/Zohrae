@@ -2,7 +2,7 @@
 //   node render.mjs                     # both formats → out/zohrae-launch-{portrait,landscape}.mp4
 //   node render.mjs portrait            # one format
 //   node render.mjs stills 0.5,4.6,...  # PNG stills of both formats at those times (for review)
-import { spawn, execFileSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";

@@ -6,7 +6,7 @@
 export type Section = { title: string; body?: string[]; list?: string[] };
 export type ProsePage = { eyebrow: string; title: string; intro: string; updated?: string; sections: Section[] };
 
-const UPDATED = "17 October 2026";
+const UPDATED = "2 November 2026";
 
 export const PAGES: Record<string, ProsePage> = {
   shipping: {
@@ -151,7 +151,7 @@ export const PAGES: Record<string, ProsePage> = {
       {
         title: "Who helps us",
         body: [
-          "Our store and checkout run on Shopify; payments are handled by Shopify's payment partners and we never see your card details. The site is hosted on Vercel. Customer photographs are stored with Cloudinary. If you accept analytics cookies, Google Analytics and Meta measure visits. Couriers receive your name, address and phone number to deliver your parcel.",
+          "Our store and checkout run on Shopify, and payments are processed by Cashfree Payments; we never see your card or UPI details. The site is hosted on Vercel. Customer photographs are stored with Cloudinary. If you accept analytics cookies, Google Analytics and Meta measure visits. Couriers receive your name, address and phone number to deliver your parcel.",
         ],
       },
       {
