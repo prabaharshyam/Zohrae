@@ -5,7 +5,7 @@ import { copy } from "@/copy/en";
  * show each one only when it's filled in, so nothing invented ever appears.
  */
 export const business = {
-  legalName: process.env.NEXT_PUBLIC_LEGAL_NAME || "",
+  legalName: process.env.NEXT_PUBLIC_LEGAL_NAME || "ZEREH VENTURES",
   address: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   gstin: process.env.NEXT_PUBLIC_GSTIN || "",

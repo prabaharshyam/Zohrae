@@ -406,7 +406,7 @@ export const copy = {
     ],
     concierge: "WhatsApp concierge",
     conciergeMessage: "Hello Zohraé, I'd love help choosing a lamp.",
-    rights: (year: number) => `© ${year} Zohraé. All rights reserved.`,
+    rights: (year: number, company: string) => `© ${year} Zohraé, a brand of ${company}. All rights reserved.`,
   },
 
   stub: {
@@ -507,6 +507,9 @@ export const copy = {
     title: "Talk to the atelier",
     intro: "A question about a piece, a wedding, a gift that has to arrive on time? We answer every message ourselves.",
     cardTitle: "The atelier",
+    businessTitle: "Business details",
+    brandOf: (company: string) =>
+      `Zohraé is a brand of ${company}, the registered business that operates zohrae.in, takes payments and issues GST invoices.`,
     hours: "Monday to Saturday, 10am to 7pm IST. We usually reply within a few hours.",
     formTitle: "Send a note",
     name: "Your name",

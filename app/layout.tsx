@@ -56,6 +56,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               "@context": "https://schema.org",
               "@type": "Organization",
               name: copy.brand.name,
+              legalName: business.legalName,
               url: siteUrl,
               logo: absolute("/icon.svg"),
               description: copy.brand.origin,

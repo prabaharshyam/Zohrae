@@ -95,7 +95,7 @@ export async function Footer() {
       {/* Right padding keeps the last row clear of the fixed light switch. */}
       <div className="gutter mx-auto grid max-w-[1600px] gap-x-6 gap-y-4 pb-8 text-xs text-fg-muted md:grid-cols-[1fr_auto_1fr] md:items-center md:!pr-[calc(var(--gutter)+7rem)]">
         <div className="space-y-2">
-          <p>{copy.footer.rights(year)}</p>
+          <p>{copy.footer.rights(year, business.legalName)}</p>
           {gstin && <p>GSTIN {gstin}</p>}
         </div>
         <div className="max-md:order-first">

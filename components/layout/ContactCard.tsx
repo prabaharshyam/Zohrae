@@ -25,13 +25,15 @@ export function ContactCard() {
         </p>
       )}
       <p className="mt-4 text-sm text-fg-muted">{copy.contactPage.hours}</p>
-      {(business.legalName || business.address) && (
-        <address className="mt-4 text-sm not-italic text-fg-muted">
-          {business.legalName && <span className="block">{business.legalName}</span>}
-          {business.address}
+      <div className="mt-6 border-t border-line pt-5">
+        <p className="label text-fg-muted">{copy.contactPage.businessTitle}</p>
+        <p className="mt-3 text-sm">{copy.contactPage.brandOf(business.legalName)}</p>
+        <address className="mt-3 text-sm not-italic text-fg-muted">
+          <span className="block font-medium text-fg">{business.legalName}</span>
+          {business.address && <span className="block">{business.address}</span>}
+          {business.gstin && <span className="block">GSTIN {business.gstin}</span>}
         </address>
-      )}
-      {business.gstin && <p className="mt-2 text-xs text-fg-muted">GSTIN {business.gstin}</p>}
+      </div>
     </div>
   );
 }

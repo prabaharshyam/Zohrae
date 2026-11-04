@@ -1,3 +1,5 @@
+import { business } from "@/lib/business";
+
 /**
  * Long-form pages (policies, care, about), written in the house voice.
  * Policies are sensible defaults for a made-to-order studio in India; the
@@ -6,7 +8,7 @@
 export type Section = { title: string; body?: string[]; list?: string[] };
 export type ProsePage = { eyebrow: string; title: string; intro: string; updated?: string; sections: Section[] };
 
-const UPDATED = "2 November 2026";
+const UPDATED = "4 November 2026";
 
 export const PAGES: Record<string, ProsePage> = {
   shipping: {
@@ -180,6 +182,12 @@ export const PAGES: Record<string, ProsePage> = {
     intro: "The short version: we make each piece for you with care, describe it honestly, and stand behind it.",
     updated: UPDATED,
     sections: [
+      {
+        title: "Who we are",
+        body: [
+          `Zohraé is a brand of ${business.legalName}. This website, zohrae.in, is operated by ${business.legalName}, which sells the products, receives your payment and issues your GST invoice.`,
+        ],
+      },
       {
         title: "Prices",
         body: ["All prices are in Indian rupees and include GST. Shipping is shown at checkout."],
