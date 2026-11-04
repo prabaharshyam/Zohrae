@@ -186,6 +186,7 @@ export const PAGES: Record<string, ProsePage> = {
         title: "Who we are",
         body: [
           `Zohraé is a brand of ${business.legalName}. This website, zohrae.in, is operated by ${business.legalName}, which sells the products, receives your payment and issues your GST invoice.`,
+          `Zohraé™ and the Zohraé logo are trademarks of ${business.legalName}. Please don't use them without our written permission.`,
         ],
       },
       {
@@ -212,7 +213,9 @@ export const PAGES: Record<string, ProsePage> = {
       },
       {
         title: "Our designs",
-        body: ["The designs, photographs and text on this site belong to Zohraé. Please don't copy or reproduce them."],
+        body: [
+          `The designs, photographs and text on this site belong to ${business.legalName}, the business behind Zohraé™. Please don't copy or reproduce them.`,
+        ],
       },
       {
         title: "Governing law",
