@@ -57,6 +57,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               "@type": "Organization",
               name: copy.brand.name,
               legalName: business.legalName,
+              ...(business.gstin ? { taxID: business.gstin } : {}),
               url: siteUrl,
               logo: absolute("/icon.svg"),
               description: copy.brand.origin,

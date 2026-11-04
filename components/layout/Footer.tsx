@@ -18,7 +18,7 @@ async function currentYear() {
 
 export async function Footer() {
   const year = await currentYear();
-  const gstin = process.env.NEXT_PUBLIC_GSTIN;
+  const gstin = business.gstin;
 
   return (
     <footer className="relative border-t border-line">

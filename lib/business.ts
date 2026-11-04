@@ -8,7 +8,7 @@ export const business = {
   legalName: process.env.NEXT_PUBLIC_LEGAL_NAME || "ZEREH VENTURES",
   address: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
-  gstin: process.env.NEXT_PUBLIC_GSTIN || "",
+  gstin: process.env.NEXT_PUBLIC_GSTIN || "33GDZPS4274J1ZK",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || copy.contact.whatsapp,
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/zohrae.in/",
 };
