@@ -1,0 +1,138 @@
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url(../../marketing/launch-video/fonts/bodoni.woff2) format("woff2");
+  font-weight: 400 900;
+}
+@font-face {
+  font-family: "Jost";
+  src: url(../../marketing/launch-video/fonts/jost.woff2) format("woff2");
+  font-weight: 100 900;
+}
+@page {
+  size: A4;
+  margin: 16mm 15mm 18mm;
+}
+body {
+  font-family: "Jost", Arial, sans-serif;
+  font-size: 9.6pt;
+  line-height: 1.5;
+  color: #2a1d15;
+  max-width: none;
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Bodoni Moda", Georgia, serif;
+  font-variation-settings: "opsz" 24;
+  font-weight: 600;
+  line-height: 1.15;
+}
+h1 {
+  font-size: 24pt;
+  margin: 0 0 6pt;
+}
+h2 {
+  font-size: 15pt;
+  color: #2a1d15;
+  border-bottom: 1px solid #e3d6c3;
+  padding-bottom: 3pt;
+  margin-top: 20pt;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+h3 {
+  font-size: 11.5pt;
+  color: #8f5c22;
+  margin-top: 13pt;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+a {
+  color: #8f5c22;
+  text-decoration: none;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 6pt 0 10pt;
+  font-size: 8.2pt;
+  page-break-inside: auto;
+}
+tr {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+th,
+td {
+  border: 1px solid #e3d6c3;
+  padding: 3.5pt 5pt;
+  vertical-align: top;
+  text-align: left;
+}
+th {
+  background: #f3ece0;
+}
+code {
+  font-family: Consolas, monospace;
+  font-size: 8.3pt;
+  background: #f6f0e6;
+  padding: 0 2pt;
+  border-radius: 2pt;
+  word-break: break-word;
+}
+pre {
+  background: #f6f0e6;
+  padding: 7pt;
+  border-radius: 4pt;
+  font-size: 7.8pt;
+  white-space: pre-wrap;
+  page-break-inside: avoid;
+}
+pre code {
+  background: none;
+  padding: 0;
+}
+blockquote {
+  margin: 8pt 0;
+  padding: 6pt 10pt;
+  border-left: 3px solid #c0823a;
+  background: #fbf6ee;
+}
+hr {
+  border: 0;
+  border-top: 1px solid #e3d6c3;
+  margin: 14pt 0;
+}
+.cover {
+  height: 250mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  page-break-after: always;
+  break-after: page;
+}
+.cover .mark {
+  font-family: "Bodoni Moda";
+  font-size: 46pt;
+  letter-spacing: 0.04em;
+}
+.cover .sub {
+  font-size: 10pt;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8f5c22;
+  margin-top: 6pt;
+}
+.cover .t {
+  font-family: "Bodoni Moda";
+  font-size: 22pt;
+  margin-top: 40pt;
+}
+.cover .m {
+  margin-top: 10pt;
+  color: #6b5a4b;
+  font-size: 10pt;
+  line-height: 1.6;
+}
